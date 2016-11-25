@@ -33,8 +33,8 @@ ENTITY Avalon_master IS
 		
 		AM_Addr				: OUT std_logic_vector (15 DOWNTO 0);	-- Adress sent on the Avalon bus
 		AM_Data				: OUT std_logic_vector (15 DOWNTO 0);	-- Datas sent on the Avalon bus
-		AM_New_Data			: OUT std_logic;						-- Put at 1 when the master wants to send datas on the bus
-		AM_Data_Ack			: IN std_logic							-- Receive 1 when the data transfer succeeds
+		AM_Write			: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
+		AM_WaitRequest		: IN std_logic							-- Pin waitrequest which is 0 when the bus is available
 	);
 END Avalon_master;
 
@@ -42,7 +42,6 @@ ARCHITECTURE bhv OF Avalon_master IS
 	signal		iRegStart_Adress	: std_logic_vector (15 DOWNTO 0);	-- internal register for the memory start adress
 	signal		iRegLength			: std_logic_vector (15 DOWNTO 0);	-- internal register for the data stored length
 	signal		iRegStart			: std_logic;						-- internal register for the start command
-	signal		iRegData			: std_logic_vector (15 DOWNTO 0);	-- internal register for the data received from the FIFO
 	signal		iRegCounterAdress	: std_logic_vector (31 DOWNTO 0);	-- internal phantom register which points on the current adress in the memory
 	TYPE		SM 	IS (WaitData, PickData, WaitBus, Transfer, EndOfBurst);
 	Signal		SM_State			: SM;
@@ -85,10 +84,9 @@ Variable Indice : Integer Range 0 to 3;
 Begin
 	if nReset = '0' then
 		iRegCounterAdress <= iRegStart_Adress;
-		iRegData 		  <= (others => '0');
 		FIFO_Read_Access  <= '0';
 		AM_Addr			  <= (others => '0');
-		AM_New_Data		  <= '0';
+		AM_Data			  <= (others => '0');
 		SM_State		  <= Waitdata;
 		Indice := 0;
 	elsif rising_edge(Clk) then
@@ -100,30 +98,28 @@ Begin
 				end if;
 			when PickData =>
 				if FIFO_Read_Access = '1' then
-					iRegData <= FIFO_Data;
 					FIFO_Read_Access <= '0';
 					SM_State <= WaitBus;
 				end if;
 			when WaitBus =>
-				if AM_New_Data = '0' then
-					AM_New_Data <= '1';
-				else
-					-- questionner le bus pour voir si il est prêt
+				if AM_Write = '0' then
+					AM_Write <= '1';
+				elsif AM_WaitRequest = '0' then --bus available
+					SM_State <= Transfer;
 				end if;
 			when Transfer =>
-				-- tester si le transfert est terminé, 
-				
-				--si non, mettre les infos sur les pins
-				
-				--si oui
-				--AM_New_Data <= '0';
+				AM_Data <= FIFO_Data;
+				AM_Addr <= iRegStart_Adress;
 			when EndOfBurst =>
-				Indice := Indice + 1;
 				if Indice = 3 then -- end of the burst, let the bus and go to waitdata state
-					-- let the bus (A AJOUTER)
+					Indice := 0;
+					AM_Write <= '0';
+					AM_Data <= (others => '0');
+					AM_Addr <= (others => '0');
 					SM_State <= WaitData;
 				else
 					-- burst not ended -> transfer of next datas
+					Indice := Indice + 1;
 					FIFO_Read_Access <= '1';
 					SM_State <= PickData;
 				end if;
