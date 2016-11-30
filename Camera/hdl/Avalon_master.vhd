@@ -80,7 +80,7 @@ Begin
 	elsif rising_edge(Clk) then
 		case SM_State is
 			when WaitData =>
-				if FIFO_almost_empty = '1' AND AS_Start = '1' then -- at least one burst in the FIFO and the Start at 1 for begin a burst
+				if FIFO_almost_empty = '0' AND AS_Start = '1' then -- at least one burst in the FIFO and the Start at 1 for begin a burst
 					FIFO_Read_Access <= '1'; -- ask an info
 					SM_State <= PickData;
 				end if;
