@@ -37,7 +37,7 @@ ENTITY Avalon_slave IS
 		nReset			: IN std_logic;							-- nReset input
 		Clk				: IN std_logic;							-- clock input
 		
-		Addr			: IN std_logic_vector (1 DOWNTO 0);		-- address bus
+		Addr			: IN std_logic_vector (2 DOWNTO 0);		-- address bus
 		R				: IN std_logic;							-- read enabler
 		W				: IN std_logic;							-- write enabler
 		RData			: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)

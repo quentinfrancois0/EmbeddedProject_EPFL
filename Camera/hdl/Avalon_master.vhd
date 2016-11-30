@@ -57,7 +57,8 @@ ENTITY Avalon_master IS
 END Avalon_master;
 
 ARCHITECTURE bhv OF Avalon_master IS
-	signal		iRegCounterAddress	: std_logic_vector (31 DOWNTO 0);	-- internal phantom register which points on the current adress in the memory
+	signal		iRegCounterAddress	: std_logic_vector (15 DOWNTO 0);	-- internal phantom register which points on the current adress in the memory
+	signal		iRegData			: std_logic_vector (15 DOWNTO 0);	-- internal register in order to save the data given by the FIFO (increase the transfer frequency)
 	TYPE		SM 	IS (WaitData, PickData, Transfer, EndOfBurst);
 	Signal		SM_State			: SM;
 
@@ -69,13 +70,14 @@ Process(nReset, Clk)
 Variable Indice : Integer Range 0 to 3;
 Begin
 	if nReset = '0' then
-		iRegCounterAddress <= (others => '0');
-		FIFO_Read_Access  <= '0';
-		AM_Addr			  <= (others => '0');
-		AM_Data			  <= (others => '0');
-		AM_Write		  <= '0';
-		AM_BurstCount	  <= (others => '0');
-		SM_State		  <= WaitData;
+		iRegCounterAddress	<= (others => '0');
+		iRegData		  	<= (others => '0');
+		FIFO_Read_Access  	<= '0';
+		AM_Addr			  	<= (others => '0');
+		AM_Data			  	<= (others => '0');
+		AM_Write		  	<= '0';
+		AM_BurstCount	  	<= (others => '0');
+		SM_State		  	<= WaitData;
 		Indice := 0;
 	elsif rising_edge(Clk) then
 		case SM_State is
@@ -87,13 +89,14 @@ Begin
 			when PickData =>
 				if FIFO_Read_Access = '1' then
 					FIFO_Read_Access <= '0'; -- ask an info to 0
+					iRegData <= FIFO_Data; -- FIFO data in the internal register
 					SM_State <= Transfer;
 				end if;
 			when Transfer =>
 				if AM_Write = '0' then
 					AM_Write <= '1'; -- say to the bus that he is waited
 				end if;
-				AM_Data <= FIFO_Data; -- FIFO data on the data bus
+				AM_Data <= iRegData; -- data on the data bus
 				AM_Addr <= iRegStart_Adress + iRegCounterAddress; -- Start adress + current adress on the adress bus
 				AM_BurstCount <= "0X04";
 				if Indice < 3 then -- not the end of the burst
@@ -102,6 +105,7 @@ Begin
 				SM_State <= EndOfBurst;
 			when EndOfBurst =>
 				if AM_WaitRequest = '0' then --wait that the bus has transferred the data
+					iRegData <= FIFO_Data; -- FIFO data in the internal register
 					if Indice = 3 then -- end of the burst, let the bus, reset the register and go to waitdata state
 						Indice := 0;
 						AM_Write <= '0';
