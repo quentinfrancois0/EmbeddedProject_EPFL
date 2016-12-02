@@ -80,7 +80,7 @@ Begin
 		AM_BurstCount	  		<= (others => '0');
 		SM_State		  			<= WaitData;
 		Indice := 0;
-		WaitState := 0 ;
+		Wait := 0 ;
 	elsif rising_edge(Clk) then
 		case SM_State is
 			when WaitData =>
@@ -92,8 +92,8 @@ Begin
 			when PickData =>
 				if WaitState = 0 then
 					WaitState := 1;
-					FIFO_Read_Access <= '0'; -- ask an info to 0
 				elsif WaitState = 1 then
+					FIFO_Read_Access <= '0'; -- ask an info to 0
 					iRegData <= FIFO_Data; -- FIFO data in the internal register
 					SM_State <= Transfer;
 				end if;
