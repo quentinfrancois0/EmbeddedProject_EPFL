@@ -46,7 +46,7 @@ component Avalon_slave is
 		
 		Start_Address	: OUT std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
 		Length			: OUT std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
-		Start			: OUT std_logic_vector					-- Start information
+		Start			: OUT std_logic				-- Start information
 	);
 end component;
 
@@ -67,7 +67,7 @@ signal end_sim	: boolean := false;
 constant HalfPeriod  : TIME := 10 ns;  -- clk_FPGA = 50 MHz -> T_FPGA = 20ns -> T/2 = 10 ns
 	
 BEGIN 
-DUT : PWM	-- Component to test as Device Under Test       
+DUT : Avalon_slave	-- Component to test as Device Under Test       
 	Port MAP(	-- from component => signal in the architecture
 		nReset => nReset,
 		Clk => Clk,

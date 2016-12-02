@@ -36,31 +36,31 @@ USE ieee.numeric_std.all;
 
 ENTITY Avalon_master IS
 	PORT(
-		nReset				: IN std_logic;							-- nReset input
-		Clk					: IN std_logic;							-- clock input
+		nReset				: IN std_logic;								-- nReset input
+		Clk					: IN std_logic;								-- clock input
 		
-		AS_Start			: IN std_logic;							-- Start command
-		AS_Start_Adress		: IN std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
+		AS_Start				: IN std_logic;								-- Start command
+		AS_Start_Address	: IN std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
 		AS_Length			: IN std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
 		
-		FIFO_almost_empty	: IN std_logic;							-- 1 when FIFO contains at least the burst length, 0 otherwise
-		FIFO_Read_Access	: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
+		FIFO_almost_empty	: IN std_logic;								-- 1 when FIFO contains at least the burst length, 0 otherwise
+		FIFO_Read_Access	: OUT std_logic;								-- 1 = information asked to the Fifo, 0 = no demand
 		FIFO_Data			: IN std_logic_vector (15 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
 		
 		AM_Addr				: OUT std_logic_vector (15 DOWNTO 0);	-- Adress sent on the Avalon bus
 		AM_Data				: OUT std_logic_vector (15 DOWNTO 0);	-- Datas sent on the Avalon bus
-		AM_Write			: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
-		AM_BurstCount		: OUT std_logic (7 DOWNTO 0);			-- Number of datas in one burst
-		AM_WaitRequest		: IN std_logic							-- Pin waitrequest which is 0 when the bus is available
+		AM_Write				: OUT std_logic;								-- Pin write, 1 when the component wants to use the bus
+		AM_BurstCount		: OUT std_logic_vector (7 DOWNTO 0);				-- Number of datas in one burst
+		AM_WaitRequest		: IN std_logic									-- Pin waitrequest which is 0 when the bus is available
 		
 	);
 END Avalon_master;
 
 ARCHITECTURE bhv OF Avalon_master IS
 	signal		iRegCounterAddress	: std_logic_vector (15 DOWNTO 0);	-- internal phantom register which points on the current adress in the memory
-	signal		iRegData			: std_logic_vector (15 DOWNTO 0);	-- internal register in order to save the data given by the FIFO (increase the transfer frequency)
+	signal		iRegData					: std_logic_vector (15 DOWNTO 0);	-- internal register in order to save the data given by the FIFO (increase the transfer frequency)
 	TYPE		SM 	IS (WaitData, PickData, Transfer, EndOfBurst);
-	Signal		SM_State			: SM;
+	Signal		SM_State					: SM;
 
 BEGIN
 
@@ -71,13 +71,13 @@ Variable Indice : Integer Range 0 to 3;
 Begin
 	if nReset = '0' then
 		iRegCounterAddress	<= (others => '0');
-		iRegData		  	<= (others => '0');
+		iRegData		  			<= (others => '0');
 		FIFO_Read_Access  	<= '0';
-		AM_Addr			  	<= (others => '0');
-		AM_Data			  	<= (others => '0');
-		AM_Write		  	<= '0';
-		AM_BurstCount	  	<= (others => '0');
-		SM_State		  	<= WaitData;
+		AM_Addr			  		<= (others => '0');
+		AM_Data			  		<= (others => '0');
+		AM_Write		  			<= '0';
+		AM_BurstCount	  		<= (others => '0');
+		SM_State		  			<= WaitData;
 		Indice := 0;
 	elsif rising_edge(Clk) then
 		case SM_State is
@@ -87,18 +87,14 @@ Begin
 					SM_State <= PickData;
 				end if;
 			when PickData =>
-				if FIFO_Read_Access = '1' then
-					FIFO_Read_Access <= '0'; -- ask an info to 0
-					iRegData <= FIFO_Data; -- FIFO data in the internal register
-					SM_State <= Transfer;
-				end if;
+				FIFO_Read_Access <= '0'; -- ask an info to 0
+				iRegData <= FIFO_Data; -- FIFO data in the internal register
+				SM_State <= Transfer;
 			when Transfer =>
-				if AM_Write = '0' then
-					AM_Write <= '1'; -- say to the bus that he is waited
-				end if;
+				AM_Write <= '1'; -- say to the bus that he is waited
 				AM_Data <= iRegData; -- data on the data bus
-				AM_Addr <= iRegStart_Adress + iRegCounterAddress; -- Start adress + current adress on the adress bus
-				AM_BurstCount <= "0X04";
+				AM_Addr <= std_logic_vector(unsigned(AS_Start_Address) + unsigned(iRegCounterAddress)); -- Start adress + current adress on the adress bus
+				AM_BurstCount <= X"04";
 				if Indice < 3 then -- not the end of the burst
 					FIFO_Read_Access <= '1'; -- ask the next info
 				end if;
@@ -119,7 +115,7 @@ Begin
 						SM_State <= Transfer;
 						FIFO_Read_Access <= '0';
 					end if;
-					iRegCounterAdress <= std_logic_vector (unsigned (iRegCounterAddress) + 1); -- increase the iRegCounterAdress register
+					iRegCounterAddress <= std_logic_vector (unsigned (iRegCounterAddress) + 1); -- increase the iRegCounterAdress register
 					if iRegCounterAddress = AS_Length then -- when the iRegCounterAddress is equal to the data length (at the end of the 3 buffers), reset the counter to 0 to restart
 						iRegCounterAddress <= (others => '0');
 					end if;
