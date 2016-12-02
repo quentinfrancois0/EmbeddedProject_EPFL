@@ -35,11 +35,11 @@ ENTITY Camera_Interface IS
 		
 		FIFO_Write_Access	: OUT std_logic;						-- 1 = write asked to the FIFO, 0 = no demand
 		FIFO_Data			: OUT std_logic_vector (15 DOWNTO 0);	-- 16 bits pixel stored in the FIFO by the camera controller
-		FIFO_Almost_Full	: IN std_logic;							-- 1 = FIFO has less than four words free, 0 = everything is okay
+		FIFO_Almost_Full	: IN std_logic							-- 1 = FIFO has less than four words free, 0 = everything is okay
 	);
-END Avalon_master;
+END Camera_Interface;
 
-ARCHITECTURE bhv OF Avalon_master IS
+ARCHITECTURE bhv OF Camera_Interface IS
 	signal		iRegStatus			: std_logic_vector (7 DOWNTO 0);	-- internal register for an overall status of the acquisition
 	signal		iRegRGB				: std_logic_vector (15 DOWNTO 0); 	-- internal register for the actual computed pixel with 5*6*5 RGB format
 	
@@ -48,10 +48,12 @@ ARCHITECTURE bhv OF Avalon_master IS
 	
 	signal		iRegCountEnable		: std_logic;						-- internal phantom register to divide the FPGA clock
 	signal		iRegRead			: std_logic;						-- internal phantom register to wait 1 rising edge before read
-	signal		iRegColumnCounter	: unsigned; 						-- phantom counter from 0 to 3 to know if we are reading a valid column and not a skipped one
+	signal		iregFIFOWrite		: std_logic;						-- internal phantom register to tell when FIFO_Write_Access is 1
+	signal		iRegColumnCounter	: std_logic_vector (9 DOWNTO 0);	-- phantom counter from 0 to 3 to know if we are reading a valid column and not a skipped one
 	signal		iRegBlue			: std_logic_vector (11 DOWNTO 0); 	-- internal phantom register fot the binning of the actual pixel blue color
 
 BEGIN
+
 -- Process to send the nReset to the camera
 CameraReset:
 Process(CI_nReset)
@@ -66,7 +68,7 @@ Begin
 	if CI_nReset = '0' then	-- reset the internal phantom counter enabler register when pushing the reset key
 		iRegCountEnable	<= '0';
 	elsif rising_edge(CI_Clk) then -- toggle the iRegCountEnable in order to divide the in clock by 2, FPGA clock = 50 MHz, CAM_XClk = 25 MHz
-		iRegCountEnable = NOT iRegCountEnable;
+		iRegCountEnable <= NOT iRegCountEnable;
 	end if;
 end process ClkDivider;
 
@@ -78,20 +80,22 @@ Begin
 		CAM_XClk <= iRegCountEnable;
 	else
 		CAM_XClk <= '0';
+	end if;
 end process CameraClk;
 
 -- Process to write the internal registers
 -- Process to write the internal memory register with the even rows
 MainProcess:
-Process(CI_nReset, CI_Clk, Cam_PixClk)
+Process(CI_nReset, CI_Clk, CAM_PixClk)
 Begin
 	if CI_nReset = '0' then
 		iRegStatus <= (others => '0');
 		iRegRGB <= (others => '0');
-		iRegMemory <= (others => '0');
+		iRegMemory <= (others => "000000000000");
 		iRegBlue <= (others => '0');
-		iRegColumnCounter <= '0';
+		iRegColumnCounter <= "0000000000";
 		FIFO_Write_Access <= '0';
+		iRegFIFOWrite <= '0';
 	elsif rising_edge(CI_Clk) then
 		if AS_WriteEnable = '1' then
 			case AS_Address is
@@ -101,29 +105,32 @@ Begin
 		end if;
 	elsif falling_edge(CAM_PixClk) then	-- read the pixel on the falling edge of the CAM_PixClk
 		FIFO_Write_Access <= '0';	-- we don't want to put the data in the FIFO for the moment
+		iRegFIFOWrite <= '0';
 		if (CAM_Frame_Valid = '1') AND (CAM_Line_Valid = '1') then
 			if iRegStatus (2) = '0' then	-- if we are on an even row
-				iRegMemory(iRegColumnCounter) <= CAM_Data;	-- put the pixel in the internal memory
-				iRegColumnCounter <= iRegColumnCounter + '1';	-- increment the column counter
+				iRegMemory(to_integer(unsigned(iRegColumnCounter))) <= CAM_Data;	-- put the pixel in the internal memory
+				iRegColumnCounter <= std_logic_vector(unsigned(iRegColumnCounter) + 1);	-- increment the column counter
 				if iRegColumnCounter = X"27F" then	-- if iRegColumnCounter = 639, reset it
-					iRegColumnCounter <= '0';
+					iRegColumnCounter <= "0000000000";
 					iRegStatus (2) <= '1';	-- switch to the odd row
 				end if;
 			else	-- if we are on an odd row
 				if iRegStatus (3) = '0' then	-- if we are on an even column (blue pixel)
 					iRegBlue <= CAM_Data;	-- but we have to store this blue pixel
 					iRegStatus (3) <= '1';	-- now switch to the odd column
-					iRegColumnCounter <= iRegColumnCounter + '1';	-- increment the column counter
+					iRegColumnCounter <= std_logic_vector(unsigned(iRegColumnCounter) + 1);	-- increment the column counter
 				else	-- if we are on an odd column (green G2 pixel)
-					iRegRGB (15 DOWNTO 11) <= iRegMemory(iRegColumnCounter) (11 DOWNTO 7); -- put the red pixel stored in the memory in iRegRGB
-					iRegRGB (10 DOWNTO 5) <= (CAM_Data + iRegMemory(iRegColumnCounter - '1'))/2 (11 DOWNTO 6); -- compute the averaged green with the current cam data and the green G1 pixel stored in the memory and put it in iRegRGB
+					iRegRGB (15 DOWNTO 11) <= iRegMemory(to_integer(unsigned(iRegColumnCounter))) (11 DOWNTO 7); -- put the red pixel stored in the memory in iRegRGB
+					iRegRGB (10 DOWNTO 5) <= std_logic_vector(to_unsigned(to_integer((signed(CAM_Data) + signed(iRegMemory(to_integer(unsigned(iRegColumnCounter) - 1))))/to_signed(integer(2), 2)), 4096)) (11 DOWNTO 6); -- compute the averaged green with the current cam data and the green G1 pixel stored in the memory and put it in iRegRGB
 					iRegRGB (4 DOWNTO 0) <= iRegBlue (11 DOWNTO 7);	-- put the blue pixel stored in iRegBlue in iRegRGB
 					FIFO_Write_Access <= '1';	-- we can write iRegRGB to the FIFO on the next rising edge of CAM_PixClk
+					iRegFIFOWrite <= '1';
 					iRegStatus (3) <= '0';	-- and switch to the next even column
-					iRegColumnCounter <= iRegColumnCounter + '1';	-- increment the column counter
+					iRegColumnCounter <= std_logic_vector(unsigned(iRegColumnCounter) + 1);	-- increment the column counter
 					if iRegColumnCounter = X"27F" then	-- if iRegColumnCounter = 639, reset it
-						iRegColumnCounter <= '0';
+						iRegColumnCounter <= "0000000000";
 						iRegStatus (2) <= '0';	-- switch to the even row
+					end if;
 				end if;
 			end if;
 		end if;
@@ -134,13 +141,13 @@ end process MainProcess;
 TransferData:
 Process(CI_nReset, CAM_PixClk)
 Begin
-	if nReset = '0' then
+	if CI_nReset = '0' then
 		FIFO_Data <= (others => 'Z');
 	elsif rising_edge(CAM_PixClk) then
-		if FIFO_Almost_Full = '0' AND FIFO_Write_Access = '1' then
+		if FIFO_Almost_Full = '0' AND iRegFIFOWrite = '1' then
 			FIFO_Data <= iRegRGB;
 		else
-			FIFO_Data <= (others => 'Z'),
+			FIFO_Data <= (others => 'Z');
 		end if;
 	end if;
 end process TransferData;
@@ -166,7 +173,7 @@ Begin
 			when "010" => AS_ReadData <= iRegRGB (12 DOWNTO 8);
 			when others => null;
 		end case;
-	end if ;
+	end if;
 end process ReadProcess;
 
 END bhv;
