@@ -147,15 +147,12 @@ Begin
 	write_register("001", X"14");
 	
 	-- Writing start_adress = 300 = 0x012C
-	write_register("001", X"2C");
+	write_register("001", X"2C"); --not writing because of the flag
 	write_register("010", X"01");
 	
-	-- Writing length = 32 = 0x0020
+	-- Writing length = 32 = 0x4020
 	write_register("011", X"20");
-	
-	-- Writing length = 320 = 0x0140
 	write_register("100", X"40");
-	write_register("101", X"01");
 	
 	-- Writing Start information = 1
 	write_register("000", X"01");
