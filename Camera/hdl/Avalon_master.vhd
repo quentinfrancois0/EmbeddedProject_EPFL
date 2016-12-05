@@ -52,7 +52,6 @@ ENTITY Avalon_master IS
 		AM_Write			: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
 		AM_BurstCount		: OUT std_logic (7 DOWNTO 0);			-- Number of datas in one burst
 		AM_WaitRequest		: IN std_logic							-- Pin waitrequest which is 0 when the bus is available
-		
 	);
 END Avalon_master;
 
