@@ -46,7 +46,7 @@ component Avalon_slave is
 		
 		Start_Address	: OUT std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
 		Length			: OUT std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
-		Start			: OUT std_logic				-- Start information
+		Start			: OUT std_logic_vector					-- Start information
 	);
 end component;
 

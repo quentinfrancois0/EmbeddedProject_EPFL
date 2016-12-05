@@ -68,7 +68,7 @@ signal Read_Access	: std_logic := '0';
 signal Data				: std_logic_vector (15 DOWNTO 0) := "0000000000000000";
 
 signal Addr				: std_logic_vector (15 DOWNTO 0) := "0000000000000000";
-signal WData			: std_logic_vector (15 DOWNTO 0) := "0000000000000000";
+signal WData			: std_logic_vector (7 DOWNTO 0) := "00000000";
 signal W					: std_logic := '0';
 signal BurstCount		: std_logic_vector (7 DOWNTO 0) := "00000000";
 signal WaitRequest	: std_logic := '1';
