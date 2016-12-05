@@ -56,7 +56,7 @@ ENTITY Avalon_master IS
 END Avalon_master;
 
 ARCHITECTURE bhv OF Avalon_master IS
-	signal		iRegCounterAddress	: std_logic_vector (15 DOWNTO 0);	-- internal phantom register which points on the current adress in the memory
+	signal		iRegCounterAddress			: std_logic_vector (15 DOWNTO 0);	-- internal phantom register which points on the current adress in the memory
 	signal		iRegData					: std_logic_vector (15 DOWNTO 0);	-- internal register in order to save the data given by the FIFO (increase the transfer frequency)
 	TYPE		SM 	IS (WaitData, PickData, Transfer, EndOfBurst);
 	Signal		SM_State					: SM;
@@ -107,7 +107,6 @@ Begin
 				SM_State <= EndOfBurst;
 			when EndOfBurst =>
 				if AM_WaitRequest = '0' then --wait that the bus has transferred the data
-					iRegData <= FIFO_Data; -- FIFO data in the internal register
 					if Indice = 3 then -- end of the burst, let the bus, reset the register and go to waitdata state
 						Indice := 0;
 						AM_Write <= '0';
@@ -117,6 +116,7 @@ Begin
 						SM_State <= WaitData;
 					else
 						-- burst not ended -> transfer of next datas
+						iRegData <= FIFO_Data; -- FIFO data in the internal register -- DEPLACER (à vite retester)
 						Indice := Indice + 1;
 						SM_State <= Transfer;
 						FIFO_Read_Access <= '0';
