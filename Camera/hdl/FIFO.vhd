@@ -1,12 +1,12 @@
 -- megafunction wizard: %FIFO%
 -- GENERATION: STANDARD
 -- VERSION: WM1.0
--- MODULE: scfifo 
+-- MODULE: dcfifo_mixed_widths 
 
 -- ============================================================
 -- File Name: FIFO.vhd
 -- Megafunction Name(s):
--- 			scfifo
+-- 			dcfifo_mixed_widths
 --
 -- Simulation Library Files(s):
 -- 			altera_mf
@@ -43,82 +43,93 @@ USE altera_mf.all;
 ENTITY FIFO IS
 	PORT
 	(
-		aclr		: IN STD_LOGIC ;
-		clock		: IN STD_LOGIC ;
-		data		: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-		rdreq		: IN STD_LOGIC ;
-		wrreq		: IN STD_LOGIC ;
-		almost_empty		: OUT STD_LOGIC ;
-		almost_full		: OUT STD_LOGIC ;
-		q		: OUT STD_LOGIC_VECTOR (15 DOWNTO 0)
+		FIFO_Reset			: IN STD_LOGIC ;
+		
+		FIFO_CIClk			: IN STD_LOGIC ;
+		FIFO_CIData			: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+		FIFO_WriteAccess	: IN STD_LOGIC ;
+		FIFO_CIUsedWords	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0);
+		
+		FIFO_AMClk			: IN STD_LOGIC ;
+		FIFO_AMData			: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+		FIFO_ReadAccess		: IN STD_LOGIC ;
+		FIFO_AMUsedWords	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0)
 	);
 END FIFO;
 
 
 ARCHITECTURE SYN OF fifo IS
 
-	SIGNAL sub_wire0	: STD_LOGIC ;
-	SIGNAL sub_wire1	: STD_LOGIC ;
-	SIGNAL sub_wire2	: STD_LOGIC_VECTOR (15 DOWNTO 0);
+	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (31 DOWNTO 0);
+	SIGNAL sub_wire1	: STD_LOGIC_VECTOR (8 DOWNTO 0);
+	SIGNAL sub_wire2	: STD_LOGIC_VECTOR (9 DOWNTO 0);
 
 
 
-	COMPONENT scfifo
+	COMPONENT dcfifo_mixed_widths
 	GENERIC (
-		add_ram_output_register		: STRING;
-		almost_empty_value		: NATURAL;
-		almost_full_value		: NATURAL;
 		intended_device_family		: STRING;
 		lpm_numwords		: NATURAL;
 		lpm_showahead		: STRING;
 		lpm_type		: STRING;
 		lpm_width		: NATURAL;
 		lpm_widthu		: NATURAL;
+		lpm_widthu_r		: NATURAL;
+		lpm_width_r		: NATURAL;
 		overflow_checking		: STRING;
+		rdsync_delaypipe		: NATURAL;
+		read_aclr_synch		: STRING;
 		underflow_checking		: STRING;
-		use_eab		: STRING
+		use_eab		: STRING;
+		write_aclr_synch		: STRING;
+		wrsync_delaypipe		: NATURAL
 	);
 	PORT (
-			aclr	: IN STD_LOGIC ;
-			clock	: IN STD_LOGIC ;
-			data	: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-			rdreq	: IN STD_LOGIC ;
-			wrreq	: IN STD_LOGIC ;
-			almost_empty	: OUT STD_LOGIC ;
-			almost_full	: OUT STD_LOGIC ;
-			q	: OUT STD_LOGIC_VECTOR (15 DOWNTO 0)
+			FIFO_Reset	: IN STD_LOGIC ;
+			FIFO_CIData	: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+			FIFO_AMClk	: IN STD_LOGIC ;
+			FIFO_ReadAccess	: IN STD_LOGIC ;
+			FIFO_CIClk	: IN STD_LOGIC ;
+			FIFO_WriteAccess	: IN STD_LOGIC ;
+			FIFO_AMData	: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+			FIFO_AMUsedWords	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0);
+			FIFO_CIUsedWords	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0)
 	);
 	END COMPONENT;
 
 BEGIN
-	almost_empty    <= sub_wire0;
-	almost_full    <= sub_wire1;
-	q    <= sub_wire2(15 DOWNTO 0);
+	FIFO_AMData    <= sub_wire0(31 DOWNTO 0);
+	FIFO_AMUsedWords    <= sub_wire1(8 DOWNTO 0);
+	FIFO_CIUsedWords    <= sub_wire2(9 DOWNTO 0);
 
-	scfifo_component : scfifo
+	dcfifo_mixed_widths_component : dcfifo_mixed_widths
 	GENERIC MAP (
-		add_ram_output_register => "OFF",
-		almost_empty_value => 4,
-		almost_full_value => 4,
 		intended_device_family => "Cyclone V",
 		lpm_numwords => 1024,
 		lpm_showahead => "OFF",
-		lpm_type => "scfifo",
+		lpm_type => "dcfifo_mixed_widths",
 		lpm_width => 16,
 		lpm_widthu => 10,
+		lpm_widthu_r => 9,
+		lpm_width_r => 32,
 		overflow_checking => "ON",
+		rdsync_delaypipe => 4,
+		read_aclr_synch => "OFF",
 		underflow_checking => "ON",
-		use_eab => "ON"
+		use_eab => "ON",
+		write_aclr_synch => "OFF",
+		wrsync_delaypipe => 4
 	)
 	PORT MAP (
-		aclr => aclr,
-		clock => clock,
-		data => data,
-		rdreq => rdreq,
-		wrreq => wrreq,
-		almost_empty => sub_wire0,
-		almost_full => sub_wire1,
-		q => sub_wire2
+		FIFO_Reset => FIFO_Reset,
+		FIFO_CIData => FIFO_CIData,
+		FIFO_AMClk => FIFO_AMClk,
+		FIFO_ReadAccess => FIFO_ReadAccess,
+		FIFO_CIClk => FIFO_CIClk,
+		FIFO_WriteAccess => FIFO_WriteAccess,
+		FIFO_AMData => sub_wire0,
+		FIFO_AMUsedWords => sub_wire1,
+		FIFO_CIUsedWords => sub_wire2
 	);
 
 
@@ -128,70 +139,75 @@ END SYN;
 -- ============================================================
 -- CNX file retrieval info
 -- ============================================================
--- Retrieval info: PRIVATE: AlmostEmpty NUMERIC "1"
--- Retrieval info: PRIVATE: AlmostEmptyThr NUMERIC "4"
--- Retrieval info: PRIVATE: AlmostFull NUMERIC "1"
--- Retrieval info: PRIVATE: AlmostFullThr NUMERIC "4"
+-- Retrieval info: PRIVATE: AlmostEmpty NUMERIC "0"
+-- Retrieval info: PRIVATE: AlmostEmptyThr NUMERIC "-1"
+-- Retrieval info: PRIVATE: AlmostFull NUMERIC "0"
+-- Retrieval info: PRIVATE: AlmostFullThr NUMERIC "-1"
 -- Retrieval info: PRIVATE: CLOCKS_ARE_SYNCHRONIZED NUMERIC "0"
--- Retrieval info: PRIVATE: Clock NUMERIC "0"
+-- Retrieval info: PRIVATE: Clock NUMERIC "4"
 -- Retrieval info: PRIVATE: Depth NUMERIC "1024"
--- Retrieval info: PRIVATE: Empty NUMERIC "0"
--- Retrieval info: PRIVATE: Full NUMERIC "0"
+-- Retrieval info: PRIVATE: Empty NUMERIC "1"
+-- Retrieval info: PRIVATE: Full NUMERIC "1"
 -- Retrieval info: PRIVATE: INTENDED_DEVICE_FAMILY STRING "Cyclone V"
 -- Retrieval info: PRIVATE: LE_BasedFIFO NUMERIC "0"
 -- Retrieval info: PRIVATE: LegacyRREQ NUMERIC "1"
 -- Retrieval info: PRIVATE: MAX_DEPTH_BY_9 NUMERIC "0"
 -- Retrieval info: PRIVATE: OVERFLOW_CHECKING NUMERIC "0"
--- Retrieval info: PRIVATE: Optimize NUMERIC "2"
+-- Retrieval info: PRIVATE: Optimize NUMERIC "0"
 -- Retrieval info: PRIVATE: RAM_BLOCK_TYPE NUMERIC "0"
 -- Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING "0"
 -- Retrieval info: PRIVATE: UNDERFLOW_CHECKING NUMERIC "0"
--- Retrieval info: PRIVATE: UsedW NUMERIC "0"
+-- Retrieval info: PRIVATE: UsedW NUMERIC "1"
 -- Retrieval info: PRIVATE: Width NUMERIC "16"
--- Retrieval info: PRIVATE: dc_aclr NUMERIC "0"
--- Retrieval info: PRIVATE: diff_widths NUMERIC "0"
+-- Retrieval info: PRIVATE: dc_aclr NUMERIC "1"
+-- Retrieval info: PRIVATE: diff_widths NUMERIC "1"
 -- Retrieval info: PRIVATE: msb_usedw NUMERIC "0"
--- Retrieval info: PRIVATE: output_width NUMERIC "16"
--- Retrieval info: PRIVATE: rsEmpty NUMERIC "1"
+-- Retrieval info: PRIVATE: output_width NUMERIC "32"
+-- Retrieval info: PRIVATE: rsEmpty NUMERIC "0"
 -- Retrieval info: PRIVATE: rsFull NUMERIC "0"
--- Retrieval info: PRIVATE: rsUsedW NUMERIC "0"
--- Retrieval info: PRIVATE: sc_aclr NUMERIC "1"
+-- Retrieval info: PRIVATE: rsUsedW NUMERIC "1"
+-- Retrieval info: PRIVATE: sc_aclr NUMERIC "0"
 -- Retrieval info: PRIVATE: sc_sclr NUMERIC "0"
 -- Retrieval info: PRIVATE: wsEmpty NUMERIC "0"
--- Retrieval info: PRIVATE: wsFull NUMERIC "1"
--- Retrieval info: PRIVATE: wsUsedW NUMERIC "0"
+-- Retrieval info: PRIVATE: wsFull NUMERIC "0"
+-- Retrieval info: PRIVATE: wsUsedW NUMERIC "1"
 -- Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
--- Retrieval info: CONSTANT: ADD_RAM_OUTPUT_REGISTER STRING "OFF"
--- Retrieval info: CONSTANT: ALMOST_EMPTY_VALUE NUMERIC "4"
--- Retrieval info: CONSTANT: ALMOST_FULL_VALUE NUMERIC "4"
 -- Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Cyclone V"
 -- Retrieval info: CONSTANT: LPM_NUMWORDS NUMERIC "1024"
 -- Retrieval info: CONSTANT: LPM_SHOWAHEAD STRING "OFF"
--- Retrieval info: CONSTANT: LPM_TYPE STRING "scfifo"
+-- Retrieval info: CONSTANT: LPM_TYPE STRING "dcfifo_mixed_widths"
 -- Retrieval info: CONSTANT: LPM_WIDTH NUMERIC "16"
 -- Retrieval info: CONSTANT: LPM_WIDTHU NUMERIC "10"
+-- Retrieval info: CONSTANT: LPM_WIDTHU_R NUMERIC "9"
+-- Retrieval info: CONSTANT: LPM_WIDTH_R NUMERIC "32"
 -- Retrieval info: CONSTANT: OVERFLOW_CHECKING STRING "ON"
+-- Retrieval info: CONSTANT: RDSYNC_DELAYPIPE NUMERIC "4"
+-- Retrieval info: CONSTANT: READ_ACLR_SYNCH STRING "OFF"
 -- Retrieval info: CONSTANT: UNDERFLOW_CHECKING STRING "ON"
 -- Retrieval info: CONSTANT: USE_EAB STRING "ON"
--- Retrieval info: USED_PORT: aclr 0 0 0 0 INPUT NODEFVAL "aclr"
--- Retrieval info: USED_PORT: almost_empty 0 0 0 0 OUTPUT NODEFVAL "almost_empty"
--- Retrieval info: USED_PORT: almost_full 0 0 0 0 OUTPUT NODEFVAL "almost_full"
--- Retrieval info: USED_PORT: clock 0 0 0 0 INPUT NODEFVAL "clock"
--- Retrieval info: USED_PORT: data 0 0 16 0 INPUT NODEFVAL "data[15..0]"
--- Retrieval info: USED_PORT: q 0 0 16 0 OUTPUT NODEFVAL "q[15..0]"
--- Retrieval info: USED_PORT: rdreq 0 0 0 0 INPUT NODEFVAL "rdreq"
--- Retrieval info: USED_PORT: wrreq 0 0 0 0 INPUT NODEFVAL "wrreq"
--- Retrieval info: CONNECT: @aclr 0 0 0 0 aclr 0 0 0 0
--- Retrieval info: CONNECT: @clock 0 0 0 0 clock 0 0 0 0
--- Retrieval info: CONNECT: @data 0 0 16 0 data 0 0 16 0
--- Retrieval info: CONNECT: @rdreq 0 0 0 0 rdreq 0 0 0 0
--- Retrieval info: CONNECT: @wrreq 0 0 0 0 wrreq 0 0 0 0
--- Retrieval info: CONNECT: almost_empty 0 0 0 0 @almost_empty 0 0 0 0
--- Retrieval info: CONNECT: almost_full 0 0 0 0 @almost_full 0 0 0 0
--- Retrieval info: CONNECT: q 0 0 16 0 @q 0 0 16 0
+-- Retrieval info: CONSTANT: WRITE_ACLR_SYNCH STRING "OFF"
+-- Retrieval info: CONSTANT: WRSYNC_DELAYPIPE NUMERIC "4"
+-- Retrieval info: USED_PORT: FIFO_Reset 0 0 0 0 INPUT GND "FIFO_Reset"
+-- Retrieval info: USED_PORT: FIFO_CIData 0 0 16 0 INPUT NODEFVAL "FIFO_CIData[15..0]"
+-- Retrieval info: USED_PORT: FIFO_AMData 0 0 32 0 OUTPUT NODEFVAL "FIFO_AMData[31..0]"
+-- Retrieval info: USED_PORT: FIFO_AMClk 0 0 0 0 INPUT NODEFVAL "FIFO_AMClk"
+-- Retrieval info: USED_PORT: FIFO_ReadAccess 0 0 0 0 INPUT NODEFVAL "FIFO_ReadAccess"
+-- Retrieval info: USED_PORT: FIFO_AMUsedWords 0 0 9 0 OUTPUT NODEFVAL "FIFO_AMUsedWords[8..0]"
+-- Retrieval info: USED_PORT: FIFO_CIClk 0 0 0 0 INPUT NODEFVAL "FIFO_CIClk"
+-- Retrieval info: USED_PORT: FIFO_WriteAccess 0 0 0 0 INPUT NODEFVAL "FIFO_WriteAccess"
+-- Retrieval info: USED_PORT: FIFO_CIUsedWords 0 0 10 0 OUTPUT NODEFVAL "FIFO_CIUsedWords[9..0]"
+-- Retrieval info: CONNECT: @FIFO_Reset 0 0 0 0 FIFO_Reset 0 0 0 0
+-- Retrieval info: CONNECT: @FIFO_CIData 0 0 16 0 FIFO_CIData 0 0 16 0
+-- Retrieval info: CONNECT: @FIFO_AMClk 0 0 0 0 FIFO_AMClk 0 0 0 0
+-- Retrieval info: CONNECT: @FIFO_ReadAccess 0 0 0 0 FIFO_ReadAccess 0 0 0 0
+-- Retrieval info: CONNECT: @FIFO_CIClk 0 0 0 0 FIFO_CIClk 0 0 0 0
+-- Retrieval info: CONNECT: @FIFO_WriteAccess 0 0 0 0 FIFO_WriteAccess 0 0 0 0
+-- Retrieval info: CONNECT: FIFO_AMData 0 0 32 0 @FIFO_AMData 0 0 32 0
+-- Retrieval info: CONNECT: FIFO_AMUsedWords 0 0 9 0 @FIFO_AMUsedWords 0 0 9 0
+-- Retrieval info: CONNECT: FIFO_CIUsedWords 0 0 10 0 @FIFO_CIUsedWords 0 0 10 0
 -- Retrieval info: GEN_FILE: TYPE_NORMAL FIFO.vhd TRUE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL FIFO.inc FALSE
--- Retrieval info: GEN_FILE: TYPE_NORMAL FIFO.cmp TRUE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL FIFO.cmp FALSE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL FIFO.bsf FALSE
--- Retrieval info: GEN_FILE: TYPE_NORMAL FIFO_inst.vhd TRUE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL FIFO_inst.vhd FALSE
 -- Retrieval info: LIB_FILE: altera_mf
