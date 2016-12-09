@@ -35,17 +35,17 @@ ARCHITECTURE bhv OF testbench IS
 -- The system to test under simulation
 component FIFO is
 	PORT(
-		FIFO_Reset			: IN STD_LOGIC ;
+		aclr			: IN STD_LOGIC ;
 		
-		FIFO_CIClk			: IN STD_LOGIC ;
-		FIFO_CIData			: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-		FIFO_WriteAccess	: IN STD_LOGIC ;
-		FIFO_CIUsedWords	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0);
+		wrclk			: IN STD_LOGIC ;
+		data			: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+		wrreq	: IN STD_LOGIC ;
+		wrusedw	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0);
 		
-		FIFO_AMClk			: IN STD_LOGIC ;
-		FIFO_AMData			: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-		FIFO_ReadAccess		: IN STD_LOGIC ;
-		FIFO_AMUsedWords	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0)
+		rdclk			: IN STD_LOGIC ;
+		q			: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+		rdreq		: IN STD_LOGIC ;
+		rdusedw	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0)
 	);
 end component;
 
@@ -58,18 +58,19 @@ signal TB_FIFO_CIClk			: STD_LOGIC := '0';
 signal TB_FIFO_WriteAccess		: STD_LOGIC := '0';
 
 signal end_sim	: boolean := false;
+signal burstcount16 : integer := 0;
 constant HalfPeriod_CI  : TIME := 53.4 ns;  -- clk_CI = 18.73 MHz -> T_CI = 53.4 ns -> T/2 = 26.7 ns
 constant HalfPeriod_AM  : TIME := 20 ns;  -- clk_AM = 25 MHz -> T_AM = 40ns -> T/2 = 20 ns
 	
 BEGIN 
 DUT : FIFO	-- Component to test as Device Under Test       
 	Port MAP(	-- from component => signal in the architecture
-		FIFO_Reset => TB_FIFO_Reset,
-		FIFO_CIData => TB_FIFO_CIData,
-		FIFO_AMClk => TB_FIFO_AMClk,
-		FIFO_ReadAccess => TB_FIFO_ReadAccess,
-		FIFO_CIClk => TB_FIFO_CIClk,
-		FIFO_WriteAccess => TB_FIFO_WriteAccess
+		aclr => TB_FIFO_Reset,
+		data => TB_FIFO_CIData,
+		rdclk => TB_FIFO_AMClk,
+		rdreq => TB_FIFO_ReadAccess,
+		wrclk => TB_FIFO_CIClk,
+		wrreq => TB_FIFO_WriteAccess
 	);
 
 -- Process to generate the CI clock during the whole simulation
@@ -101,10 +102,10 @@ Begin
 end process AMClkProcess;
 
 --	Process to test the component
-test :
+WriteProcess :
 Process
 
-	-- Procedure to toggle the reset
+-- Procedure to toggle the reset
 	Procedure toggle_reset is
 	Begin
 		wait until rising_edge(TB_FIFO_AMClk);
@@ -114,17 +115,68 @@ Process
 		TB_FIFO_Reset <= '0';
 	end procedure toggle_reset;
 
+	variable RGB : std_logic_vector (15 DOWNTO 0) := "0000000000000000";
+	
+	variable inc : std_logic_vector (15 DOWNTO 0) := "0000000000000000";
+
 Begin
-	-- Toggling the reset
 	toggle_reset;
-	
+
 	-- Start the acquisition
+	wait until rising_edge(TB_FIFO_CIClk);
 	
-	wait for 50 * 2*HalfPeriod_AM;
+	loop_r: FOR row IN 1 TO 1 LOOP
 	
-	-- Set end_sim to "true", so the clock generation stops
+		loop_row_1: FOR c1 IN 1 TO 320 LOOP
+			wait for 2*HalfPeriod_CI;
+		END LOOP loop_row_1;
+		
+		inc := "0000000000000000";
+		burstcount16 <= 0;
+		
+		loop_row_2: FOR c2 IN 1 TO 320 LOOP
+		
+			wait for 2*HalfPeriod_CI;
+			
+			wait until falling_edge(TB_FIFO_CIClk);
+			TB_FIFO_WriteAccess <= '1';
+			wait until rising_edge(TB_FIFO_CIClk);
+			TB_FIFO_CIData <= std_logic_vector(unsigned(RGB) + unsigned(inc));
+			wait until falling_edge(TB_FIFO_CIClk);
+			TB_FIFO_WriteAccess <= '0';
+			
+			burstcount16 <= burstcount16 + 1;
+			
+			if burstcount16 >= 8 then
+				wait until rising_edge(TB_FIFO_AMClk);
+				TB_FIFO_ReadAccess <= '1';
+				wait for 2*HalfPeriod_AM;
+				TB_FIFO_WriteAccess <= '0';
+						
+				wait until rising_edge(TB_FIFO_AMClk);
+				TB_FIFO_ReadAccess <= '1';
+				wait for 2*HalfPeriod_AM;
+				TB_FIFO_WriteAccess <= '0';
+						
+				wait until rising_edge(TB_FIFO_AMClk);
+				TB_FIFO_ReadAccess <= '1';
+				wait for 2*HalfPeriod_AM;
+				TB_FIFO_WriteAccess <= '0';
+						
+				wait until rising_edge(TB_FIFO_AMClk);
+				TB_FIFO_ReadAccess <= '1';
+				wait for 2*HalfPeriod_AM;
+				TB_FIFO_WriteAccess <= '0';
+			end if;
+			
+			inc := std_logic_vector(unsigned(inc) + 1);
+			
+		END LOOP loop_row_2;
+		
+	END LOOP loop_r;
+	
 	end_sim <= true;
 	wait;
-end process test;
+end process WriteProcess;
 
 END bhv;
