@@ -42,7 +42,7 @@ component Avalon_master is
 		AS_Start_Address	: IN std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
 		AS_Length			: IN std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
 		
-		FIFO_number_words	: IN std_logic_vector (8 DOWNTO 0);		-- number of 32 bits words
+		FIFO_number_words	: IN std_logic_vector (7 DOWNTO 0);		-- number of 32 bits words
 		FIFO_Read_Access	: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
 		FIFO_Data			: IN std_logic_vector (31 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
 		
@@ -63,12 +63,12 @@ signal Start_Address	: std_logic_vector (31 DOWNTO 0) := X"1000012C";
 signal Length			: std_logic_vector (31 DOWNTO 0) := X"10000140";
 signal Start			: std_logic := '0';
 
-signal Number_words		: std_logic_vector (8 DOWNTO 0) := X"00";
+signal Number_words		: std_logic_vector (7 DOWNTO 0) := X"00";
 signal Read_Access		: std_logic := '0';
 signal Data				: std_logic_vector (31 DOWNTO 0) := X"00000000";
 
-signal Addr				: std_logic_vector (15 DOWNTO 0) := X"000000000";
-signal WData			: std_logic_vector (15 DOWNTO 0) := X"000000000";
+signal Addr				: std_logic_vector (31 DOWNTO 0) := X"00000000";
+signal WData			: std_logic_vector (31 DOWNTO 0) := X"00000000";
 signal W				: std_logic := '0';
 signal BurstCount		: std_logic_vector (7 DOWNTO 0) := X"00";
 signal WaitRequest		: std_logic := '1';

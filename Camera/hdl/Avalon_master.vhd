@@ -43,7 +43,7 @@ ENTITY Avalon_master IS
 		AS_Start_Address	: IN std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
 		AS_Length			: IN std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
 		
-		FIFO_number_words	: IN std_logic_vector (8 DOWNTO 0);		-- number of 32 bits words
+		FIFO_number_words	: IN std_logic_vector (7 DOWNTO 0);		-- number of 32 bits words
 		FIFO_Read_Access	: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
 		FIFO_Data			: IN std_logic_vector (31 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
 		
