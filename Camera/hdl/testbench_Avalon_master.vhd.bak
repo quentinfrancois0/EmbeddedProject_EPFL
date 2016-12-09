@@ -63,12 +63,12 @@ signal Start_Address	: std_logic_vector (31 DOWNTO 0) := X"1000012C";
 signal Length			: std_logic_vector (31 DOWNTO 0) := X"10000140";
 signal Start			: std_logic := '0';
 
-signal Number_words		: std_logic_vector (8 DOWNTO 0) := "000000000";
+signal Number_words		: std_logic_vector (8 DOWNTO 0) := X"00";
 signal Read_Access		: std_logic := '0';
 signal Data				: std_logic_vector (31 DOWNTO 0) := X"00000000";
 
-signal Addr				: std_logic_vector (31 DOWNTO 0) := X"00000000";
-signal WData			: std_logic_vector (31 DOWNTO 0) := X"00000000";
+signal Addr				: std_logic_vector (15 DOWNTO 0) := X"000000000";
+signal WData			: std_logic_vector (15 DOWNTO 0) := X"000000000";
 signal W				: std_logic := '0';
 signal BurstCount		: std_logic_vector (7 DOWNTO 0) := X"00";
 signal WaitRequest		: std_logic := '1';
@@ -132,24 +132,24 @@ Begin
 	
 	-- Number words at 1 => not one burst in the FIFO
 	wait until rising_edge(clk);
-	Number_words <= "000000001";
+	Number_words <= X"01";
 	
 	-- Start => 1
 	wait until rising_edge(clk);
 	Start <= '1';
-	Number_words <= "100000000";
+	Number_words <= X"10";
 	
 	-- put the FIFO data on the pins when it is asked (0x0300 = 768)
 	wait until rising_edge(clk) AND Read_Access = '1'; --wait a data asking (1st word)
 	Data <= X"10000300";
-	
-	-- put the FIFO data on the pins when it is asked (0x0200 = 512)
-	wait until rising_edge(clk) AND Read_Access = '1'; --wait a data asking (2nd word)
-	Data <= X"10000200";
 
 	wait until rising_edge(clk);
 	wait until rising_edge(clk);
 	WaitRequest <= '0';
+
+	-- put the FIFO data on the pins when it is asked (0x0200 = 512)
+	wait until rising_edge(clk) AND Read_Access = '1'; --wait a data asking (2nd word)
+	Data <= X"10000200";
 	
 	-- put the FIFO data on the pins when it is asked (0x0100 = 256)
 	wait until rising_edge(clk) AND Read_Access = '1'; --wait a data asking (3rd word)
@@ -157,14 +157,14 @@ Begin
 	-- Block the third transfer
 	WaitRequest <= '1';
 	
+	wait until rising_edge(clk);
+	wait until rising_edge(clk);
+	WaitRequest <= '0';
+
 	-- 2nd transfer on the bus
 	wait until rising_edge(clk) AND Read_Access = '1';
 	Data <= X"10100010"; --(0x0010 = 16) --wait a data asking (4th word)
 	-- 4th transfer on the bus
-	
-	wait until rising_edge(clk);
-	wait until rising_edge(clk);
-	WaitRequest <= '0';
 	
 	wait for 10 * 2*HalfPeriod; -- wait for 10*(2*HalfPeriod)
 	

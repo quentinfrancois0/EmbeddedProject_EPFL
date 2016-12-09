@@ -9,24 +9,24 @@ z2
 cModel Technology
 dC:/Temp/test
 Eavalon_master
-Z0 w1480675333
+Z0 w1481279091
 Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
 Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
 Z4 d//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/quartus/simulation/modelsim
-Z5 8\\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Camera\hdl\Avalon_master.vhd
-Z6 F\\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Camera\hdl\Avalon_master.vhd
+Z5 8//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_master.vhd
+Z6 F//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_master.vhd
 l0
 L37
-VFSY2[KjQng>F07EjAlzN21
-!s100 RRQozHAP`[kNVCH[^d;j;3
+V81PO>d>C=7ICa^jTR@h::2
+!s100 0gc6ni[hEPPAlNeJQgKd60
 Z7 OV;C;10.4d;61
 32
-Z8 !s110 1480675609
+Z8 !s110 1481280055
 !i10b 1
-Z9 !s108 1480675609.000000
-Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|\\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Camera\hdl\Avalon_master.vhd|
-Z11 !s107 \\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Camera\hdl\Avalon_master.vhd|
+Z9 !s108 1481280054.000000
+Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_master.vhd|
+Z11 !s107 //files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_master.vhd|
 !i113 1
 Z12 o-work work -2002 -explicit
 Z13 tExplicit 1
@@ -34,11 +34,11 @@ Abhv
 R1
 R2
 R3
-Z14 DEx4 work 13 avalon_master 0 22 FSY2[KjQng>F07EjAlzN21
+DEx4 work 13 avalon_master 0 22 81PO>d>C=7ICa^jTR@h::2
 l65
-L59
-Z15 VXXm:0z=lGMKSe8D:Zb2Ug0
-Z16 !s100 >NE3Uob;jDD94OI8X4Oaz3
+L58
+VXHU<mhB5fF9cAlLXmXm;`3
+!s100 MY3ME?XWo]F_zb_33[30K3
 R7
 32
 R8
@@ -50,24 +50,24 @@ R11
 R12
 R13
 Eavalon_slave
-Z17 w1480668563
+Z14 w1481273870
 R1
 R2
 R3
 R4
-Z18 8//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd
-Z19 F//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd
+Z15 8//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd
+Z16 F//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd
 l0
 L35
-VP_31J6`[cJC?c[]J]hCY10
-!s100 Qa;CPIgmQBkjNn>S?=zo=1
+V8kbh9:aJmPUWhh0g`5E`h3
+!s100 7j4>fHMJ4B]18Qa:7XNT>0
 R7
 32
-Z20 !s110 1480670603
+Z17 !s110 1481280512
 !i10b 1
-Z21 !s108 1480670603.000000
-Z22 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd|
-Z23 !s107 //files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd|
+Z18 !s108 1481280512.000000
+Z19 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd|
+Z20 !s107 //files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd|
 !i113 1
 R12
 R13
@@ -75,40 +75,40 @@ Abhv
 R1
 R2
 R3
-DEx4 work 12 avalon_slave 0 22 P_31J6`[cJC?c[]J]hCY10
+DEx4 work 12 avalon_slave 0 22 8kbh9:aJmPUWhh0g`5E`h3
 l59
 L52
-Vj???QBB?J5H05[A_?Fl]b3
-!s100 2HWf=a4`kiV?i@f>2gHah3
+V=P_XDb]=XPD;W=jZM2`OX1
+!s100 VPZTh1M@]VbBPNW34_jkA0
 R7
 32
-R20
+R17
 !i10b 1
-R21
-R22
-R23
+R18
+R19
+R20
 !i113 1
 R12
 R13
 Etestbench
-Z24 w1480675606
+R14
 R1
 R2
 R3
 R4
-Z25 8\\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Camera\hdl\testbench_Avalon_master.vhd
-Z26 F\\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Camera\hdl\testbench_Avalon_master.vhd
+Z21 8//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/testbench_Avalon_slave.vhd
+Z22 F//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/testbench_Avalon_slave.vhd
 l0
 L30
 VQ1cgT7M>oj>C`oi8XlEW]1
 !s100 A;F`C<`FdHG<_[89Nz87W1
 R7
 32
-Z27 !s110 1480675608
+!s110 1481280511
 !i10b 1
-Z28 !s108 1480675608.000000
-Z29 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|\\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Camera\hdl\testbench_Avalon_master.vhd|
-Z30 !s107 \\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Camera\hdl\testbench_Avalon_master.vhd|
+Z23 !s108 1481280511.000000
+Z24 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/testbench_Avalon_slave.vhd|
+Z25 !s107 //files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/testbench_Avalon_slave.vhd|
 !i113 1
 R12
 R13
@@ -117,17 +117,17 @@ R1
 R2
 R3
 DEx4 work 9 testbench 0 22 Q1cgT7M>oj>C`oi8XlEW]1
-l79
+l69
 L34
-V`Z_KoLR6gB:C9B7Zoj75[2
-!s100 iQczmeYAW4bF<S[QBcgAL2
+VFULL=Bk<fNNM`TTW@HdP[3
+!s100 ad2DHo0cjD4E_KIJZeR=;3
 R7
 32
-R27
+R17
 !i10b 1
-R28
-R29
-R30
+R23
+R24
+R25
 !i113 1
 R12
 R13

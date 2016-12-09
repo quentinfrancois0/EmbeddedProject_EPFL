@@ -1,5 +1,5 @@
 Analysis & Synthesis report for test_quentin
-Fri Dec 02 10:44:15 2016
+Fri Dec 09 10:01:12 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -43,7 +43,7 @@ agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Fri Dec 02 10:44:15 2016       ;
+; Analysis & Synthesis Status     ; Successful - Fri Dec 09 10:01:12 2016       ;
 ; Quartus Prime Version           ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                   ; test_quentin                                ;
 ; Top-level Entity Name           ; de0_nano_soc_baseline                       ;
@@ -253,14 +253,14 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
-    Info: Processing started: Fri Dec 02 10:44:00 2016
+    Info: Processing started: Fri Dec 09 10:00:59 2016
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off test_quentin -c test_quentin
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12021): Found 2 design units, including 1 entities, in source file /my documents/embedded_systems/embeddedproject_epfl/camera/hdl/testbench_avalon_master.vhd
     Info (12022): Found design unit 1: testbench-bhv File: Z:/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/testbench_Avalon_master.vhd Line: 34
     Info (12023): Found entity 1: testbench File: Z:/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/testbench_Avalon_master.vhd Line: 30
 Info (12021): Found 2 design units, including 1 entities, in source file /my documents/embedded_systems/embeddedproject_epfl/camera/hdl/avalon_master.vhd
-    Info (12022): Found design unit 1: Avalon_master-bhv File: Z:/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_master.vhd Line: 59
+    Info (12022): Found design unit 1: Avalon_master-bhv File: Z:/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_master.vhd Line: 58
     Info (12023): Found entity 1: Avalon_master File: Z:/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_master.vhd Line: 37
 Warning (12125): Using design file de0_nano_soc_baseline.v, which is not specified as a design file for the current project, but contains definitions for 1 design units and 1 entities in project
     Info (12023): Found entity 1: de0_nano_soc_baseline File: Z:/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/quartus/de0_nano_soc_baseline.v Line: 40
@@ -291,9 +291,9 @@ Info (21057): Implemented 17 device resources after synthesis - the final resour
     Info (21058): Implemented 9 input pins
     Info (21059): Implemented 8 output pins
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 22 warnings
-    Info: Peak virtual memory: 911 megabytes
-    Info: Processing ended: Fri Dec 02 10:44:15 2016
-    Info: Elapsed time: 00:00:15
+    Info: Peak virtual memory: 910 megabytes
+    Info: Processing ended: Fri Dec 09 10:01:12 2016
+    Info: Elapsed time: 00:00:13
     Info: Total CPU time (on all processors): 00:00:22
 
 

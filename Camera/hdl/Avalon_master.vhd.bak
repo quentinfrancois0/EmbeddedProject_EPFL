@@ -105,11 +105,12 @@ Begin
 					SM_State <= PickData;
 				end if;
 			when PickData =>
+				iRegData <= FIFO_Data;
 				FIFO_Read_Access <= '0'; -- ask an info to 0
 				SM_State <= Transfer;
 			when Transfer =>
 				AM_Write <= '1'; -- say to the bus that he is waited
-				AM_Data <= FIFO_Data; -- data on the data bus
+				AM_Data <= iRegData; -- data on the data bus
 				AM_Addr <= std_logic_vector(unsigned(AS_Start_Address) + unsigned(iRegCounterAddress)); -- Start adress + current adress on the adress bus
 				AM_BurstCount <= X"04";
 				FIFO_Read_Access <= '1'; -- ask the next info
