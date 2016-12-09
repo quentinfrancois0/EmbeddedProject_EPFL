@@ -17,7 +17,7 @@
 -- AS_Start_Address <= Slave
 -- AS_Length <= Slave
 -- 
--- FIFO_almost_empty <= FIFO
+-- FIFO_number_words <= FIFO
 -- FIFO_data <= FIFO
 -- 
 -- AM_WaitRequest <= Avalon Bus
@@ -39,16 +39,16 @@ ENTITY Avalon_master IS
 		nReset				: IN std_logic;								-- nReset input
 		Clk					: IN std_logic;								-- clock input
 		
-		AS_Start				: IN std_logic;								-- Start command
-		AS_Start_Address	: IN std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
-		AS_Length			: IN std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
+		AS_Start			: IN std_logic;								-- Start command
+		AS_Start_Address	: IN std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
+		AS_Length			: IN std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
 		
-		FIFO_almost_empty	: IN std_logic;								-- 1 when FIFO contains at least the burst length, 0 otherwise
-		FIFO_Read_Access	: OUT std_logic;								-- 1 = information asked to the Fifo, 0 = no demand
-		FIFO_Data			: IN std_logic_vector (15 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
+		FIFO_number_words	: IN std_logic_vector (8 DOWNTO 0);		-- number of 32 bits words
+		FIFO_Read_Access	: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
+		FIFO_Data			: IN std_logic_vector (31 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
 		
-		AM_Addr				: OUT std_logic_vector (15 DOWNTO 0);	-- Adress sent on the Avalon bus
-		AM_Data				: OUT std_logic_vector (15 DOWNTO 0);	-- Datas sent on the Avalon bus
+		AM_Addr				: OUT std_logic_vector (31 DOWNTO 0);	-- Adress sent on the Avalon bus
+		AM_Data				: OUT std_logic_vector (31 DOWNTO 0);	-- Datas sent on the Avalon bus
 		AM_Write			: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
 		AM_BurstCount		: OUT std_logic (7 DOWNTO 0);			-- Number of datas in one burst
 		AM_WaitRequest		: IN std_logic							-- Pin waitrequest which is 0 when the bus is available
@@ -56,12 +56,29 @@ ENTITY Avalon_master IS
 END Avalon_master;
 
 ARCHITECTURE bhv OF Avalon_master IS
-	signal		iRegCounterAddress			: std_logic_vector (15 DOWNTO 0);	-- internal phantom register which points on the current adress in the memory
-	signal		iRegData					: std_logic_vector (15 DOWNTO 0);	-- internal register in order to save the data given by the FIFO (increase the transfer frequency)
+	signal		iRegAlmostEmpty				: std_logic;						-- internal phantom register which says if there is at least a burst in the FIFO
+	signal		iRegCounterAddress			: std_logic_vector (31 DOWNTO 0);	-- internal phantom register which points on the current adress in the memory
+	signal		iRegData					: std_logic_vector (31 DOWNTO 0);	-- internal register in order to save the data given by the FIFO (increase the transfer frequency)
 	TYPE		SM 	IS (WaitData, PickData, Transfer, EndOfBurst);
 	Signal		SM_State					: SM;
 
 BEGIN
+	
+-- Process to update the iRegAlmostEmpty register
+UpdateAlmostEmpty:
+Process(nReset, Clk)
+Begin
+	if nReset = '0' then
+		iRegAlmostEmpty <= '0';
+	elsif rising_edge(Clk) then
+		if unsigned(FIFO_number_words) > 3 then
+			iRegAlmostEmpty <= '1';
+		else
+			iRegAlmostEmpty <= '0';
+		end if;
+	end if;
+end process UpdateAlmostEmpty;
+	
 
 --  Process to take the datas in the FIFO and send it in the memory
 TransferDatas:
@@ -83,7 +100,7 @@ Begin
 	elsif rising_edge(Clk) then
 		case SM_State is
 			when WaitData =>
-				if FIFO_almost_empty = '0' AND AS_Start = '1' then -- at least one burst in the FIFO and the Start at 1 for begin a burst
+				if iRegAlmostEmpty = '1' AND AS_Start = '1' then -- at least one burst in the FIFO and the Start at 1 for begin a burst
 					FIFO_Read_Access <= '1'; -- ask an info
 					WaitState := 0;
 					SM_State <= PickData;
