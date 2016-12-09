@@ -43,17 +43,15 @@ USE altera_mf.all;
 ENTITY FIFO IS
 	PORT
 	(
-		FIFO_Reset			: IN STD_LOGIC ;
-		
-		FIFO_CIClk			: IN STD_LOGIC ;
-		FIFO_CIData			: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-		FIFO_WriteAccess	: IN STD_LOGIC ;
-		FIFO_CIUsedWords	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0);
-		
-		FIFO_AMClk			: IN STD_LOGIC ;
-		FIFO_AMData			: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-		FIFO_ReadAccess		: IN STD_LOGIC ;
-		FIFO_AMUsedWords	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0)
+		aclr		: IN STD_LOGIC  := '0';
+		data		: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+		rdclk		: IN STD_LOGIC ;
+		rdreq		: IN STD_LOGIC ;
+		wrclk		: IN STD_LOGIC ;
+		wrreq		: IN STD_LOGIC ;
+		q		: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+		rdusedw		: OUT STD_LOGIC_VECTOR (8 DOWNTO 0);
+		wrusedw		: OUT STD_LOGIC_VECTOR (9 DOWNTO 0)
 	);
 END FIFO;
 
@@ -85,22 +83,22 @@ ARCHITECTURE SYN OF fifo IS
 		wrsync_delaypipe		: NATURAL
 	);
 	PORT (
-			FIFO_Reset	: IN STD_LOGIC ;
-			FIFO_CIData	: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-			FIFO_AMClk	: IN STD_LOGIC ;
-			FIFO_ReadAccess	: IN STD_LOGIC ;
-			FIFO_CIClk	: IN STD_LOGIC ;
-			FIFO_WriteAccess	: IN STD_LOGIC ;
-			FIFO_AMData	: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-			FIFO_AMUsedWords	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0);
-			FIFO_CIUsedWords	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0)
+			aclr	: IN STD_LOGIC ;
+			data	: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+			rdclk	: IN STD_LOGIC ;
+			rdreq	: IN STD_LOGIC ;
+			wrclk	: IN STD_LOGIC ;
+			wrreq	: IN STD_LOGIC ;
+			q	: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+			rdusedw	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0);
+			wrusedw	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0)
 	);
 	END COMPONENT;
 
 BEGIN
-	FIFO_AMData    <= sub_wire0(31 DOWNTO 0);
-	FIFO_AMUsedWords    <= sub_wire1(8 DOWNTO 0);
-	FIFO_CIUsedWords    <= sub_wire2(9 DOWNTO 0);
+	q    <= sub_wire0(31 DOWNTO 0);
+	rdusedw    <= sub_wire1(8 DOWNTO 0);
+	wrusedw    <= sub_wire2(9 DOWNTO 0);
 
 	dcfifo_mixed_widths_component : dcfifo_mixed_widths
 	GENERIC MAP (
@@ -121,15 +119,15 @@ BEGIN
 		wrsync_delaypipe => 4
 	)
 	PORT MAP (
-		FIFO_Reset => FIFO_Reset,
-		FIFO_CIData => FIFO_CIData,
-		FIFO_AMClk => FIFO_AMClk,
-		FIFO_ReadAccess => FIFO_ReadAccess,
-		FIFO_CIClk => FIFO_CIClk,
-		FIFO_WriteAccess => FIFO_WriteAccess,
-		FIFO_AMData => sub_wire0,
-		FIFO_AMUsedWords => sub_wire1,
-		FIFO_CIUsedWords => sub_wire2
+		aclr => aclr,
+		data => data,
+		rdclk => rdclk,
+		rdreq => rdreq,
+		wrclk => wrclk,
+		wrreq => wrreq,
+		q => sub_wire0,
+		rdusedw => sub_wire1,
+		wrusedw => sub_wire2
 	);
 
 
@@ -187,24 +185,24 @@ END SYN;
 -- Retrieval info: CONSTANT: USE_EAB STRING "ON"
 -- Retrieval info: CONSTANT: WRITE_ACLR_SYNCH STRING "OFF"
 -- Retrieval info: CONSTANT: WRSYNC_DELAYPIPE NUMERIC "4"
--- Retrieval info: USED_PORT: FIFO_Reset 0 0 0 0 INPUT GND "FIFO_Reset"
--- Retrieval info: USED_PORT: FIFO_CIData 0 0 16 0 INPUT NODEFVAL "FIFO_CIData[15..0]"
--- Retrieval info: USED_PORT: FIFO_AMData 0 0 32 0 OUTPUT NODEFVAL "FIFO_AMData[31..0]"
--- Retrieval info: USED_PORT: FIFO_AMClk 0 0 0 0 INPUT NODEFVAL "FIFO_AMClk"
--- Retrieval info: USED_PORT: FIFO_ReadAccess 0 0 0 0 INPUT NODEFVAL "FIFO_ReadAccess"
--- Retrieval info: USED_PORT: FIFO_AMUsedWords 0 0 9 0 OUTPUT NODEFVAL "FIFO_AMUsedWords[8..0]"
--- Retrieval info: USED_PORT: FIFO_CIClk 0 0 0 0 INPUT NODEFVAL "FIFO_CIClk"
--- Retrieval info: USED_PORT: FIFO_WriteAccess 0 0 0 0 INPUT NODEFVAL "FIFO_WriteAccess"
--- Retrieval info: USED_PORT: FIFO_CIUsedWords 0 0 10 0 OUTPUT NODEFVAL "FIFO_CIUsedWords[9..0]"
--- Retrieval info: CONNECT: @FIFO_Reset 0 0 0 0 FIFO_Reset 0 0 0 0
--- Retrieval info: CONNECT: @FIFO_CIData 0 0 16 0 FIFO_CIData 0 0 16 0
--- Retrieval info: CONNECT: @FIFO_AMClk 0 0 0 0 FIFO_AMClk 0 0 0 0
--- Retrieval info: CONNECT: @FIFO_ReadAccess 0 0 0 0 FIFO_ReadAccess 0 0 0 0
--- Retrieval info: CONNECT: @FIFO_CIClk 0 0 0 0 FIFO_CIClk 0 0 0 0
--- Retrieval info: CONNECT: @FIFO_WriteAccess 0 0 0 0 FIFO_WriteAccess 0 0 0 0
--- Retrieval info: CONNECT: FIFO_AMData 0 0 32 0 @FIFO_AMData 0 0 32 0
--- Retrieval info: CONNECT: FIFO_AMUsedWords 0 0 9 0 @FIFO_AMUsedWords 0 0 9 0
--- Retrieval info: CONNECT: FIFO_CIUsedWords 0 0 10 0 @FIFO_CIUsedWords 0 0 10 0
+-- Retrieval info: USED_PORT: aclr 0 0 0 0 INPUT GND "aclr"
+-- Retrieval info: USED_PORT: data 0 0 16 0 INPUT NODEFVAL "data[15..0]"
+-- Retrieval info: USED_PORT: q 0 0 32 0 OUTPUT NODEFVAL "q[31..0]"
+-- Retrieval info: USED_PORT: rdclk 0 0 0 0 INPUT NODEFVAL "rdclk"
+-- Retrieval info: USED_PORT: rdreq 0 0 0 0 INPUT NODEFVAL "rdreq"
+-- Retrieval info: USED_PORT: rdusedw 0 0 9 0 OUTPUT NODEFVAL "rdusedw[8..0]"
+-- Retrieval info: USED_PORT: wrclk 0 0 0 0 INPUT NODEFVAL "wrclk"
+-- Retrieval info: USED_PORT: wrreq 0 0 0 0 INPUT NODEFVAL "wrreq"
+-- Retrieval info: USED_PORT: wrusedw 0 0 10 0 OUTPUT NODEFVAL "wrusedw[9..0]"
+-- Retrieval info: CONNECT: @aclr 0 0 0 0 aclr 0 0 0 0
+-- Retrieval info: CONNECT: @data 0 0 16 0 data 0 0 16 0
+-- Retrieval info: CONNECT: @rdclk 0 0 0 0 rdclk 0 0 0 0
+-- Retrieval info: CONNECT: @rdreq 0 0 0 0 rdreq 0 0 0 0
+-- Retrieval info: CONNECT: @wrclk 0 0 0 0 wrclk 0 0 0 0
+-- Retrieval info: CONNECT: @wrreq 0 0 0 0 wrreq 0 0 0 0
+-- Retrieval info: CONNECT: q 0 0 32 0 @q 0 0 32 0
+-- Retrieval info: CONNECT: rdusedw 0 0 9 0 @rdusedw 0 0 9 0
+-- Retrieval info: CONNECT: wrusedw 0 0 10 0 @wrusedw 0 0 10 0
 -- Retrieval info: GEN_FILE: TYPE_NORMAL FIFO.vhd TRUE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL FIFO.inc FALSE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL FIFO.cmp FALSE
