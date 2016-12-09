@@ -38,14 +38,14 @@ component Avalon_slave is
 		nReset			: IN std_logic;							-- nReset input
 		Clk				: IN std_logic;							-- clock input
 		
-		Addr			: IN std_logic_vector (2 DOWNTO 0);		-- address bus
+		Addr			: IN std_logic_vector (3 DOWNTO 0);		-- address bus
 		R				: IN std_logic;							-- read enabler
 		W				: IN std_logic;							-- write enabler
 		RData			: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
 		WData			: IN std_logic_vector (7 DOWNTO 0);		-- data bus (write)
 		
-		Start_Address	: OUT std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
-		Length			: OUT std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
+		Start_Address	: OUT std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
+		Length			: OUT std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
 		Start			: OUT std_logic				-- Start information
 	);
 end component;
@@ -54,14 +54,14 @@ end component;
 signal nReset			: std_logic := '1';
 signal Clk				: std_logic := '0';
 
-signal Addr				: std_logic_vector (2 DOWNTO 0) := "000";
+signal Addr				: std_logic_vector (3 DOWNTO 0) := X"0";
 signal R				: std_logic := '0';
 signal W				: std_logic := '0';
-signal RData			: std_logic_vector (7 DOWNTO 0) := "00000000";
-signal WData			: std_logic_vector (7 DOWNTO 0) := "00000000";
+signal RData			: std_logic_vector (7 DOWNTO 0) := X"00";
+signal WData			: std_logic_vector (7 DOWNTO 0) := X"00";
 
-signal Start_Address	: std_logic_vector (15 DOWNTO 0) := "0000000000000000";
-signal Length			: std_logic_vector (15 DOWNTO 0) := "0000000000000000";
+signal Start_Address	: std_logic_vector (31 DOWNTO 0) := X"00000000";
+signal Length			: std_logic_vector (31 DOWNTO 0) := X"00000000";
 signal Start			: std_logic := '0';
 signal end_sim	: boolean := false;
 constant HalfPeriod  : TIME := 10 ns;  -- clk_FPGA = 50 MHz -> T_FPGA = 20ns -> T/2 = 10 ns
@@ -121,8 +121,8 @@ Process
 		
 		wait until rising_edge(clk);	-- then reset everything
 		W <= '0';
-		Addr <= "000";
-		WData <= "00000000";
+		Addr <= X"0";
+		WData <= X"00";
 	end procedure write_register;
 
 	-- Procedure to read a register, input is (address)
@@ -136,40 +136,48 @@ Process
 		
 		wait until rising_edge(clk);	-- then reset everything
 		R <= '0';
-		Addr <= "000";
+		Addr <= X"0";
 	end procedure read_register;
 
 Begin
 	-- Toggling the reset
 	toggle_reset;
 	
-	-- Writing start_address = 20 = 0x0014
-	write_register("001", X"14");
+	-- Writing start_address = 20 = 0x00000014
+	write_register(X"1", X"14");
 	
-	-- Writing start_adress = 300 = 0x012C
-	write_register("001", X"2C"); --not writing because of the flag
-	write_register("010", X"01");
+	-- Writing start_adress = 300 = 0x1010012C -> 0x10100114
+	write_register(X"1", X"2C"); --not writed because of the flag
+	write_register(X"2", X"01");
+	write_register(X"3", X"10");
+	write_register(X"4", X"10");
 	
-	-- Writing length = 32 = 0x4020
-	write_register("011", X"20");
-	write_register("100", X"40");
+	-- Writing length = 32 = 0x20204020
+	write_register(X"5", X"20");
+	write_register(X"6", X"40");
+	write_register(X"7", X"20");
+	write_register(X"8", X"20");
 	
 	-- Writing Start information = 1
-	write_register("000", X"01");
+	write_register(X"0", X"01");
 	
 	-- Reading Start information
-	read_register("000");
+	read_register(X"0");
 	
 	-- Writing Start information = 0
-	write_register("000", X"00");
+	write_register(X"0", X"00");
 	
-	-- Reading the Start_Address(300 = 0x012C)
-	read_register("001");
-	read_register("010");
+	-- Reading the Start_Address(0x10100114)
+	read_register(X"1");
+	read_register(X"2");
+	read_register(X"3");
+	read_register(X"4");
 	
-	-- Reading the Length (320 = 0x0140)
-	read_register("100");
-	read_register("011");
+	-- Reading the Length (320 = 0x20204020)
+	read_register(X"5");
+	read_register(X"6");
+	read_register(X"7");
+	read_register(X"8");
 	
 	-- Set end_sim to "true", so the clock generation stops
 	end_sim <= true;
