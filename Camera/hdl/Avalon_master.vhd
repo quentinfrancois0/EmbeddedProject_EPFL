@@ -50,7 +50,7 @@ ENTITY Avalon_master IS
 		AM_Addr				: OUT std_logic_vector (31 DOWNTO 0);	-- Adress sent on the Avalon bus
 		AM_Data				: OUT std_logic_vector (31 DOWNTO 0);	-- Datas sent on the Avalon bus
 		AM_Write			: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
-		AM_BurstCount		: OUT std_logic (7 DOWNTO 0);			-- Number of datas in one burst
+		AM_BurstCount		: OUT std_logic_vector (7 DOWNTO 0);	-- Number of datas in one burst
 		AM_WaitRequest		: IN std_logic							-- Pin waitrequest which is 0 when the bus is available
 	);
 END Avalon_master;
@@ -59,7 +59,7 @@ ARCHITECTURE bhv OF Avalon_master IS
 	signal		iRegAlmostEmpty				: std_logic;						-- internal phantom register which says if there is at least a burst in the FIFO
 	signal		iRegCounterAddress			: std_logic_vector (31 DOWNTO 0);	-- internal phantom register which points on the current adress in the memory
 	signal		iRegData					: std_logic_vector (31 DOWNTO 0);	-- internal register in order to save the data given by the FIFO (increase the transfer frequency)
-	TYPE		SM 	IS (WaitData, PickData, Transfer, EndOfBurst);
+	TYPE		SM 	IS (WaitData, PickData, Transfer, Burst);
 	Signal		SM_State					: SM;
 
 BEGIN
@@ -102,27 +102,20 @@ Begin
 			when WaitData =>
 				if iRegAlmostEmpty = '1' AND AS_Start = '1' then -- at least one burst in the FIFO and the Start at 1 for begin a burst
 					FIFO_Read_Access <= '1'; -- ask an info
-					WaitState := 0;
 					SM_State <= PickData;
 				end if;
 			when PickData =>
-				if WaitState = 0 then
-					WaitState := 1;
-					FIFO_Read_Access <= '0'; -- ask an info to 0
-				elsif WaitState = 1 then
-					iRegData <= FIFO_Data; -- FIFO data in the internal register
-					SM_State <= Transfer;
-				end if;
+				iRegData <= FIFO_Data;
+				FIFO_Read_Access <= '0'; -- ask an info to 0
+				SM_State <= Transfer;
 			when Transfer =>
 				AM_Write <= '1'; -- say to the bus that he is waited
 				AM_Data <= iRegData; -- data on the data bus
 				AM_Addr <= std_logic_vector(unsigned(AS_Start_Address) + unsigned(iRegCounterAddress)); -- Start adress + current adress on the adress bus
 				AM_BurstCount <= X"04";
-				if Indice < 3 then -- not the end of the burst
-					FIFO_Read_Access <= '1'; -- ask the next info
-				end if;
-				SM_State <= EndOfBurst;
-			when EndOfBurst =>
+				FIFO_Read_Access <= '1'; -- ask the next info
+				SM_State <= Burst;
+			when Burst =>
 				if AM_WaitRequest = '0' then --wait that the bus has transferred the data
 					if Indice = 3 then -- end of the burst, let the bus, reset the register and go to waitdata state
 						Indice := 0;
@@ -130,18 +123,19 @@ Begin
 						AM_Data <= (others => '0');
 						AM_Addr <= (others => '0');
 						AM_BurstCount <= (others => '0');
+						iRegCounterAddress <= std_logic_vector (unsigned (iRegCounterAddress) + 4); -- increase the iRegCounterAdress register
+						if iRegCounterAddress >= AS_Length then -- when the iRegCounterAddress is equal to the data length (at the end of the 3 buffers), reset the counter to 0 to restart
+							iRegCounterAddress <= (others => '0');
+						end if;
 						SM_State <= WaitData;
 					else
 						-- burst not ended -> transfer of next datas
-						iRegData <= FIFO_Data; -- FIFO data in the internal register -- DEPLACER (à vite retester)
+						AM_Data <= FIFO_Data; -- FIFO data in the internal register
+						FIFO_Read_Access <= '1'; -- ask the next info
 						Indice := Indice + 1;
-						SM_State <= Transfer;
-						FIFO_Read_Access <= '0';
 					end if;
-					iRegCounterAddress <= std_logic_vector (unsigned (iRegCounterAddress) + 1); -- increase the iRegCounterAdress register
-					if iRegCounterAddress = AS_Length then -- when the iRegCounterAddress is equal to the data length (at the end of the 3 buffers), reset the counter to 0 to restart
-						iRegCounterAddress <= (others => '0');
-					end if;
+				else --the bus has not taken the request
+					FIFO_Read_Access <= '0';
 				end if;
 			when others => null;
 		end case;

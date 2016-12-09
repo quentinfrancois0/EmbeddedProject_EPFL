@@ -35,20 +35,20 @@ ARCHITECTURE bhv OF testbench IS
 -- The system to test under simulation
 component Avalon_master is
 	PORT(
-		nReset				: IN std_logic;								-- nReset input
-		Clk					: IN std_logic;								-- clock input
+		nReset				: IN std_logic;							-- nReset input
+		Clk					: IN std_logic;							-- clock input
 		
-		AS_Start				: IN std_logic;								-- Start command
-		AS_Start_Address		: IN std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
-		AS_Length			: IN std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
+		AS_Start			: IN std_logic;							-- Start command
+		AS_Start_Address	: IN std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
+		AS_Length			: IN std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
 		
-		FIFO_almost_empty	: IN std_logic;								-- 1 when FIFO contains at least the burst length, 0 otherwise
-		FIFO_Read_Access	: OUT std_logic;								-- 1 = information asked to the Fifo, 0 = no demand
-		FIFO_Data			: IN std_logic_vector (15 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
+		FIFO_number_words	: IN std_logic_vector (8 DOWNTO 0);		-- number of 32 bits words
+		FIFO_Read_Access	: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
+		FIFO_Data			: IN std_logic_vector (31 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
 		
-		AM_Addr				: OUT std_logic_vector (15 DOWNTO 0);	-- Adress sent on the Avalon bus
-		AM_Data				: OUT std_logic_vector (15 DOWNTO 0);	-- Datas sent on the Avalon bus
-		AM_Write				: OUT std_logic;								-- Pin write, 1 when the component wants to use the bus
+		AM_Addr				: OUT std_logic_vector (31 DOWNTO 0);	-- Adress sent on the Avalon bus
+		AM_Data				: OUT std_logic_vector (31 DOWNTO 0);	-- Datas sent on the Avalon bus
+		AM_Write			: OUT std_logic;								-- Pin write, 1 when the component wants to use the bus
 		AM_BurstCount		: OUT std_logic_vector (7 DOWNTO 0);	-- Number of datas in one burst
 		AM_WaitRequest		: IN std_logic									-- Pin waitrequest which is 0 when the bus is available
 		
@@ -59,19 +59,19 @@ end component;
 signal nReset			: std_logic := '1';
 signal Clk				: std_logic := '0';
 
-signal Start_Address	: std_logic_vector (15 DOWNTO 0) := X"012C";
-signal Length			: std_logic_vector (15 DOWNTO 0) := X"0140";
+signal Start_Address	: std_logic_vector (31 DOWNTO 0) := X"1000012C";
+signal Length			: std_logic_vector (31 DOWNTO 0) := X"10000140";
 signal Start			: std_logic := '0';
 
-signal Almost_empty	: std_logic := '1';
-signal Read_Access	: std_logic := '0';
-signal Data				: std_logic_vector (15 DOWNTO 0) := "0000000000000000";
+signal Number_words		: std_logic_vector (8 DOWNTO 0) := X"00";
+signal Read_Access		: std_logic := '0';
+signal Data				: std_logic_vector (31 DOWNTO 0) := X"00000000";
 
-signal Addr				: std_logic_vector (15 DOWNTO 0) := "0000000000000000";
-signal WData			: std_logic_vector (15 DOWNTO 0) := "0000000000000000";
-signal W					: std_logic := '0';
-signal BurstCount		: std_logic_vector (7 DOWNTO 0) := "00000000";
-signal WaitRequest	: std_logic := '1';
+signal Addr				: std_logic_vector (15 DOWNTO 0) := X"000000000";
+signal WData			: std_logic_vector (15 DOWNTO 0) := X"000000000";
+signal W				: std_logic := '0';
+signal BurstCount		: std_logic_vector (7 DOWNTO 0) := X"00";
+signal WaitRequest		: std_logic := '1';
 
 signal end_sim	: boolean := false;
 constant HalfPeriod  : TIME := 10 ns;  -- clk_FPGA = 50 MHz -> T_FPGA = 20ns -> T/2 = 10 ns
@@ -86,7 +86,7 @@ DUT : Avalon_master	-- Component to test as Device Under Test
 		AS_Length => Length,
 		AS_Start => Start,
 		
-		FIFO_almost_empty => Almost_Empty,
+		FIFO_number_words => Number_words,
 		FIFO_Read_Access => Read_Access,
 		FIFO_Data => Data,
 		
@@ -130,38 +130,40 @@ Begin
 	-- Toggling the reset
 	toggle_reset;
 	
-	-- Almost empty at 0 => one burst in the FIFO but start = 0 => not start
+	-- Number words at 1 => not one burst in the FIFO
 	wait until rising_edge(clk);
-	Almost_empty <= '0';
+	Number_words <= X"01";
 	
 	-- Start => 1
 	wait until rising_edge(clk);
 	Start <= '1';
+	Number_words <= X"10";
 	
 	-- put the FIFO data on the pins when it is asked (0x0300 = 768)
 	wait until rising_edge(clk) AND Read_Access = '1'; --wait a data asking (1st word)
-	Data <= X"0300";
-	
+	Data <= X"10000300";
+
+	wait until rising_edge(clk);
+	wait until rising_edge(clk);
+	WaitRequest <= '0';
+
 	-- put the FIFO data on the pins when it is asked (0x0200 = 512)
 	wait until rising_edge(clk) AND Read_Access = '1'; --wait a data asking (2nd word)
-	Data <= X"0200";
-	WaitRequest <= '0';
-	-- 1st transfer on the bus
-	Almost_empty <= '1';
+	Data <= X"10000200";
 	
 	-- put the FIFO data on the pins when it is asked (0x0100 = 256)
 	wait until rising_edge(clk) AND Read_Access = '1'; --wait a data asking (3rd word)
-	Data <= X"0100";
+	Data <= X"10000100";
+	-- Block the third transfer
 	WaitRequest <= '1';
-	-- 2nd transfer is blocked
 	
 	wait until rising_edge(clk);
 	wait until rising_edge(clk);
 	WaitRequest <= '0';
+
 	-- 2nd transfer on the bus
 	wait until rising_edge(clk) AND Read_Access = '1';
-	Data <= X"0010"; --(0x0010 = 16) --wait a data asking (4th word)
-	-- 3rd transfer on the bus
+	Data <= X"10100010"; --(0x0010 = 16) --wait a data asking (4th word)
 	-- 4th transfer on the bus
 	
 	wait for 10 * 2*HalfPeriod; -- wait for 10*(2*HalfPeriod)
