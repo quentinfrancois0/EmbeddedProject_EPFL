@@ -38,48 +38,38 @@ component Camera_Interface is
 		CI_nReset			: IN std_logic;							-- nReset input
 		CI_Clk				: IN std_logic;							-- clock input
 		
-		AS_WriteData		: IN std_logic_vector (7 DOWNTO 0);		-- write data bus
-		AS_ReadData			: OUT std_logic_vector (7 DOWNTO 0);	-- read data bus
-		AS_WriteEnable		: IN std_logic;							-- write enable
-		AS_ReadEnable		: IN std_logic;							-- read enable
-		AS_Address			: IN std_logic_vector (1 DOWNTO 0);		-- address bus
+		CI_Start			: IN std_logic;							-- Start information
 		
-		CAM_nReset			: OUT std_logic;						-- nReset sent to the camera
-		CAM_XClk			: OUT std_logic;						-- clock sent to the camera
-		CAM_PixClk			: IN std_logic;							-- pixel clock received from the camera
-		CAM_Data			: IN std_logic_vector (11 DOWNTO 0);	-- pixel sent by the camera
-		CAM_Frame_Valid		: IN std_logic;							-- 1 if the frame is valid
-		CAM_Line_Valid		: IN std_logic;							-- 1 if the line is valid
+		CI_XClkIn			: OUT std_logic;						-- clock sent to the camera
+		CI_PixClk			: IN std_logic;							-- pixel clock received from the camera
+		CI_CAMData			: IN std_logic_vector (11 DOWNTO 0);	-- pixel sent by the camera
+		CI_FrameValid		: IN std_logic;							-- 1 if the frame is valid
+		CI_LineValid		: IN std_logic;							-- 1 if the line is valid
 		
-		FIFO_Write_Access	: OUT std_logic;						-- 1 = write asked to the FIFO, 0 = no demand
-		FIFO_Data			: OUT std_logic_vector (15 DOWNTO 0);	-- 16 bits pixel stored in the FIFO by the camera controller
-		FIFO_Almost_Full	: IN std_logic							-- 1 = FIFO has less than four words free, 0 = everything is okay
+		CI_FIFOClk			: OUT std_logic;						-- FIFO clock = PixClk
+		CI_WriteAccess		: OUT std_logic;						-- 1 = write asked to the FIFO, 0 = no demand
+		CI_FIFOData			: OUT std_logic_vector (15 DOWNTO 0);	-- 16 bits pixel stored in the FIFO by the camera controller
+		CI_UsedWords		: IN std_logic_vector (9 DOWNTO 0)		-- 16 bits used words in the FIFO
 	);
 end component;
 
 -- The signals provided by the testbench :
-signal nReset			: std_logic := '1';							-- nReset input
-signal clk				: std_logic := '0';							-- clock input
-		
-signal WData			: std_logic_vector (7 DOWNTO 0) := "00000000";		-- write data bus
-signal RData			: std_logic_vector (7 DOWNTO 0) := "00000000";	-- read data bus
-signal W				: std_logic := '0';							-- write enable
-signal R				: std_logic := '0';							-- read enable
-signal Addr				: std_logic_vector (1 DOWNTO 0) := "00";		-- address bus
-		
-signal CAM_nReset			: std_logic := '1';						-- nReset sent to the camera
-signal CAM_XClk				: std_logic := '0';						-- clock sent to the camera
-signal CAM_PixClk			: std_logic := '0';							-- pixel clock received from the camera
-signal CAM_Data				: std_logic_vector (11 DOWNTO 0) := "000000000000";	-- pixel sent by the camera
-signal CAM_Frame_Valid		: std_logic := '0';							-- 1 if the frame is valid
-signal CAM_Line_Valid		: std_logic := '0';							-- 1 if the line is valid
-		
-signal FIFO_Write_Access	: std_logic := '0';						-- 1 = write asked to the FIFO, 0 = no demand
-signal FIFO_Data			: std_logic_vector (15 DOWNTO 0) := "0000000000000000";	-- 16 bits pixel stored in the FIFO by the camera controller
-signal FIFO_Almost_Full		: std_logic := '0';							-- 1 = FIFO has less than four words free, 0 = everything is okay
+signal nReset			: std_logic := '1';										-- nReset input
+signal clk				: std_logic := '0';										-- clock input
+
+signal CI_Start			: std_logic :='0';										-- start information
+
+signal CI_PixClk		: std_logic := '0';										-- pixel clock received from the camera
+signal CI_CAMData		: std_logic_vector (11 DOWNTO 0) := "000000000000";		-- pixel sent by the camera
+signal CI_FrameValid	: std_logic := '0';										-- 1 if the frame is valid
+signal CI_LineValid		: std_logic := '0';										-- 1 if the line is valid
+
+signal CI_UsedWords		: std_logic_vector (9 DOWNTO 0) := "0000000000";		-- 16 bits used words in the FIFO
 
 signal end_sim	: boolean := false;
+
 constant HalfPeriod  : TIME := 10 ns;  -- clk_FPGA = 50 MHz -> T_FPGA = 20ns -> T/2 = 10 ns
+constant HalfPeriod_cam  : TIME := 53.4 ns;  -- clk_CAM = 18.73 MHz -> T_CAM = 53.4 ns -> T/2 = 26.7 ns
 	
 BEGIN 
 DUT : Camera_Interface	-- Component to test as Device Under Test       
@@ -87,22 +77,14 @@ DUT : Camera_Interface	-- Component to test as Device Under Test
 		CI_nReset => nReset,
 		CI_Clk => clk,
 		
-		AS_WriteData => WData,
-		AS_ReadData => RData,
-		AS_WriteEnable => W,
-		AS_ReadEnable => R,
-		AS_Address => Addr,
+		CI_Start => CI_Start,
 		
-		CAM_nReset => CAM_nReset,
-		CAM_XClk => CAM_XClk,
-		CAM_PixClk => CAM_PixClk,
-		CAM_Data => CAM_Data,
-		CAM_Frame_Valid => CAM_Frame_Valid,
-		CAM_Line_Valid => CAM_Line_Valid,
+		CI_PixClk => CI_PixClk,
+		CI_CAMData => CI_CAMData,
+		CI_FrameValid => CI_FrameValid,
+		CI_LineValid => CI_LineValid,
 		
-		FIFO_Write_Access => FIFO_Write_Access,
-		FIFO_Data => FIFO_Data,
-		FIFO_Almost_Full => FIFO_Almost_Full
+		CI_UsedWords => CI_UsedWords
 	);
 
 -- Process to generate the clock during the whole simulation
@@ -133,33 +115,13 @@ Process
 		nReset <= '1';
 	end procedure toggle_reset;
 	
-	-- Procedure to write a register, inputs are (address, data_to_write)
-	Procedure write_register(addr_write: std_logic_vector; data: std_logic_vector) is
-	Begin
-		wait until rising_edge(clk);	-- write between two consecutive rising edges of the clock
-		W <= '1';
-		Addr <= addr_write;
-		WData <= data;
-		
-		wait until rising_edge(clk);	-- then reset everything
-		W <= '0';
-		Addr <= "00";
-		WData <= "00000000";
-	end procedure write_register;
-
-	-- Procedure to read a register, input is (address)
-	Procedure read_register(addr_read: std_logic_vector) is
-	Begin
-		wait until rising_edge(clk);	-- set the read access, so the internal phantom read register will be set to 1 on the next rising edge of the clock
-		R <= '1';
-		
-		wait until rising_edge(clk);	-- now the internal phantom read register will be set to 1, we can read the register
-		Addr <= addr_read;
-		
-		wait until rising_edge(clk);	-- then reset everything
-		R <= '0';
-		Addr <= "00";
-	end procedure read_register;
+	variable G1 : std_logic_vector (11 DOWNTO 0) := "110000000000";
+	variable R : std_logic_vector (11 DOWNTO 0) := "100000000000";
+	variable B : std_logic_vector (11 DOWNTO 0) := "010000000000";
+	variable G2 : std_logic_vector (11 DOWNTO 0) := "000000000000";
+	
+	variable inc1 : std_logic_vector (11 DOWNTO 0) := "000000000000";
+	variable inc2 : std_logic_vector (11 DOWNTO 0) := "000000000000";
 
 Begin
 	-- Toggling the reset
@@ -167,9 +129,71 @@ Begin
 	
 	-- Start the acquisition
 	wait until rising_edge(clk);
-	write_register(X"00", "10000000");
+	CI_Start <= '1';
 	
-	wait for 50 * 2*HalfPeriod;
+	wait for 2*HalfPeriod_cam;
+	
+	-- CAM_Line_Valid = 1
+	CI_LineValid <= '1';
+	
+	wait for 2*HalfPeriod_cam;
+	
+	-- CAM_Frame_Valid = 1
+	CI_FrameValid <= '1';
+	
+	wait for 2*HalfPeriod_cam;
+	
+	inc2 := "000000000000";
+	
+	loop_r: FOR row IN 1 TO 240 LOOP
+	
+		inc1 := "000000000000";
+	
+		loop_row_1: FOR c1 IN 1 TO 320 LOOP		
+			-- First pixel
+			CI_PixClk <= '1';
+			CI_CAMData <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			CI_PixClk <= '0';
+			wait for HalfPeriod_cam;
+		
+			-- Second pixel
+			CI_PixClk <= '1';
+			CI_CAMData <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			CI_PixClk <= '0';
+			wait for HalfPeriod_cam;
+			
+			inc1 := std_logic_vector(unsigned(inc1) + 1);
+		END LOOP loop_row_1;
+		
+		inc1 := "000000000000";
+		
+		loop_row_2: FOR c2 IN 1 TO 320 LOOP
+			-- First pixel
+			CI_PixClk <= '1';
+			CI_CAMData <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			CI_PixClk <= '0';
+			wait for HalfPeriod_cam;
+		
+			-- Second pixel
+			CI_PixClk <= '1';
+			CI_CAMData <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			CI_PixClk <= '0';
+			wait for HalfPeriod_cam;
+			
+			if CI_UsedWords <= "1111111011" then
+				CI_UsedWords <= std_logic_vector(unsigned(CI_UsedWords) + 1);
+			end if;
+			
+			inc1 := std_logic_vector(unsigned(inc1) + 1);
+		END LOOP loop_row_2;
+		
+		inc2 := std_logic_vector(unsigned(inc2) + 1);
+		
+	END LOOP loop_r;
 	
 	-- Set end_sim to "true", so the clock generation stops
 	end_sim <= true;

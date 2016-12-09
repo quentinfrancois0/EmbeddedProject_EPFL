@@ -20,14 +20,18 @@ ENTITY Top IS
 		TL_WriteEnable		: IN std_logic;							-- write enabler
 		TL_ReadData			: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
 		TL_WriteData		: IN std_logic_vector (7 DOWNTO 0);		-- data bus (write)
-		TL_WaitRequest		: IN std_logic							-- Pin waitrequest which is 0 when the bus is available
-		TL_BurstCount		: OUT std_logic_vector (7 DOWNTO 0);			-- Number of datas in one burst
 		
-		TL_XClk				: OUT std_logic;						-- clock sent to the camera
+		TL_MemoryAddress	: OUT std_logic_vector (15 DOWNTO 0);	-- Address sent on the Avalon bus
+		TL_AvalonData		: OUT std_logic_vector (15 DOWNTO 0);	-- Datas sent on the Avalon bus
+		TL_WriteRequest		: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
+		TL_BurstCount		: OUT std_logic_vector (7 DOWNTO 0);	-- Number of datas in one burst
+		TL_WaitRequest		: IN std_logic;							-- Pin waitrequest which is 0 when the bus is available
+		
+		TL_XClkIn			: OUT std_logic;						-- clock sent to the camera
 		TL_PixClk			: IN std_logic;							-- pixel clock received from the camera
 		TL_Data				: IN std_logic_vector (11 DOWNTO 0);	-- pixel sent by the camera
-		TL_Frame_Valid		: IN std_logic;							-- 1 if the frame is valid
-		TL_Line_Valid		: IN std_logic;							-- 1 if the line is valid
+		TL_FrameValid		: IN std_logic;							-- 1 if the frame is valid
+		TL_LineValid		: IN std_logic							-- 1 if the line is valid
 	);
 END Top;
 
@@ -42,11 +46,11 @@ ARCHITECTURE bhv OF Top IS
 			AS_ReadEnable		: IN std_logic;							-- read enabler
 			AS_WriteEnable		: IN std_logic;							-- write enabler
 			AS_ReadData			: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
-			AS_WriteData		: IN std_logic_vector (7 DOWNTO 0);		-- data bus (write)
+			AS_WriteData		: IN std_logic_vector (7 DOWNTO 0) := "00000000";		-- data bus (write)
 		
-			AS_Start			: OUT std_logic_vector					-- Start information
+			AS_Start			: OUT std_logic;						-- Start information
 			AS_StartAddress		: OUT std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
-			AS_Length			: OUT std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
+			AS_Length			: OUT std_logic_vector (15 DOWNTO 0)	-- Length of the stored datas
 		);
 	END COMPONENT;
 	
@@ -59,14 +63,15 @@ ARCHITECTURE bhv OF Top IS
 			AM_StartAddress	: IN std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
 			AM_Length		: IN std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
 		
-			AM_AlmostEmpty	: IN std_logic;							-- 1 when FIFO contains at least the burst length, 0 otherwise
+			AM_FIFOClk		: OUT std_logic;
 			AM_ReadAccess	: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
 			AM_FIFOData		: IN std_logic_vector (15 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
+			AM_UsedWords	: IN std_logic_vector (8 DOWNTO 0);		-- 1 when FIFO contains at least the burst length, 0 otherwise
 		
-			AM_Address		: OUT std_logic_vector (15 DOWNTO 0);	-- Address sent on the Avalon bus
+			AM_MemoryAddress: OUT std_logic_vector (15 DOWNTO 0);	-- Address sent on the Avalon bus
 			AM_AvalonData	: OUT std_logic_vector (15 DOWNTO 0);	-- Datas sent on the Avalon bus
 			AM_WriteRequest	: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
-			AM_BurstCount	: OUT std_logic (7 DOWNTO 0);			-- Number of datas in one burst
+			AM_BurstCount	: OUT std_logic_vector (7 DOWNTO 0);	-- Number of datas in one burst
 			AM_WaitRequest	: IN std_logic							-- Pin waitrequest which is 0 when the bus is available
 		);
 	END COMPONENT;
@@ -75,53 +80,51 @@ ARCHITECTURE bhv OF Top IS
         PORT(
 			CI_nReset		: IN std_logic;							-- nReset input
 			CI_Clk			: IN std_logic;							-- clock input
-		
-			CI_WriteData	: IN std_logic_vector (7 DOWNTO 0);		-- write data bus
-			CI_ReadData		: OUT std_logic_vector (7 DOWNTO 0);	-- read data bus
-			CI_WriteEnable	: IN std_logic;							-- write enable
-			CI_ReadEnable	: IN std_logic;							-- read enable
-			CI_Address		: IN std_logic_vector (1 DOWNTO 0);		-- address bus
-		
-			CI_nReset		: OUT std_logic;						-- nReset sent to the camera
-			CI_XClk			: OUT std_logic;						-- clock sent to the camera
+			
+			CI_Start		: IN std_logic;							-- Start information
+			
+			CI_XClkIn		: OUT std_logic;						-- clock sent to the camera
 			CI_PixClk		: IN std_logic;							-- pixel clock received from the camera
 			CI_CAMData		: IN std_logic_vector (11 DOWNTO 0);	-- pixel sent by the camera
-			CI_Frame_Valid	: IN std_logic;							-- 1 if the frame is valid
-			CI_Line_Valid	: IN std_logic;							-- 1 if the line is valid
-		
+			CI_FrameValid	: IN std_logic;							-- 1 if the frame is valid
+			CI_LineValid	: IN std_logic;							-- 1 if the line is valid
+			
+			CI_FIFOClk		: OUT std_logic;						-- FIFO clock = PixClk
 			CI_WriteAccess	: OUT std_logic;						-- 1 = write asked to the FIFO, 0 = no demand
 			CI_FIFOData		: OUT std_logic_vector (15 DOWNTO 0);	-- 16 bits pixel stored in the FIFO by the camera controller
-			CI_Almost_Full	: IN std_logic							-- 1 = FIFO has less than four words free, 0 = everything is okay
+			CI_UsedWords	: IN std_logic_vector (9 DOWNTO 0)		-- 16 bits used words in the FIFO
 		);
 	END COMPONENT;
 	
 	COMPONENT FIFO
 		PORT(
-			FIFO_nReset			: IN STD_LOGIC;
-			FIFO_Clk			: IN STD_LOGIC;
-			
+			FIFO_Reset			: IN STD_LOGIC ;
+		
+			FIFO_CIClk			: IN STD_LOGIC ;
 			FIFO_CIData			: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-			FIFO_ReadAccess		: IN STD_LOGIC;
-			FIFO_WriteAccess	: IN STD_LOGIC;
-			FIFO_AlmostEmpty	: OUT STD_LOGIC;
-			FIFO_AlmostFull		: OUT STD_LOGIC;
-			FIFO_AMData			: OUT STD_LOGIC_VECTOR (15 DOWNTO 0)
+			FIFO_WriteAccess	: IN STD_LOGIC ;
+			FIFO_CIUsedWords	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0);
+			
+			FIFO_AMClk			: IN STD_LOGIC ;
+			FIFO_AMData			: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+			FIFO_ReadAccess		: IN STD_LOGIC ;
+			FIFO_AMUsedWords	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0)
 		);
 	END COMPONENT;
 
-signal Start				: std_logic_vector;					-- Start information	
-signal StartAddress			: std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
-signal Length				: std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
+signal Sig_Start			: std_logic := '0';					-- Start information	
+signal Sig_StartAddress		: std_logic_vector (15 DOWNTO 0) := X"0000"; 	-- Start Adress in the memory
+signal Sig_Length			: std_logic_vector (15 DOWNTO 0) := X"9600";	-- Length of the stored datas
 
-signal Clk					: STD_LOGIC;
-signal ReadAccess			: std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
+signal Sig_AMClk			: STD_LOGIC := '0';
+signal Sig_ReadAccess		: std_logic := '0'; -- 1 = information asked to the Fifo, 0 = no demand
+signal Sig_AMData			: std_logic_vector	(31 DOWNTO 0) := X"00000000";
+signal Sig_AMUsedWords		: std_logic_vector (8 DOWNTO 0) := "000000000";
 			
-signal WriteAccess			: std_logic;						-- 1 = write asked to the FIFO, 0 = no demand
-signal CIData				: std_logic_vector (15 DOWNTO 0);	-- 16 bits pixel stored in the FIFO by the camera controller
-
-signal AlmostEmpty			: std_logic;						-- 1 when FIFO contains at least the burst length, 0 otherwise
-signal AlmostFull			: std_logic;						-- 1 = FIFO has less than four words free, 0 = everything is okay
-signal AMData				: std_logic_vector (15 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
+signal Sig_CIClk			: STD_LOGIC := '0';
+signal Sig_WriteAccess		: std_logic := '0';
+signal Sig_CIData			: std_logic_vector	(15 DOWNTO 0) := X"0000";
+signal Sig_CIUsedWords		: std_logic_vector (9 DOWNTO 0) := "0000000000";
 
 BEGIN
 
@@ -133,12 +136,12 @@ BEGIN
 			AS_Address			=> TL_Address,
 			AS_ReadEnable		=> TL_ReadEnable,
 			AS_WriteEnable		=> TL_WriteEnable,
-			AS_ReaData			=> TL_ReadData,
+			AS_ReadData			=> TL_ReadData,
 			AS_WriteData		=> TL_WriteData,
 			
-			AS_Start 			=> Start,
-			AS_StartAddress		=> StartAddress,
-			AS_Length 			=> Length
+			AS_Start 			=> Sig_Start,
+			AS_StartAddress		=> Sig_StartAddress,
+			AS_Length 			=> Sig_Length
 		);
 		
 	low_Avalon_Master : Avalon_Master
@@ -146,17 +149,18 @@ BEGIN
 			AM_nReset 			=> TL_nReset,
 			AM_Clk 				=> TL_Clk,
 			
-			AM_AlmostEmpty 		=> AlmostEmpty,
-			AM_ReadAccess		=> ReadAccess,
-			AM_FIFOData 		=> AMData,
+			AM_Start			=> Sig_Start,
+			AM_StartAddress		=> Sig_StartAddress,
+			AM_Length			=> Sig_Length,
 			
-			AM_Start			=> Start,
-			AM_Start_Address	=> StartAddress,
-			AM_Length			=> Length,
+			AM_FIFOClk			=> Sig_AMClk,
+			AM_ReadAccess		=> Sig_ReadAccess,
+			AM_FIFOData 		=> Sig_AMData,
+			AM_UsedWords 		=> Sig_AMUsedWords,
 			
-			AM_Address			=> TL_Address,
-			AM_AvalonData		=> TL_WriteData,
-			AM_WriteRequest		=> TL_WaitRequest,
+			AM_MemoryAddress	=> TL_MemoryAddress,
+			AM_AvalonData		=> TL_AvalonData,
+			AM_WriteRequest		=> TL_WriteRequest,
 			AM_BurstCount		=> TL_BurstCount,
 			AM_WaitRequest		=> TL_WaitRequest
 		);
@@ -165,35 +169,34 @@ BEGIN
 		PORT MAP (
 			CI_nReset		=> TL_nReset,
 			CI_Clk			=> TL_Clk,
+			
+			CI_Start		=> Sig_Start,
 		
-			CI_WriteData	=> TL_WriteData,
-			CI_ReadData		=> TL_ReadData,
-			CI_WriteEnable	=> TL_WriteEnable,
-			CI_ReadEnable	=> TL_ReadEnable,
-			CI_Address		=> TL_Address,
-		
-			CI_XClk			=> TL_XClk,
+			CI_XClkIn		=> TL_XClkIn,
 			CI_PixClk		=> TL_PixClk,
 			CI_CAMData		=> TL_Data,
-			CI_Frame_Valid	=> TL_Frame_Valid,
-			CI_Line_Valid	=> TL_Line_Valid,
+			CI_FrameValid	=> TL_FrameValid,
+			CI_LineValid	=> TL_LineValid,
 		
-			CI_WriteAccess	=> WriteAccess,
-			CI_FIFOData		=> CIData,
-			CI_Almost_Full	=> AlmostFull
+			CI_FIFOClk		=> Sig_CIClk,
+			CI_WriteAccess	=> Sig_WriteAccess,
+			CI_FIFOData		=> Sig_CIData,
+			CI_UsedWords	=> Sig_CIUsedWords
 		);
 		
 	low_FIFO : FIFO
 		PORT MAP (
-			FIFO_nReset			=> TL_nReset,
-			FIFO_Clk			=> TL_Clk,
+			FIFO_Reset			=> not TL_nReset,
+		
+			FIFO_CIClk			=> Sig_CIClk,
+			FIFO_CIData			=> Sig_CIData,
+			FIFO_WriteAccess	=> Sig_WriteAccess,
+			FIFO_CIUsedWords	=> Sig_CIUsedWords,
 			
-			FIFO_CIData			=> CIData,
-			FIFO_ReadAccess		=> ReadAccess,
-			FIFO_WriteAccess	=> WriteAccess,
-			FIFO_AlmostEmpty	=> AlmostEmpty,
-			FIFO_AlmostFull		=> AlmostFull,
-			FIFO_AMData			=> AMData
+			FIFO_AMClk			=> Sig_AMClk,
+			FIFO_AMData			=> Sig_AMData,
+			FIFO_ReadAccess		=> Sig_ReadAccess,
+			FIFO_AMUsedWords	=> Sig_AMUsedWords
 	);
 
 END bhv;
