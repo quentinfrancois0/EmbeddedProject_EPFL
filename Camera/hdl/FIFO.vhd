@@ -43,15 +43,17 @@ USE altera_mf.all;
 ENTITY FIFO IS
 	PORT
 	(
-		aclr		: IN STD_LOGIC  := '0';
-		data		: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-		rdclk		: IN STD_LOGIC ;
-		rdreq		: IN STD_LOGIC ;
-		wrclk		: IN STD_LOGIC ;
-		wrreq		: IN STD_LOGIC ;
-		q		: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-		rdusedw		: OUT STD_LOGIC_VECTOR (8 DOWNTO 0);
-		wrusedw		: OUT STD_LOGIC_VECTOR (9 DOWNTO 0)
+		FIFO_Reset		: IN STD_LOGIC  := '0';
+		
+		FIFO_CIClk		: IN STD_LOGIC ;
+		FIFO_CIData		: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+		FIFO_WriteAccess		: IN STD_LOGIC ;
+		FIFO_CIUsedWords		: OUT STD_LOGIC_VECTOR (9 DOWNTO 0);
+		
+		FIFO_AMClk		: IN STD_LOGIC ;
+		FIFO_AMData		: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+		FIFO_ReadAccess		: IN STD_LOGIC ;
+		FIFO_AMUsedWords		: OUT STD_LOGIC_VECTOR (8 DOWNTO 0)
 	);
 END FIFO;
 
@@ -96,9 +98,9 @@ ARCHITECTURE SYN OF fifo IS
 	END COMPONENT;
 
 BEGIN
-	q    <= sub_wire0(31 DOWNTO 0);
-	rdusedw    <= sub_wire1(8 DOWNTO 0);
-	wrusedw    <= sub_wire2(9 DOWNTO 0);
+	FIFO_AMData    <= sub_wire0(31 DOWNTO 0);
+	FIFO_AMUsedWords    <= sub_wire1(8 DOWNTO 0);
+	FIFO_CIUsedWords    <= sub_wire2(9 DOWNTO 0);
 
 	dcfifo_mixed_widths_component : dcfifo_mixed_widths
 	GENERIC MAP (
@@ -119,12 +121,12 @@ BEGIN
 		wrsync_delaypipe => 4
 	)
 	PORT MAP (
-		aclr => aclr,
-		data => data,
-		rdclk => rdclk,
-		rdreq => rdreq,
-		wrclk => wrclk,
-		wrreq => wrreq,
+		aclr => FIFO_Reset,
+		data => FIFO_CIData,
+		rdclk => FIFO_AMClk,
+		rdreq => FIFO_ReadAccess,
+		wrclk => FIFO_CIClk,
+		wrreq => FIFO_WriteAccess,
 		q => sub_wire0,
 		rdusedw => sub_wire1,
 		wrusedw => sub_wire2
