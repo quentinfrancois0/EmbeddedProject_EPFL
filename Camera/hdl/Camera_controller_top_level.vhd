@@ -10,7 +10,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 USE ieee.numeric_std.all;
 
-ENTITY Top IS
+ENTITY Top_Camera_Controller IS
 	PORT(
 		TL_nReset			: IN std_logic;							-- nReset input
 		TL_Clk				: IN std_logic;							-- clock input
@@ -33,9 +33,9 @@ ENTITY Top IS
 		TL_FrameValid		: IN std_logic;							-- 1 if the frame is valid
 		TL_LineValid		: IN std_logic							-- 1 if the line is valid
 	);
-END Top;
+END Top_Camera_Controller;
 
-ARCHITECTURE bhv OF Top IS
+ARCHITECTURE bhv OF Top_Camera_Controller IS
 	
 	COMPONENT Avalon_Slave
         PORT(
@@ -65,7 +65,7 @@ ARCHITECTURE bhv OF Top IS
 		
 			AM_FIFOClk		: OUT std_logic;
 			AM_ReadAccess	: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
-			AM_FIFOData		: IN std_logic_vector (15 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
+			AM_FIFOData		: IN std_logic_vector (31 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
 			AM_UsedWords	: IN std_logic_vector (8 DOWNTO 0);		-- 1 when FIFO contains at least the burst length, 0 otherwise
 		
 			AM_MemoryAddress: OUT std_logic_vector (15 DOWNTO 0);	-- Address sent on the Avalon bus
@@ -112,19 +112,21 @@ ARCHITECTURE bhv OF Top IS
 		);
 	END COMPONENT;
 
-signal Sig_Start			: std_logic := '0';					-- Start information	
-signal Sig_StartAddress		: std_logic_vector (15 DOWNTO 0) := X"0000"; 	-- Start Adress in the memory
-signal Sig_Length			: std_logic_vector (15 DOWNTO 0) := X"9600";	-- Length of the stored datas
+signal Sig_Reset			: std_logic;
 
-signal Sig_AMClk			: STD_LOGIC := '0';
-signal Sig_ReadAccess		: std_logic := '0'; -- 1 = information asked to the Fifo, 0 = no demand
-signal Sig_AMData			: std_logic_vector	(31 DOWNTO 0) := X"00000000";
-signal Sig_AMUsedWords		: std_logic_vector (8 DOWNTO 0) := "000000000";
+signal Sig_Start			: std_logic;					-- Start information	
+signal Sig_StartAddress		: std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
+signal Sig_Length			: std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
+
+signal Sig_AMClk			: STD_LOGIC;
+signal Sig_ReadAccess		: std_logic; -- 1 = information asked to the Fifo, 0 = no demand
+signal Sig_AMData			: std_logic_vector	(31 DOWNTO 0);
+signal Sig_AMUsedWords		: std_logic_vector (8 DOWNTO 0);
 			
-signal Sig_CIClk			: STD_LOGIC := '0';
-signal Sig_WriteAccess		: std_logic := '0';
-signal Sig_CIData			: std_logic_vector	(15 DOWNTO 0) := X"0000";
-signal Sig_CIUsedWords		: std_logic_vector (9 DOWNTO 0) := "0000000000";
+signal Sig_CIClk			: STD_LOGIC;
+signal Sig_WriteAccess		: std_logic;
+signal Sig_CIData			: std_logic_vector	(15 DOWNTO 0);
+signal Sig_CIUsedWords		: std_logic_vector (9 DOWNTO 0);
 
 BEGIN
 
@@ -184,9 +186,15 @@ BEGIN
 			CI_UsedWords	=> Sig_CIUsedWords
 		);
 		
+ResetFIFO:
+Process(TL_nReset)
+Begin
+	Sig_Reset <= not TL_nReset;
+end process ResetFIFO;	
+	
 	low_FIFO : FIFO
 		PORT MAP (
-			FIFO_Reset			=> not TL_nReset,
+			FIFO_Reset			=> Sig_Reset,
 		
 			FIFO_CIClk			=> Sig_CIClk,
 			FIFO_CIData			=> Sig_CIData,
