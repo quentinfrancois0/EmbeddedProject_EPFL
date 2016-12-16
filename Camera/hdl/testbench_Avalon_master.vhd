@@ -65,14 +65,15 @@ signal Start			: std_logic := '0';
 
 signal Number_words		: std_logic_vector (7 DOWNTO 0) := X"00";
 signal Read_Access		: std_logic := '0';
-signal Data				: std_logic_vector (31 DOWNTO 0) := X"00000000";
+signal Data				: std_logic_vector (31 DOWNTO 0) := X"00000001";
 
-signal Addr				: std_logic_vector (31 DOWNTO 0) := X"000000000";
-signal WData			: std_logic_vector (31 DOWNTO 0) := X"000000000";
+signal Addr				: std_logic_vector (31 DOWNTO 0) := X"00000000";
+signal WData			: std_logic_vector (31 DOWNTO 0) := X"00000000";
 signal W				: std_logic := '0';
 signal BurstCount		: std_logic_vector (7 DOWNTO 0) := X"00";
 signal WaitRequest		: std_logic := '1';
 
+signal Data_info : std_logic_vector (31 DOWNTO 0) := X"00000002";
 signal end_sim	: boolean := false;
 constant HalfPeriod  : TIME := 10 ns;  -- clk_FPGA = 50 MHz -> T_FPGA = 20ns -> T/2 = 10 ns
 	
@@ -112,6 +113,19 @@ Begin
 	end if;
 end process clk_process;
 
+transfer_fifo :
+Process
+Begin
+	if unsigned(Data_info)<6 AND end_sim = false then
+		wait until rising_edge(clk) AND Read_Access = '1';
+		Data_info <= std_logic_vector(unsigned(Data_info) + 1);
+		Data <= Data_info;
+	else 
+		end_sim <= true;
+		wait;
+	end if;
+end process transfer_fifo;
+
 --	Process to test the component
 test :
 Process
@@ -125,7 +139,7 @@ Process
 		wait until rising_edge(clk);
 		nReset <= '1';
 	end procedure toggle_reset;
-
+	
 Begin
 	-- Toggling the reset
 	toggle_reset;
@@ -140,37 +154,38 @@ Begin
 	Number_words <= X"10";
 	WaitRequest <= '0';
 	
-	-- put the FIFO data on the pins when it is asked (0x0300 = 768)
-	wait until rising_edge(clk) AND Read_Access = '1'; --wait a data asking (1st word)
-	Data <= X"10000300";
-
-	--wait until rising_edge(clk);
-	--wait until rising_edge(clk);
-	--WaitRequest <= '0';
-
-	-- put the FIFO data on the pins when it is asked (0x0200 = 512)
-	wait until rising_edge(clk) AND Read_Access = '1'; --wait a data asking (2nd word)
-	Data <= X"10000200";
+--	-- put the FIFO data on the pins when it is asked (0x0300 = 768)
+--	wait until rising_edge(clk) AND Read_Access = '1'; --wait a data asking (1st word)
+--	Data <= X"10000300";
+--
+--	-- put the FIFO data on the pins when it is asked (0x0200 = 512)
+--	wait until rising_edge(clk) AND Read_Access = '1'; --wait a data asking (2nd word)
+--	Data <= X"10000200";
+--	WaitRequest <= '1';
+--	
+--	wait until rising_edge(clk);
+--	WaitRequest <= '0';
+--	
+--	-- put the FIFO data on the pins when it is asked (0x0100 = 256)
+--	wait until rising_edge(clk) AND Read_Access = '1'; --wait a data asking (3rd word)
+--	Data <= X"10000100";
+--	-- Block the third transfer
+	wait until rising_edge(clk);
+	wait until rising_edge(clk);
+	wait until rising_edge(clk);
+	wait until rising_edge(clk);
+	WaitRequest <= '1';
 	
-	-- put the FIFO data on the pins when it is asked (0x0100 = 256)
-	wait until rising_edge(clk) AND Read_Access = '1'; --wait a data asking (3rd word)
-	Data <= X"10000100";
-	-- Block the third transfer
-	--WaitRequest <= '1';
-	
-	--wait until rising_edge(clk);
-	--wait until rising_edge(clk);
-	--WaitRequest <= '0';
-
-	-- 2nd transfer on the bus
-	wait until rising_edge(clk) AND Read_Access = '1';
-	Data <= X"10100010"; --(0x0010 = 16) --wait a data asking (4th word)
-	-- 4th transfer on the bus
-	
-	wait for 10 * 2*HalfPeriod; -- wait for 10*(2*HalfPeriod)
+	wait until rising_edge(clk);
+	wait until rising_edge(clk);
+	WaitRequest <= '0';
+--
+--	-- 2nd transfer on the bus
+--	wait until rising_edge(clk) AND Read_Access = '1';
+--	Data <= X"10100010"; --(0x0010 = 16) --wait a data asking (4th word)
+--	-- 4th transfer on the bus
 	
 	-- Set end_sim to "true", so the clock generation stops
-	end_sim <= true;
 	wait;
 end process test;
 

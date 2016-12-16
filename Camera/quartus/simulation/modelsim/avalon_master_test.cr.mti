@@ -1,4 +1,4 @@
-{//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/testbench_Avalon_slave.vhd} {1 {vcom -work work -2002 -explicit -stats=none {//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/testbench_Avalon_slave.vhd}
+{//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/testbench_Avalon_master.vhd} {1 {vcom -work work -2002 -explicit -stats=none {//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/testbench_Avalon_master.vhd}
 Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
 -- Loading package STANDARD
 -- Loading package TEXTIO
@@ -6,14 +6,5 @@ Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
 -- Loading package NUMERIC_STD
 -- Compiling entity testbench
 -- Compiling architecture bhv of testbench
-
-} {} {}} {//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd} {1 {vcom -work work -2002 -explicit -stats=none {//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd}
-Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Compiling entity Avalon_slave
--- Compiling architecture bhv of Avalon_slave
 
 } {} {}}
