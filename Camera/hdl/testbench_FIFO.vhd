@@ -51,7 +51,7 @@ end component;
 
 -- The signals provided by the testbench :
 signal TB_FIFO_Reset			: STD_LOGIC  := '0';
-signal TB_FIFO_CIData			: STD_LOGIC_VECTOR (15 DOWNTO 0) := "0000000000000000";
+signal TB_FIFO_CIData			: STD_LOGIC_VECTOR (15 DOWNTO 0) := X"0000";
 signal TB_FIFO_AMClk			: STD_LOGIC := '0';
 signal TB_FIFO_ReadAccess		: STD_LOGIC := '0';
 signal TB_FIFO_CIClk			: STD_LOGIC := '0';
@@ -115,7 +115,7 @@ Process
 		TB_FIFO_Reset <= '0';
 	end procedure toggle_reset;
 
-	variable RGB : std_logic_vector (15 DOWNTO 0) := "0000000000000000";
+	variable RGB : std_logic_vector (15 DOWNTO 0) := "0000000000000001";
 	
 	variable inc : std_logic_vector (15 DOWNTO 0) := "0000000000000000";
 
@@ -149,24 +149,36 @@ Begin
 			
 			if burstcount16 >= 8 then
 				wait until rising_edge(TB_FIFO_AMClk);
-				TB_FIFO_ReadAccess <= '1';
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_WriteAccess <= '0';
-						
+				TB_FIFO_ReadAccess <= '1';
+				burstcount16 <= burstcount16 - 2;
 				wait until rising_edge(TB_FIFO_AMClk);
-				TB_FIFO_ReadAccess <= '1';
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_WriteAccess <= '0';
-						
+				TB_FIFO_ReadAccess <= '0';
+				
 				wait until rising_edge(TB_FIFO_AMClk);
-				TB_FIFO_ReadAccess <= '1';
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_WriteAccess <= '0';
-						
+				TB_FIFO_ReadAccess <= '1';
+				burstcount16 <= burstcount16 - 2;
 				wait until rising_edge(TB_FIFO_AMClk);
-				TB_FIFO_ReadAccess <= '1';
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_WriteAccess <= '0';
+				TB_FIFO_ReadAccess <= '0';
+				
+				wait until rising_edge(TB_FIFO_AMClk);
+				wait for 2*HalfPeriod_AM;
+				TB_FIFO_ReadAccess <= '1';
+				burstcount16 <= burstcount16 - 2;
+				wait until rising_edge(TB_FIFO_AMClk);
+				wait for 2*HalfPeriod_AM;
+				TB_FIFO_ReadAccess <= '0';
+				
+				wait until rising_edge(TB_FIFO_AMClk);
+				wait for 2*HalfPeriod_AM;
+				TB_FIFO_ReadAccess <= '1';
+				burstcount16 <= burstcount16 - 2;
+				wait until rising_edge(TB_FIFO_AMClk);
+				wait for 2*HalfPeriod_AM;
+				TB_FIFO_ReadAccess <= '0';
 			end if;
 			
 			inc := std_logic_vector(unsigned(inc) + 1);
