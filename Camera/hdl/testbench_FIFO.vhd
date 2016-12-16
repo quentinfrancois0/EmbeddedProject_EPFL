@@ -35,23 +35,23 @@ ARCHITECTURE bhv OF testbench IS
 -- The system to test under simulation
 component FIFO is
 	PORT(
-		aclr			: IN STD_LOGIC ;
+		FIFO_Reset			: IN STD_LOGIC ;
 		
-		wrclk			: IN STD_LOGIC ;
-		data			: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-		wrreq	: IN STD_LOGIC ;
-		wrusedw	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0);
+		FIFO_CIClk			: IN STD_LOGIC ;
+		FIFO_CIData			: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+		FIFO_WriteAccess	: IN STD_LOGIC ;
+		FIFO_CIUsedWords	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0);
 		
-		rdclk			: IN STD_LOGIC ;
-		q			: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-		rdreq		: IN STD_LOGIC ;
-		rdusedw	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0)
+		FIFO_AMClk			: IN STD_LOGIC ;
+		FIFO_AMData			: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+		FIFO_ReadAccess		: IN STD_LOGIC ;
+		FIFO_AMUsedWords	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0)
 	);
 end component;
 
 -- The signals provided by the testbench :
 signal TB_FIFO_Reset			: STD_LOGIC  := '0';
-signal TB_FIFO_CIData			: STD_LOGIC_VECTOR (15 DOWNTO 0) := "0000000000000000";
+signal TB_FIFO_CIData			: STD_LOGIC_VECTOR (15 DOWNTO 0) := X"0000";
 signal TB_FIFO_AMClk			: STD_LOGIC := '0';
 signal TB_FIFO_ReadAccess		: STD_LOGIC := '0';
 signal TB_FIFO_CIClk			: STD_LOGIC := '0';
@@ -65,12 +65,12 @@ constant HalfPeriod_AM  : TIME := 20 ns;  -- clk_AM = 25 MHz -> T_AM = 40ns -> T
 BEGIN 
 DUT : FIFO	-- Component to test as Device Under Test       
 	Port MAP(	-- from component => signal in the architecture
-		aclr => TB_FIFO_Reset,
-		data => TB_FIFO_CIData,
-		rdclk => TB_FIFO_AMClk,
-		rdreq => TB_FIFO_ReadAccess,
-		wrclk => TB_FIFO_CIClk,
-		wrreq => TB_FIFO_WriteAccess
+		FIFO_Reset => TB_FIFO_Reset,
+		FIFO_CIData => TB_FIFO_CIData,
+		FIFO_AMClk => TB_FIFO_AMClk,
+		FIFO_ReadAccess => TB_FIFO_ReadAccess,
+		FIFO_CIClk => TB_FIFO_CIClk,
+		FIFO_WriteAccess => TB_FIFO_WriteAccess
 	);
 
 -- Process to generate the CI clock during the whole simulation
@@ -115,7 +115,7 @@ Process
 		TB_FIFO_Reset <= '0';
 	end procedure toggle_reset;
 
-	variable RGB : std_logic_vector (15 DOWNTO 0) := "0000000000000000";
+	variable RGB : std_logic_vector (15 DOWNTO 0) := "0000000000000001";
 	
 	variable inc : std_logic_vector (15 DOWNTO 0) := "0000000000000000";
 
@@ -149,24 +149,36 @@ Begin
 			
 			if burstcount16 >= 8 then
 				wait until rising_edge(TB_FIFO_AMClk);
-				TB_FIFO_ReadAccess <= '1';
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_WriteAccess <= '0';
-						
+				TB_FIFO_ReadAccess <= '1';
+				burstcount16 <= burstcount16 - 2;
 				wait until rising_edge(TB_FIFO_AMClk);
-				TB_FIFO_ReadAccess <= '1';
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_WriteAccess <= '0';
-						
+				TB_FIFO_ReadAccess <= '0';
+				
 				wait until rising_edge(TB_FIFO_AMClk);
-				TB_FIFO_ReadAccess <= '1';
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_WriteAccess <= '0';
-						
+				TB_FIFO_ReadAccess <= '1';
+				burstcount16 <= burstcount16 - 2;
 				wait until rising_edge(TB_FIFO_AMClk);
-				TB_FIFO_ReadAccess <= '1';
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_WriteAccess <= '0';
+				TB_FIFO_ReadAccess <= '0';
+				
+				wait until rising_edge(TB_FIFO_AMClk);
+				wait for 2*HalfPeriod_AM;
+				TB_FIFO_ReadAccess <= '1';
+				burstcount16 <= burstcount16 - 2;
+				wait until rising_edge(TB_FIFO_AMClk);
+				wait for 2*HalfPeriod_AM;
+				TB_FIFO_ReadAccess <= '0';
+				
+				wait until rising_edge(TB_FIFO_AMClk);
+				wait for 2*HalfPeriod_AM;
+				TB_FIFO_ReadAccess <= '1';
+				burstcount16 <= burstcount16 - 2;
+				wait until rising_edge(TB_FIFO_AMClk);
+				wait for 2*HalfPeriod_AM;
+				TB_FIFO_ReadAccess <= '0';
 			end if;
 			
 			inc := std_logic_vector(unsigned(inc) + 1);
