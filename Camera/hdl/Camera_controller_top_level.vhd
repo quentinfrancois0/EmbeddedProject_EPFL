@@ -42,15 +42,15 @@ ARCHITECTURE bhv OF Top_Camera_Controller IS
 			AS_nReset			: IN std_logic;							-- nReset input
 			AS_Clk				: IN std_logic;							-- clock input
 		
-			AS_Address			: IN std_logic_vector (2 DOWNTO 0);		-- address bus
+			AS_Address			: IN std_logic_vector (3 DOWNTO 0);		-- address bus
 			AS_ReadEnable		: IN std_logic;							-- read enabler
 			AS_WriteEnable		: IN std_logic;							-- write enabler
 			AS_ReadData			: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
 			AS_WriteData		: IN std_logic_vector (7 DOWNTO 0);		-- data bus (write)
 		
 			AS_Start			: OUT std_logic;						-- Start information
-			AS_StartAddress		: OUT std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
-			AS_Length			: OUT std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
+			AS_StartAddress		: OUT std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
+			AS_Length			: OUT std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
 			AS_Status			: IN std_logic							-- 1 when the image has been written to the memory
 		);
 	END COMPONENT;
@@ -61,8 +61,8 @@ ARCHITECTURE bhv OF Top_Camera_Controller IS
 			AM_Clk			: IN std_logic;							-- clock input
 		
 			AM_Start		: IN std_logic;							-- Start command
-			AM_StartAddress	: IN std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
-			AM_Length		: IN std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
+			AM_StartAddress	: IN std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
+			AM_Length		: IN std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
 			AM_Status		: OUT std_logic;						-- 1 when the image has been written to the memory
 		
 			AM_FIFOClk		: OUT std_logic;
@@ -70,8 +70,8 @@ ARCHITECTURE bhv OF Top_Camera_Controller IS
 			AM_FIFOData		: IN std_logic_vector (31 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
 			AM_UsedWords	: IN std_logic_vector (8 DOWNTO 0);		-- 1 when FIFO contains at least the burst length, 0 otherwise
 		
-			AM_MemoryAddress: OUT std_logic_vector (15 DOWNTO 0);	-- Address sent on the Avalon bus
-			AM_AvalonData	: OUT std_logic_vector (15 DOWNTO 0);	-- Datas sent on the Avalon bus
+			AM_MemoryAddress: OUT std_logic_vector (31 DOWNTO 0);	-- Address sent on the Avalon bus
+			AM_AvalonData	: OUT std_logic_vector (31 DOWNTO 0);	-- Datas sent on the Avalon bus
 			AM_WriteRequest	: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
 			AM_BurstCount	: OUT std_logic_vector (7 DOWNTO 0);	-- Number of datas in one burst
 			AM_WaitRequest	: IN std_logic							-- Pin waitrequest which is 0 when the bus is available
@@ -120,7 +120,6 @@ signal Sig_Start			: std_logic;					-- Start information
 signal Sig_StartAddress		: std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
 signal Sig_Length			: std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
 
-signal Sig_AMClk			: STD_LOGIC;
 signal Sig_ReadAccess		: std_logic; -- 1 = information asked to the Fifo, 0 = no demand
 signal Sig_AMData			: std_logic_vector	(31 DOWNTO 0);
 signal Sig_AMUsedWords		: std_logic_vector (8 DOWNTO 0);
@@ -203,7 +202,7 @@ end process ResetFIFO;
 			FIFO_WriteAccess	=> Sig_WriteAccess,
 			FIFO_CIUsedWords	=> Sig_CIUsedWords,
 			
-			FIFO_AMClk			=> Sig_AMClk,
+			FIFO_AMClk			=> TL_Clk,
 			FIFO_AMData			=> Sig_AMData,
 			FIFO_ReadAccess		=> Sig_ReadAccess,
 			FIFO_AMUsedWords	=> Sig_AMUsedWords
