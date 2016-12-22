@@ -1,3 +1,0 @@
-filelist.txt
-platform_setup.tcl
-de0_nano_soc_baseline.v
