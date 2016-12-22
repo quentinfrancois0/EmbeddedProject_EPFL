@@ -39,10 +39,10 @@ ENTITY Avalon_master IS
 		nReset				: IN std_logic;								-- nReset input
 		Clk					: IN std_logic;								-- clock input
 		
-		AS_Start				: IN std_logic;								-- Start command
+		AS_Start			: IN std_logic;								-- Start command
 		AS_Start_Address	: IN std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
 		AS_Length			: IN std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
-		AS_Status			: OUT std_logic;								-- 
+		AS_Status			: OUT std_logic;						-- 1 when the image has been written to the memory
 		
 		FIFO_number_words	: IN std_logic_vector (7 DOWNTO 0);		-- number of 32 bits words
 		FIFO_Read_Access	: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand

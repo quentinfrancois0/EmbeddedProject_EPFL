@@ -45,8 +45,8 @@ ENTITY Avalon_slave IS
 		
 		Start_Address		: OUT std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
 		Length				: OUT std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
-		Start				: OUT std_logic;					-- Start information
-		Status				: IN std_logic_vector
+		Start				: OUT std_logic;						-- Start information
+		Status				: IN std_logic;							-- 1 when the image has been written to the memory
 	);
 END Avalon_slave;
 

@@ -46,11 +46,12 @@ ARCHITECTURE bhv OF Top_Camera_Controller IS
 			AS_ReadEnable		: IN std_logic;							-- read enabler
 			AS_WriteEnable		: IN std_logic;							-- write enabler
 			AS_ReadData			: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
-			AS_WriteData		: IN std_logic_vector (7 DOWNTO 0) := "00000000";		-- data bus (write)
+			AS_WriteData		: IN std_logic_vector (7 DOWNTO 0);		-- data bus (write)
 		
 			AS_Start			: OUT std_logic;						-- Start information
 			AS_StartAddress		: OUT std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
-			AS_Length			: OUT std_logic_vector (15 DOWNTO 0)	-- Length of the stored datas
+			AS_Length			: OUT std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
+			AS_Status			: IN std_logic							-- 1 when the image has been written to the memory
 		);
 	END COMPONENT;
 	
@@ -62,6 +63,7 @@ ARCHITECTURE bhv OF Top_Camera_Controller IS
 			AM_Start		: IN std_logic;							-- Start command
 			AM_StartAddress	: IN std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
 			AM_Length		: IN std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
+			AM_Status		: OUT std_logic;						-- 1 when the image has been written to the memory
 		
 			AM_FIFOClk		: OUT std_logic;
 			AM_ReadAccess	: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
