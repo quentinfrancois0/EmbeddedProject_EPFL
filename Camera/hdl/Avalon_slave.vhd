@@ -34,19 +34,19 @@ USE ieee.numeric_std.all;
 
 ENTITY Avalon_slave IS
 	PORT(
-		nReset				: IN std_logic;							-- nReset input
-		Clk					: IN std_logic;							-- clock input
+		AS_nReset			: IN std_logic;							-- nReset input
+		AS_Clk				: IN std_logic;							-- clock input
 		
-		Addr				: IN std_logic_vector (3 DOWNTO 0);		-- address bus
-		R					: IN std_logic;							-- read enabler
-		W					: IN std_logic;							-- write enabler
-		RData				: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
-		WData				: IN std_logic_vector (7 DOWNTO 0);		-- data bus (write)
+		AS_Address			: IN std_logic_vector (3 DOWNTO 0);		-- address bus
+		AS_ReadEnable		: IN std_logic;							-- read enabler
+		AS_WriteEnable		: IN std_logic;							-- write enabler
+		AS_ReadData			: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
+		AS_WriteData		: IN std_logic_vector (7 DOWNTO 0);		-- data bus (write)
 		
-		Start_Address		: OUT std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
-		Length				: OUT std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
-		Start				: OUT std_logic;						-- Start information
-		Status				: IN std_logic;							-- 1 when the image has been written to the memory
+		AS_StartAddress		: OUT std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
+		AS_Length			: OUT std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
+		AS_Start			: OUT std_logic;						-- Start information
+		AS_Status			: IN std_logic;							-- 1 when the image has been written to the memory
 	);
 END Avalon_slave;
 
