@@ -14,7 +14,7 @@
 -- Clock <= extern
 --
 -- AM_Start <= Slave
--- AS_StartAddress <= Slave
+-- AM_StartAddress <= Slave
 -- AM_Length <= Slave
 -- 
 -- AM_UsedWords <= FIFO
@@ -40,7 +40,7 @@ ENTITY Avalon_master IS
 		AM_Clk				: IN std_logic;							-- clock input
 		
 		AM_Start			: IN std_logic;							-- Start command
-		AS_StartAddress		: IN std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
+		AM_StartAddress		: IN std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
 		AM_Length			: IN std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
 		AM_Status			: OUT std_logic;						-- 1 when the image has been written to the memory
 		
@@ -84,7 +84,7 @@ begin
 	end if;
 end process;
 
-process(iRegCounterAddress, reg_SM_state, AM_UsedWords, iRegAlmostEmpty, AM_Start, AM_FIFOData, AS_StartAddress, AM_waitrequest, AM_Length, reg_burstcount)
+process(iRegCounterAddress, reg_SM_state, AM_UsedWords, iRegAlmostEmpty, AM_Start, AM_FIFOData, AM_StartAddress, AM_waitrequest, AM_Length, reg_burstcount)
 begin
 	next_iRegCounterAddress <= iRegCounterAddress;
 	next_reg_SM_state <= reg_SM_state;
@@ -112,7 +112,7 @@ begin
 		when STATE_BURSTCOUNT =>
 			AM_burstcount <= std_logic_vector(to_unsigned(BURSTCOUNT_LENGTH, AM_burstcount'length));
 			AM_AvalonData <= AM_FIFOData;
-			AM_MemoryAddress <= std_logic_vector(unsigned(AS_StartAddress) + unsigned(iRegCounterAddress));
+			AM_MemoryAddress <= std_logic_vector(unsigned(AM_StartAddress) + unsigned(iRegCounterAddress));
 			AM_WriteRequest <= '1';
 			
 			if AM_waitrequest = '0' then
@@ -122,7 +122,7 @@ begin
 			
 		when Burst =>
 		AM_WriteRequest <= '1';
-		AM_MemoryAddress <= std_logic_vector(unsigned(AS_StartAddress) + unsigned(iRegCounterAddress));
+		AM_MemoryAddress <= std_logic_vector(unsigned(AM_StartAddress) + unsigned(iRegCounterAddress));
 		AM_AvalonData <= AM_FIFOData;
 		
 		if AM_WaitRequest = '0' then

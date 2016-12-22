@@ -1,0 +1,71 @@
+IP Upgrade report for ES_mini_project_TRDB_D5M_LT24
+Thu Dec 22 21:45:49 2016
+Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. IP Upgrade Summary
+  3. Successfully Upgraded IP Components
+  4. IP Upgrade Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2016 Altera Corporation. All rights reserved.
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, the Altera Quartus Prime License Agreement,
+the Altera MegaCore Function License Agreement, or other 
+applicable license agreement, including, without limitation, 
+that your use is for the sole purpose of programming logic 
+devices manufactured by Altera and sold by Altera or its 
+authorized distributors.  Please refer to the applicable 
+agreement for further details.
+
+
+
++----------------------------------------------------------------------------+
+; IP Upgrade Summary                                                         ;
++------------------------------+---------------------------------------------+
+; IP Components Upgrade Status ; Passed - Thu Dec 22 21:45:49 2016           ;
+; Quartus Prime Version        ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
+; Revision Name                ; ES_mini_project_TRDB_D5M_LT24               ;
+; Top-level Entity Name        ; DE0_Nano_SoC_TRDB_D5M_LT24_top_level        ;
+; Family                       ; Cyclone V                                   ;
++------------------------------+---------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------+
+; Successfully Upgraded IP Components                                                                              ;
++-------------+----------------+---------+----------------------+----------------------+-----------------+---------+
+; Entity Name ; Component Name ; Version ; Original Source File ; Generation File Path ; New Source File ; Message ;
++-------------+----------------+---------+----------------------+----------------------+-----------------+---------+
+; soc_system  ; Qsys           ; N/A     ; soc_system.qsys      ; soc_system.qsys      ;                 ;         ;
++-------------+----------------+---------+----------------------+----------------------+-----------------+---------+
+
+
++---------------------+
+; IP Upgrade Messages ;
++---------------------+
+Info (11902): Backing up file "soc_system.qsys" to "soc_system.BAK.qsys"
+Info (11837): Started upgrading IP component Qsys with file "soc_system.qsys"
+Info: 2016.12.22.21:45:48 Info: Starting to upgrade the IP cores in the Qsys system
+Info: 2016.12.22.21:45:48 Info: Finished upgrading the ip cores
+Info (11131): Completed upgrading IP component Qsys with file "soc_system.qsys"
+Info (23030): Evaluation of Tcl script c:/altera_lite/16.0/quartus/common/tcl/internal/ip_regen/ip_regen.tcl was successful
+Info: Quartus Prime Shell was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 932 megabytes
+    Info: Processing ended: Thu Dec 22 21:45:49 2016
+    Info: Elapsed time: 00:00:24
+    Info: Total CPU time (on all processors): 00:00:51
+
+

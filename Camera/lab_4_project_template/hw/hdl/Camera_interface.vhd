@@ -82,18 +82,29 @@ Begin
 	end if;
 end process FIFOClk;
 
--- Process to know the column number and the row parity
-CountColumns:
-Process(CI_nReset, CI_Clk, CI_PixClk)
+-- Process to know set the pending flag
+PendingState:
+Process(CI_nReset, CI_Clk)
 Begin
 	if CI_nReset = '0' then
-		iRegStatus <= (others => '0');
-		iRegColumnCounter <= (others => '0');
+		iRegStatus (1 DOWNTO 0) <= "00";
 	elsif rising_edge(CI_Clk) then
 		iRegStatus (0) <= CI_Start;
 		if CI_UsedWords > "1111111011" then
 			iRegStatus (1) <= '1';
+		else
+			iRegStatus (1) <= '0';
 		end if;
+	end if;
+end process PendingState;
+
+-- Process to know the column number and the row parity
+CountColumns:
+Process(CI_nReset, CI_PixClk)
+Begin
+	if CI_nReset = '0' then
+		iRegColumnCounter <= (others => '0');
+		iRegStatus (7 DOWNTO 2) <= "000000";
 	elsif falling_edge(CI_PixClk) then	-- read the pixel on the falling edge of the CI_PixClk
 		if CI_FrameValid = '1' AND CI_LineValid = '1' AND iRegStatus (0) = '1' then
 			if iRegStatus (2) = '0' then	-- if we are on an even row
@@ -123,7 +134,7 @@ end process CountColumns;
 
 -- Process to read the pixels and to compute evertything
 MainProcess:
-Process(CI_nReset, CI_Clk, CI_PixClk)
+Process(CI_nReset, CI_PixClk)
 
 variable iRegColumnCounter_unsign : unsigned (11 DOWNTO 0);
 variable iRegMemory_unsign : unsigned (11 DOWNTO 0);

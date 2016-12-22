@@ -154,21 +154,6 @@ Begin
 	Number_words <= "000001000";
 	WaitRequest <= '0';
 	
---	-- put the FIFO data on the pins when it is asked (0x0300 = 768)
---	wait until rising_edge(AM_Clk) AND Read_Access = '1'; --wait a data asking (1st word)
---	Data <= X"10000300";
---
---	-- put the FIFO data on the pins when it is asked (0x0200 = 512)
---	wait until rising_edge(AM_Clk) AND Read_Access = '1'; --wait a data asking (2nd word)
---	Data <= X"10000200";
---	WaitRequest <= '1';
---	
---	wait until rising_edge(AM_Clk);
---	WaitRequest <= '0';
---	
---	-- put the FIFO data on the pins when it is asked (0x0100 = 256)
---	wait until rising_edge(AM_Clk) AND Read_Access = '1'; --wait a data asking (3rd word)
---	Data <= X"10000100";
 --	-- Block the third transfer
 	wait until rising_edge(AM_Clk);
 	wait until rising_edge(AM_Clk);

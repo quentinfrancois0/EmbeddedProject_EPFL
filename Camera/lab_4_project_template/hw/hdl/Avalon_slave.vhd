@@ -134,7 +134,7 @@ end process WriteProcess;
 -- Process to read internal registers through Avalon bus interface
 -- Synchronous access on rising edge of the FPGA's clock with 1 wait
 ReadProcess:
-Process(AS_ReadEnable, AS_Address, iRegStart_Address, iRegLength)
+Process(AS_ReadEnable, AS_Address, iRegStart, iRegStart_Address, iRegLength, iRegStatus)
 Begin
 	AS_ReadData <= (others => '0');	-- reset the data bus (read) when not used
 	if AS_ReadEnable = '1' then

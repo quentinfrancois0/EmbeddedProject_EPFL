@@ -1,7 +1,7 @@
 -- Design of a camera management device
 -- Avalon master/slave unit
 -- 
--- Authors : Nicolas Berling & Quentin François
+-- Authors : Nicolas Berling & Quentin Franï¿½ois
 -- Date : ??.11.2016
 --
 -- Top level for the camera management device
@@ -15,23 +15,23 @@ ENTITY Top_Camera_Controller IS
 		TL_nReset			: IN std_logic;							-- nReset input
 		TL_Clk				: IN std_logic;							-- clock input
 		
-		TL_Address			: IN std_logic_vector (2 DOWNTO 0);		-- address bus
-		TL_ReadEnable		: IN std_logic;							-- read enabler
-		TL_WriteEnable		: IN std_logic;							-- write enabler
-		TL_ReadData			: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
-		TL_WriteData		: IN std_logic_vector (7 DOWNTO 0);		-- data bus (write)
+		AS_Address			: IN std_logic_vector (3 DOWNTO 0);		-- address bus
+		AS_ReadEnable		: IN std_logic;							-- read enabler
+		AS_WriteEnable		: IN std_logic;							-- write enabler
+		AS_ReadData			: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
+		AS_WriteData		: IN std_logic_vector (7 DOWNTO 0);		-- data bus (write)
 		
-		TL_MemoryAddress	: OUT std_logic_vector (15 DOWNTO 0);	-- Address sent on the Avalon bus
-		TL_AvalonData		: OUT std_logic_vector (15 DOWNTO 0);	-- Datas sent on the Avalon bus
-		TL_WriteRequest		: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
-		TL_BurstCount		: OUT std_logic_vector (7 DOWNTO 0);	-- Number of datas in one burst
-		TL_WaitRequest		: IN std_logic;							-- Pin waitrequest which is 0 when the bus is available
+		AM_MemoryAddress	: OUT std_logic_vector (31 DOWNTO 0);	-- Address sent on the Avalon bus
+		AM_AvalonData		: OUT std_logic_vector (31 DOWNTO 0);	-- Datas sent on the Avalon bus
+		AM_WriteRequest		: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
+		AM_BurstCount		: OUT std_logic_vector (7 DOWNTO 0);	-- Number of datas in one burst
+		AM_WaitRequest		: IN std_logic;							-- Pin waitrequest which is 0 when the bus is available
 		
-		TL_XClkIn			: OUT std_logic;						-- clock sent to the camera
-		TL_PixClk			: IN std_logic;							-- pixel clock received from the camera
-		TL_Data				: IN std_logic_vector (11 DOWNTO 0);	-- pixel sent by the camera
-		TL_FrameValid		: IN std_logic;							-- 1 if the frame is valid
-		TL_LineValid		: IN std_logic							-- 1 if the line is valid
+		CA_XClkIn			: OUT std_logic;						-- clock sent to the camera
+		CA_PixClk			: IN std_logic;							-- pixel clock received from the camera
+		CA_Data				: IN std_logic_vector (11 DOWNTO 0);	-- pixel sent by the camera
+		CA_FrameValid		: IN std_logic;							-- 1 if the frame is valid
+		CA_LineValid		: IN std_logic							-- 1 if the line is valid
 	);
 END Top_Camera_Controller;
 
@@ -131,16 +131,16 @@ signal Sig_CIUsedWords		: std_logic_vector (9 DOWNTO 0);
 
 BEGIN
 
-	low_Avalon_Slave : Avalon_Slave
+	low_Avalon_Slave : Avalon_slave
 		PORT MAP (
 			AS_nReset			=> TL_nReset,
 			AS_Clk 				=> TL_Clk,
 			
-			AS_Address			=> TL_Address,
-			AS_ReadEnable		=> TL_ReadEnable,
-			AS_WriteEnable		=> TL_WriteEnable,
-			AS_ReadData			=> TL_ReadData,
-			AS_WriteData		=> TL_WriteData,
+			AS_Address			=> AS_Address,
+			AS_ReadEnable		=> AS_ReadEnable,
+			AS_WriteEnable		=> AS_WriteEnable,
+			AS_ReadData			=> AS_ReadData,
+			AS_WriteData		=> AS_WriteData,
 			
 			AS_Start 			=> Sig_Start,
 			AS_StartAddress		=> Sig_StartAddress,
@@ -148,7 +148,7 @@ BEGIN
 			AS_Status			=> Sig_Status
 		);
 		
-	low_Avalon_Master : Avalon_Master
+	low_Avalon_Master : Avalon_master
 		PORT MAP (
 			AM_nReset 			=> TL_nReset,
 			AM_Clk 				=> TL_Clk,
@@ -158,16 +158,15 @@ BEGIN
 			AM_Length			=> Sig_Length,
 			AM_Status			=> Sig_Status,
 			
-			AM_FIFOClk			=> Sig_AMClk,
 			AM_ReadAccess		=> Sig_ReadAccess,
 			AM_FIFOData 		=> Sig_AMData,
 			AM_UsedWords 		=> Sig_AMUsedWords,
 			
-			AM_MemoryAddress	=> TL_MemoryAddress,
-			AM_AvalonData		=> TL_AvalonData,
-			AM_WriteRequest		=> TL_WriteRequest,
-			AM_BurstCount		=> TL_BurstCount,
-			AM_WaitRequest		=> TL_WaitRequest
+			AM_MemoryAddress	=> AM_MemoryAddress,
+			AM_AvalonData		=> AM_AvalonData,
+			AM_WriteRequest		=> AM_WriteRequest,
+			AM_BurstCount		=> AM_BurstCount,
+			AM_WaitRequest		=> AM_WaitRequest
 		);
 		
 	low_Camera_Interface : Camera_Interface
@@ -177,11 +176,11 @@ BEGIN
 			
 			CI_Start		=> Sig_Start,
 		
-			CI_XClkIn		=> TL_XClkIn,
-			CI_PixClk		=> TL_PixClk,
-			CI_CAMData		=> TL_Data,
-			CI_FrameValid	=> TL_FrameValid,
-			CI_LineValid	=> TL_LineValid,
+			CI_XClkIn		=> CA_XClkIn,
+			CI_PixClk		=> CA_PixClk,
+			CI_CAMData		=> CA_Data,
+			CI_FrameValid	=> CA_FrameValid,
+			CI_LineValid	=> CA_LineValid,
 		
 			CI_FIFOClk		=> Sig_CIClk,
 			CI_WriteAccess	=> Sig_WriteAccess,
