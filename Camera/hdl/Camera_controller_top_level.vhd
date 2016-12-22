@@ -65,7 +65,6 @@ ARCHITECTURE bhv OF Top_Camera_Controller IS
 			AM_Length		: IN std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
 			AM_Status		: OUT std_logic;						-- 1 when the image has been written to the memory
 		
-			AM_FIFOClk		: OUT std_logic;
 			AM_ReadAccess	: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
 			AM_FIFOData		: IN std_logic_vector (31 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
 			AM_UsedWords	: IN std_logic_vector (8 DOWNTO 0);		-- 1 when FIFO contains at least the burst length, 0 otherwise
@@ -100,31 +99,32 @@ ARCHITECTURE bhv OF Top_Camera_Controller IS
 	
 	COMPONENT FIFO
 		PORT(
-			FIFO_Reset			: IN STD_LOGIC ;
+			FIFO_Reset			: IN std_logic;
 		
-			FIFO_CIClk			: IN STD_LOGIC ;
-			FIFO_CIData			: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-			FIFO_WriteAccess	: IN STD_LOGIC ;
-			FIFO_CIUsedWords	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0);
+			FIFO_CIClk			: IN std_logic;
+			FIFO_CIData			: IN std_logic_vector (15 DOWNTO 0);
+			FIFO_WriteAccess	: IN std_logic;
+			FIFO_CIUsedWords	: OUT std_logic_vector (9 DOWNTO 0);
 			
-			FIFO_AMClk			: IN STD_LOGIC ;
-			FIFO_AMData			: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-			FIFO_ReadAccess		: IN STD_LOGIC ;
-			FIFO_AMUsedWords	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0)
+			FIFO_AMClk			: IN std_logic;
+			FIFO_AMData			: OUT std_logic_vector (31 DOWNTO 0);
+			FIFO_ReadAccess		: IN std_logic;
+			FIFO_AMUsedWords	: OUT std_logic_vector (8 DOWNTO 0)
 		);
 	END COMPONENT;
 
 signal Sig_Reset			: std_logic;
 
-signal Sig_Start			: std_logic;					-- Start information	
-signal Sig_StartAddress		: std_logic_vector (15 DOWNTO 0); 	-- Start Adress in the memory
-signal Sig_Length			: std_logic_vector (15 DOWNTO 0);	-- Length of the stored datas
+signal Sig_Start			: std_logic;
+signal Sig_StartAddress		: std_logic_vector (31 DOWNTO 0);
+signal Sig_Length			: std_logic_vector (31 DOWNTO 0);
+signal Sig_Status			: std_logic;
 
-signal Sig_ReadAccess		: std_logic; -- 1 = information asked to the Fifo, 0 = no demand
+signal Sig_ReadAccess		: std_logic;
 signal Sig_AMData			: std_logic_vector	(31 DOWNTO 0);
 signal Sig_AMUsedWords		: std_logic_vector (8 DOWNTO 0);
-			
-signal Sig_CIClk			: STD_LOGIC;
+
+signal Sig_CIClk			: std_logic;
 signal Sig_WriteAccess		: std_logic;
 signal Sig_CIData			: std_logic_vector	(15 DOWNTO 0);
 signal Sig_CIUsedWords		: std_logic_vector (9 DOWNTO 0);
@@ -144,7 +144,8 @@ BEGIN
 			
 			AS_Start 			=> Sig_Start,
 			AS_StartAddress		=> Sig_StartAddress,
-			AS_Length 			=> Sig_Length
+			AS_Length 			=> Sig_Length,
+			AS_Status			=> Sig_Status
 		);
 		
 	low_Avalon_Master : Avalon_Master
@@ -155,6 +156,7 @@ BEGIN
 			AM_Start			=> Sig_Start,
 			AM_StartAddress		=> Sig_StartAddress,
 			AM_Length			=> Sig_Length,
+			AM_Status			=> Sig_Status,
 			
 			AM_FIFOClk			=> Sig_AMClk,
 			AM_ReadAccess		=> Sig_ReadAccess,

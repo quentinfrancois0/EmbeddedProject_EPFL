@@ -36,21 +36,21 @@ USE ieee.numeric_std.all;
 
 ENTITY Avalon_master IS
 	PORT(
-		AM_nReset				: IN std_logic;								-- AM_nReset input
-		AM_Clk					: IN std_logic;								-- clock input
+		AM_nReset			: IN std_logic;								-- AM_nReset input
+		AM_Clk				: IN std_logic;								-- clock input
 		
 		AM_Start			: IN std_logic;								-- Start command
-		AS_StartAddress	: IN std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
+		AS_StartAddress		: IN std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
 		AM_Length			: IN std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
 		AM_Status			: OUT std_logic;						-- 1 when the image has been written to the memory
 		
-		AM_UsedWords	: IN std_logic_vector (7 DOWNTO 0);		-- number of 32 bits words
-		AM_ReadAccess	: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
+		AM_UsedWords		: IN std_logic_vector (8 DOWNTO 0);		-- number of 32 bits words
+		AM_ReadAccess		: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
 		AM_FIFOData			: IN std_logic_vector (31 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
 		
 		AM_MemoryAddress	: OUT std_logic_vector (31 DOWNTO 0);	-- Adress sent on the Avalon bus
-		AM_AvalonData				: OUT std_logic_vector (31 DOWNTO 0);	-- Datas sent on the Avalon bus
-		AM_WriteRequest			: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
+		AM_AvalonData		: OUT std_logic_vector (31 DOWNTO 0);	-- Datas sent on the Avalon bus
+		AM_WriteRequest		: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
 		AM_BurstCount		: OUT std_logic_vector (7 DOWNTO 0);	-- Number of datas in one burst
 		AM_WaitRequest		: IN std_logic							-- Pin waitrequest which is 0 when the bus is available
 	);
