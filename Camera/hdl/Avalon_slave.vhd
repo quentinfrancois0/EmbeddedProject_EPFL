@@ -46,7 +46,7 @@ ENTITY Avalon_slave IS
 		AS_StartAddress		: OUT std_logic_vector (31 DOWNTO 0); 	-- AS_Start Adress in the memory
 		AS_Length			: OUT std_logic_vector (31 DOWNTO 0);	-- AS_Length of the stored datas
 		AS_Start			: OUT std_logic;						-- AS_Start information
-		AS_Status				: IN std_logic;							-- 1 when the image has been written to the memory
+		AS_Status			: IN std_logic;							-- 1 when the image has been written to the memory
 	);
 END Avalon_slave;
 
@@ -55,7 +55,8 @@ ARCHITECTURE bhv OF Avalon_slave IS
 	signal		iRegStart			: std_logic;						-- internal register for the AS_Start information
 	signal		iRegStart_Address	: std_logic_vector (31 DOWNTO 0);	-- internal register for the memory AS_Start adress
 	signal		iRegLength			: std_logic_vector (31 DOWNTO 0);	-- internal register for the data stored AS_Length
-	signal		iRegStatus			: std_logic_vector (2 DOWNTO 0);	-- internal register for the writing AS_Status of each buffer
+	signal		iRegStatus			: std_logic_vector (2 DOWNTO 0);	-- internal register for the status of each buffer
+	signal		iRegNBuffer			: std_logic_vector (1 DOWNTO 0);	-- internal register to know the current buffer
 
 BEGIN
 
@@ -158,5 +159,25 @@ Begin
 		AS_Start <= iRegStart;
 	end if;
 end process UpdateOutput;
+
+-- Process to know the current buffer
+NBuffer:
+Process(AS_nReset, AS_Status)
+Begin
+	if AS_nReset = '0' then
+		iRegNBuffer <= (others => '0');
+	elsif rising_edge(AS_Status) then
+		iRegNBuffer <= std_logic_vector(unsigned(iRegNBuffer) + '1');
+		if iRegNBuffer = "00" then
+			iRegStatus <= "000";
+		elsif iRegNBuffer = "01" then
+			iRegStatus <= "000";
+		elsif iRegNBuffer = "01" then
+			iRegStatus <= "00";
+		elsif iRegNBuffer = "01" then
+			iRegStatus <= "00";
+		end if;
+	end if;
+end process NBuffer;
 
 END bhv;

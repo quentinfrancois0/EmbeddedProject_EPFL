@@ -36,10 +36,10 @@ USE ieee.numeric_std.all;
 
 ENTITY Avalon_master IS
 	PORT(
-		AM_nReset			: IN std_logic;								-- AM_nReset input
-		AM_Clk				: IN std_logic;								-- clock input
+		AM_nReset			: IN std_logic;							-- AM_nReset input
+		AM_Clk				: IN std_logic;							-- clock input
 		
-		AM_Start			: IN std_logic;								-- Start command
+		AM_Start			: IN std_logic;							-- Start command
 		AS_StartAddress		: IN std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
 		AM_Length			: IN std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
 		AM_Status			: OUT std_logic;						-- 1 when the image has been written to the memory
@@ -70,14 +70,14 @@ ARCHITECTURE bhv OF Avalon_master IS
 
 BEGIN
 
-process(AM_nReset, clk)
+process(AM_nReset, AM_Clk)
 begin
 	if AM_nReset = '0' then
 		reg_SM_state <= WaitData;
 		iRegCounterAddress <= (others => '0');
 		reg_burstcount <= 0;
 		
-	elsif rising_edge(clk) then
+	elsif rising_edge(AM_Clk) then
 		reg_SM_state <= next_reg_SM_state;
 		iRegCounterAddress <= next_iRegCounterAddress;
 		reg_burstcount <= next_reg_burstcount;
@@ -90,11 +90,11 @@ begin
 	next_reg_SM_state <= reg_SM_state;
 	next_reg_burstcount <= reg_burstcount;
 	
-	AM_addr <= (others => '0');
-	AM_write <= '0';
-	AM_data <= (others => '0');
+	AM_MemoryAddress <= (others => '0');
+	AM_WriteRequest <= '0';
+	AM_AvalonData <= (others => '0');
 	AM_burstcount <= (others => '0');
-	FIFO_read_access <= '0';
+	AM_ReadAccess <= '0';
 	AM_Status <= '0';
 	
 	if unsigned(AM_UsedWords) > 3 then
@@ -111,22 +111,22 @@ begin
 			
 		when STATE_BURSTCOUNT =>
 			AM_burstcount <= std_logic_vector(to_unsigned(BURSTCOUNT_LENGTH, AM_burstcount'length));
-			AM_data <= AM_FIFOData;
-			AM_addr <= std_logic_vector(unsigned(AS_StartAddress) + unsigned(iRegCounterAddress));
-			AM_write <= '1';
+			AM_AvalonData <= AM_FIFOData;
+			AM_MemoryAddress <= std_logic_vector(unsigned(AS_StartAddress) + unsigned(iRegCounterAddress));
+			AM_WriteRequest <= '1';
 			
 			if AM_waitrequest = '0' then
-				FIFO_read_access <= '1';
+				AM_ReadAccess <= '1';
 				next_reg_SM_state <= Burst;
 			end if;
 			
 		when Burst =>
-		AM_write <= '1';
-		AM_addr <= std_logic_vector(unsigned(AS_StartAddress) + unsigned(iRegCounterAddress));
-		AM_data <= AM_FIFOData;
+		AM_WriteRequest <= '1';
+		AM_MemoryAddress <= std_logic_vector(unsigned(AS_StartAddress) + unsigned(iRegCounterAddress));
+		AM_AvalonData <= AM_FIFOData;
 		
 		if AM_WaitRequest = '0' then
-			FIFO_read_access <= '1';
+			AM_ReadAccess <= '1';
 			next_reg_burstcount <= reg_burstcount + 1;
 			
 			if reg_burstcount = BURSTCOUNT_LENGTH - 1 then
