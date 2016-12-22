@@ -145,6 +145,27 @@ Begin
 	end if;
 end process ReadProcess;
 
+-- Process to know the current buffer
+NBuffer:
+Process(AS_nReset, AS_Status)
+Begin
+	if AS_nReset = '0' then
+		iRegNBuffer <= (others => '0');
+	elsif rising_edge(AS_Status) then
+		iRegNBuffer <= std_logic_vector(unsigned(iRegNBuffer) + '1');
+		if iRegNBuffer = "00" then
+			iRegStatus <= "000";
+		elsif iRegNBuffer = "01" then
+			iRegStatus <= "001";
+		elsif iRegNBuffer = "10" then
+			iRegStatus <= "010";
+		elsif iRegNBuffer = "11" then
+			iRegStatus <= "100";
+			iRegNBuffer <= "00";
+		end if;
+	end if;
+end process NBuffer;
+
 -- Process to update the output towards the master and the camera controller
 UpdateOutput:
 Process(AS_nReset, AS_Clk)
@@ -159,25 +180,5 @@ Begin
 		AS_Start <= iRegStart;
 	end if;
 end process UpdateOutput;
-
--- Process to know the current buffer
-NBuffer:
-Process(AS_nReset, AS_Status)
-Begin
-	if AS_nReset = '0' then
-		iRegNBuffer <= (others => '0');
-	elsif rising_edge(AS_Status) then
-		iRegNBuffer <= std_logic_vector(unsigned(iRegNBuffer) + '1');
-		if iRegNBuffer = "00" then
-			iRegStatus <= "000";
-		elsif iRegNBuffer = "01" then
-			iRegStatus <= "000";
-		elsif iRegNBuffer = "01" then
-			iRegStatus <= "00";
-		elsif iRegNBuffer = "01" then
-			iRegStatus <= "00";
-		end if;
-	end if;
-end process NBuffer;
 
 END bhv;

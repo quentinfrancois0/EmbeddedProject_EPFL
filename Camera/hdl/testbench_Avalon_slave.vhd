@@ -189,6 +189,23 @@ Begin
 	-- Reading AS_Status of buffers
 	read_register(X"9");
 	
+	wait for 2*HalfPeriod;
+	AS_Status <= '1';
+	wait for 2*HalfPeriod;
+	AS_Status <= '0';
+	
+	wait for 2*HalfPeriod;
+	AS_Status <= '1';
+	wait for 2*HalfPeriod;
+	AS_Status <= '0';
+	
+	wait for 2*HalfPeriod;
+	AS_Status <= '1';
+	wait for 2*HalfPeriod;
+	AS_Status <= '0';
+	
+	wait for 2*HalfPeriod;
+	
 	-- Set end_sim to "true", so the clock generation stops
 	end_sim <= true;
 	wait;
