@@ -9,7 +9,7 @@ z2
 cModel Technology
 dC:/Temp/test
 Eavalon_master
-Z0 w1481883906
+Z0 w1482426600
 Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
 Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
@@ -18,13 +18,13 @@ Z5 8\\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Ca
 Z6 F\\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Camera\hdl\Avalon_master.vhd
 l0
 L37
-VZj3LJTQfoiDnA9AMJifEn2
-!s100 O@Cm_MPiNIzFZb6@W>Sz_2
+VDi;S`ZFmQY]CEnBOH@J7@2
+!s100 mR^7iB<adT_c@``4DQ?mM0
 Z7 OV;C;10.4d;61
 32
-Z8 !s110 1481883921
+Z8 !s110 1482427031
 !i10b 1
-Z9 !s108 1481883921.000000
+Z9 !s108 1482427031.000000
 Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|\\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Camera\hdl\Avalon_master.vhd|
 Z11 !s107 \\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Camera\hdl\Avalon_master.vhd|
 !i113 1
@@ -34,11 +34,11 @@ Abhv
 R1
 R2
 R3
-Z14 DEx4 work 13 avalon_master 0 22 Zj3LJTQfoiDnA9AMJifEn2
-l70
-L58
-V7SMGX;9U:fHWFZD9h008m3
-!s100 chT6c4A`PC1PXa9fi4S081
+Z14 DEx4 work 13 avalon_master 0 22 Di;S`ZFmQY]CEnBOH@J7@2
+l71
+L59
+Z15 VI^6W0UIgOa?[=hg5=j;iO0
+Z16 !s100 BAQ6on?Q0X4nlM7_mAmiQ1
 R7
 32
 R8
@@ -50,24 +50,24 @@ R11
 R12
 R13
 Eavalon_slave
-Z15 w1481273870
+Z17 w1481273870
 R1
 R2
 R3
 R4
-Z16 8//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd
-Z17 F//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd
+Z18 8//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd
+Z19 F//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd
 l0
 L35
 V8kbh9:aJmPUWhh0g`5E`h3
 !s100 7j4>fHMJ4B]18Qa:7XNT>0
 R7
 32
-Z18 !s110 1481873207
+Z20 !s110 1481873207
 !i10b 1
-Z19 !s108 1481873207.000000
-Z20 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd|
-Z21 !s107 //files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd|
+Z21 !s108 1481873207.000000
+Z22 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd|
+Z23 !s107 //files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/Avalon_slave.vhd|
 !i113 1
 R12
 R13
@@ -82,33 +82,33 @@ V=P_XDb]=XPD;W=jZM2`OX1
 !s100 VPZTh1M@]VbBPNW34_jkA0
 R7
 32
-R18
-!i10b 1
-R19
 R20
+!i10b 1
 R21
+R22
+R23
 !i113 1
 R12
 R13
 Etestbench
-Z22 w1481883376
+Z24 w1482427024
 R1
 R2
 R3
 R4
-Z23 8//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/testbench_Avalon_master.vhd
-Z24 F//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/testbench_Avalon_master.vhd
+Z25 8\\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Camera\hdl\testbench_Avalon_master.vhd
+Z26 F\\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Camera\hdl\testbench_Avalon_master.vhd
 l0
 L30
 VQ1cgT7M>oj>C`oi8XlEW]1
 !s100 A;F`C<`FdHG<_[89Nz87W1
 R7
 32
-Z25 !s110 1481883920
+R8
 !i10b 1
-Z26 !s108 1481883920.000000
-Z27 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|//files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/testbench_Avalon_master.vhd|
-Z28 !s107 //files9/data/qfrancoi/My Documents/Embedded_Systems/EmbeddedProject_EPFL/Camera/hdl/testbench_Avalon_master.vhd|
+R9
+Z27 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|\\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Camera\hdl\testbench_Avalon_master.vhd|
+Z28 !s107 \\files9\data\qfrancoi\My Documents\Embedded_Systems\EmbeddedProject_EPFL\Camera\hdl\testbench_Avalon_master.vhd|
 !i113 1
 R12
 R13
@@ -119,13 +119,13 @@ R3
 DEx4 work 9 testbench 0 22 Q1cgT7M>oj>C`oi8XlEW]1
 l80
 L34
-VTGUMja==I6Ljma><dodVF3
-!s100 4InYoRTW3MZ0`^JZjI2@12
+VzWHMG]QfH1:f0dg6BQ^Qd0
+!s100 b0WjHLB@89d2e?h52UOGW2
 R7
 32
-R25
+R8
 !i10b 1
-R26
+R9
 R27
 R28
 !i113 1

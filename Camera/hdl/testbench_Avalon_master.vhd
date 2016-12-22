@@ -42,7 +42,7 @@ component Avalon_master is
 		AS_StartAddress		: IN std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
 		AM_Length			: IN std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
 		
-		AM_UsedWords		: IN std_logic_vector (7 DOWNTO 0);		-- number of 32 bits words
+		AM_UsedWords		: IN std_logic_vector (8 DOWNTO 0);		-- number of 32 bits words
 		AM_ReadAccess		: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
 		AM_FIFOData			: IN std_logic_vector (31 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
 		
@@ -63,7 +63,7 @@ signal Start_Address	: std_logic_vector (31 DOWNTO 0) := X"1000012C";
 signal Length			: std_logic_vector (31 DOWNTO 0) := X"10000140";
 signal Start			: std_logic := '0';
 
-signal Number_words		: std_logic_vector (7 DOWNTO 0) := X"00";
+signal Number_words		: std_logic_vector (8 DOWNTO 0) := "000000000";
 signal Read_Access		: std_logic := '0';
 signal Data				: std_logic_vector (31 DOWNTO 0) := X"00000001";
 
@@ -146,12 +146,12 @@ Begin
 	
 	-- Number words at 1 => not one burst in the FIFO
 	wait until rising_edge(AM_Clk);
-	Number_words <= X"01";
+	Number_words <= "000000001";
 	
 	-- Start => 1
 	wait until rising_edge(AM_Clk);
 	Start <= '1';
-	Number_words <= X"10";
+	Number_words <= "000001000";
 	WaitRequest <= '0';
 	
 --	-- put the FIFO data on the pins when it is asked (0x0300 = 768)
