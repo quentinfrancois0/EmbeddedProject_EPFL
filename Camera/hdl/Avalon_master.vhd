@@ -50,7 +50,7 @@ ENTITY Avalon_master IS
 		
 		AM_Addr				: OUT std_logic_vector (31 DOWNTO 0);	-- Adress sent on the Avalon bus
 		AM_Data				: OUT std_logic_vector (31 DOWNTO 0);	-- Datas sent on the Avalon bus
-		AM_Write				: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
+		AM_Write			: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
 		AM_BurstCount		: OUT std_logic_vector (7 DOWNTO 0);	-- Number of datas in one burst
 		AM_WaitRequest		: IN std_logic							-- Pin waitrequest which is 0 when the bus is available
 	);

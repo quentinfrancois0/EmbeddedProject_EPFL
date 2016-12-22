@@ -46,7 +46,8 @@ component Avalon_slave is
 		
 		Start_Address	: OUT std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
 		Length			: OUT std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
-		Start			: OUT std_logic				-- Start information
+		Start			: OUT std_logic	;			-- Start information
+		Status			: INOUT std_logic_vector (2 DOWNTO 0)
 	);
 end component;
 
@@ -63,6 +64,8 @@ signal WData			: std_logic_vector (7 DOWNTO 0) := X"00";
 signal Start_Address	: std_logic_vector (31 DOWNTO 0) := X"00000000";
 signal Length			: std_logic_vector (31 DOWNTO 0) := X"00000000";
 signal Start			: std_logic := '0';
+signal Status			: std_logic_vector (2 DOWNTO 0) := "000";
+
 signal end_sim	: boolean := false;
 constant HalfPeriod  : TIME := 10 ns;  -- clk_FPGA = 50 MHz -> T_FPGA = 20ns -> T/2 = 10 ns
 	
@@ -80,7 +83,8 @@ DUT : Avalon_slave	-- Component to test as Device Under Test
 		
 		Start_Address => Start_Address,
 		Length => Length,
-		Start => Start
+		Start => Start,
+		Status => Status
 	);
 
 -- Process to generate the clock during the whole simulation
@@ -158,6 +162,9 @@ Begin
 	write_register(X"7", X"20");
 	write_register(X"8", X"20");
 	
+	-- Writing status of buffers
+	write_register(X"9", X"05");
+	
 	-- Writing Start information = 1
 	write_register(X"0", X"01");
 	
@@ -178,6 +185,9 @@ Begin
 	read_register(X"6");
 	read_register(X"7");
 	read_register(X"8");
+	
+	-- Reading status of buffers
+	read_register(X"9");
 	
 	-- Set end_sim to "true", so the clock generation stops
 	end_sim <= true;

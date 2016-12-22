@@ -45,7 +45,8 @@ ENTITY Avalon_slave IS
 		
 		Start_Address		: OUT std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
 		Length				: OUT std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
-		Start				: OUT std_logic					-- Start information
+		Start				: OUT std_logic;					-- Start information
+		Status				: IN std_logic_vector
 	);
 END Avalon_slave;
 
@@ -55,6 +56,7 @@ ARCHITECTURE bhv OF Avalon_slave IS
 	signal		iRegStart			: std_logic;						-- internal register for the start information
 	signal		iRegStart_Address	: std_logic_vector (31 DOWNTO 0);	-- internal register for the memory start adress
 	signal		iRegLength			: std_logic_vector (31 DOWNTO 0);	-- internal register for the data stored length
+	signal		iRegStatus			: std_logic_vector (2 DOWNTO 0);	-- internal register for the writing status of each buffer
 
 BEGIN
 
@@ -68,6 +70,7 @@ Begin
 		iRegStart_Address	<= (others => '0');
 		iRegLength			<= (others => '0');
 		iFlagSettings		<= (others => '0');
+		iRegStatus			<= (others => '0');
 	elsif rising_edge(Clk) then
 		if W = '1' then
 			case Addr is
@@ -112,6 +115,7 @@ Begin
 						iRegLength (31 DOWNTO 24)		<= WData;
 						iFlagSettings(7) <= '1';
 					end if;
+				when X"9" => iRegStatus <= WData (2 DOWNTO 0);
 				when others => null;
 			end case;
 		end if;
@@ -137,15 +141,16 @@ Begin
 	RData <= (others => '0');	-- reset the data bus (read) when not used
 	if iRegRead = '1' then
 		case Addr is
-			when X"0" => RData(0) 	<= iRegStart;
-			when X"1" => RData 		<= iRegStart_Address (7 DOWNTO 0);
-			when X"2" => RData 		<= iRegStart_Address (15 DOWNTO 8);
-			when X"3" => RData 		<= iRegStart_Address (23 DOWNTO 16);
-			when X"4" => RData 		<= iRegStart_Address (31 DOWNTO 24);
-			when X"5" => RData 		<= iRegLength (7 DOWNTO 0);
-			when X"6" => RData 		<= iRegLength (15 DOWNTO 8);
-			when X"7" => RData 		<= iRegLength (23 DOWNTO 16);
-			when X"8" => RData 		<= iRegLength (31 DOWNTO 24);
+			when X"0" => RData(0) 				<= iRegStart;
+			when X"1" => RData 					<= iRegStart_Address (7 DOWNTO 0);
+			when X"2" => RData 					<= iRegStart_Address (15 DOWNTO 8);
+			when X"3" => RData 					<= iRegStart_Address (23 DOWNTO 16);
+			when X"4" => RData 					<= iRegStart_Address (31 DOWNTO 24);
+			when X"5" => RData 					<= iRegLength (7 DOWNTO 0);
+			when X"6" => RData 					<= iRegLength (15 DOWNTO 8);
+			when X"7" => RData 					<= iRegLength (23 DOWNTO 16);
+			when X"8" => RData 					<= iRegLength (31 DOWNTO 24);
+			when X"9" => RData (2 DOWNTO 0)		<= iRegStatus;
 			when others => null;
 		end case;
 	end if;
