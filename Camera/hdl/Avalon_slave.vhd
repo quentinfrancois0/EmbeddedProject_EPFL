@@ -46,7 +46,7 @@ ENTITY Avalon_slave IS
 		AS_StartAddress		: OUT std_logic_vector (31 DOWNTO 0); 	-- AS_Start Adress in the memory
 		AS_Length			: OUT std_logic_vector (31 DOWNTO 0);	-- AS_Length of the stored datas
 		AS_Start			: OUT std_logic;						-- AS_Start information
-		AS_Status			: IN std_logic;							-- 1 when the image has been written to the memory
+		AS_Status			: IN std_logic							-- 1 when the image has been written to the memory
 	);
 END Avalon_slave;
 
@@ -56,14 +56,14 @@ ARCHITECTURE bhv OF Avalon_slave IS
 	signal		iRegStart_Address	: std_logic_vector (31 DOWNTO 0);	-- internal register for the memory AS_Start adress
 	signal		iRegLength			: std_logic_vector (31 DOWNTO 0);	-- internal register for the data stored AS_Length
 	signal		iRegStatus			: std_logic_vector (2 DOWNTO 0);	-- internal register for the status of each buffer
-	signal		iRegNBuffer			: std_logic_vector (1 DOWNTO 0);	-- internal register to know the current buffer
+	signal		iRegNBuffer			: std_logic_vector (2 DOWNTO 0);	-- internal register to know the current buffer
 
 BEGIN
 
 -- Process to write internal registers through Avalon bus interface
 -- Synchronous access on rising edge of the FPGA's clock
 WriteProcess:
-Process(AS_nReset, AS_Clk)
+Process(AS_nReset, AS_Clk, AS_Status)
 Begin
 	if AS_nReset = '0' then	-- reset the four writable registers when pushing the reset key
 		iRegStart			<= '0';
@@ -119,6 +119,15 @@ Begin
 				when others => null;
 			end case;
 		end if;
+		if iRegNBuffer = "000" then
+			iRegStatus <= "000";
+		elsif iRegNBuffer = "001" then
+			iRegStatus <= "001";
+		elsif iRegNBuffer = "010" then
+			iRegStatus <= "010";
+		elsif iRegNBuffer = "011" then
+			iRegStatus <= "100";
+		end if;
 	end if;
 end process WriteProcess;
 
@@ -145,23 +154,15 @@ Begin
 	end if;
 end process ReadProcess;
 
--- Process to know the current buffer
 NBuffer:
 Process(AS_nReset, AS_Status)
 Begin
 	if AS_nReset = '0' then
 		iRegNBuffer <= (others => '0');
 	elsif rising_edge(AS_Status) then
-		iRegNBuffer <= std_logic_vector(unsigned(iRegNBuffer) + '1');
-		if iRegNBuffer = "00" then
-			iRegStatus <= "000";
-		elsif iRegNBuffer = "01" then
-			iRegStatus <= "001";
-		elsif iRegNBuffer = "10" then
-			iRegStatus <= "010";
-		elsif iRegNBuffer = "11" then
-			iRegStatus <= "100";
-			iRegNBuffer <= "00";
+		iRegNBuffer <= std_logic_vector(unsigned(iRegNBuffer) + 1);
+		if iRegNBuffer = "011" then
+			iRegNBuffer <= "001";
 		end if;
 	end if;
 end process NBuffer;

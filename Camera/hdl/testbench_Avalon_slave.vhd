@@ -47,7 +47,7 @@ component Avalon_slave is
 		AS_StartAddress		: OUT std_logic_vector (31 DOWNTO 0); 	-- AS_Start Adress in the memory
 		AS_Length			: OUT std_logic_vector (31 DOWNTO 0);	-- AS_Length of the stored datas
 		AS_Start			: OUT std_logic	;			-- AS_Start information
-		AS_Status			: INOUT std_logic_vector (2 DOWNTO 0)
+		AS_Status			: IN std_logic
 	);
 end component;
 
@@ -64,7 +64,7 @@ signal AS_WriteData			: std_logic_vector (7 DOWNTO 0) := X"00";
 signal AS_StartAddress		: std_logic_vector (31 DOWNTO 0) := X"00000000";
 signal AS_Length			: std_logic_vector (31 DOWNTO 0) := X"00000000";
 signal AS_Start				: std_logic := '0';
-signal AS_Status			: std_logic_vector (2 DOWNTO 0) := "000";
+signal AS_Status			: std_logic := '0';
 
 signal end_sim	: boolean := false;
 constant HalfPeriod  : TIME := 10 ns;  -- clk_FPGA = 50 MHz -> T_FPGA = 20ns -> T/2 = 10 ns
@@ -205,6 +205,11 @@ Begin
 	AS_Status <= '0';
 	
 	wait for 2*HalfPeriod;
+	AS_Status <= '1';
+	wait for 2*HalfPeriod;
+	AS_Status <= '0';
+	
+	wait for 4*HalfPeriod;
 	
 	-- Set end_sim to "true", so the clock generation stops
 	end_sim <= true;
