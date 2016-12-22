@@ -44,7 +44,7 @@ ENTITY Avalon_master IS
 		AM_Length			: IN std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
 		AM_Status			: OUT std_logic;						-- 1 when the image has been written to the memory
 		
-		AM_UsedWords		: IN std_logic_vector (7 DOWNTO 0);		-- number of 32 bits words
+		AM_UsedWords		: IN std_logic_vector (8 DOWNTO 0);		-- number of 32 bits words
 		AM_ReadAccess		: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
 		AM_FIFOData			: IN std_logic_vector (31 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
 		
