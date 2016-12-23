@@ -21,8 +21,7 @@ ENTITY Camera_Interface IS
 		CI_Clk			: IN std_logic;							-- clock input
 		
 		CI_Start		: IN std_logic;							-- Start information
-		
-		CI_XClkIn		: OUT std_logic;						-- clock sent to the camera
+
 		CI_PixClk		: IN std_logic;							-- pixel clock received from the camera
 		CI_CAMData		: IN std_logic_vector (11 DOWNTO 0);	-- pixel sent by the camera
 		CI_FrameValid	: IN std_logic;							-- 1 if the frame is valid
@@ -42,34 +41,11 @@ ARCHITECTURE bhv OF Camera_Interface IS
 	TYPE Memory is array (639 DOWNTO 0) of std_logic_vector (11 DOWNTO 0);
 	signal		iRegMemory			: Memory; 							-- internal phantom memory register for the even read rows
 	
-	signal		iRegCountEnable		: std_logic;						-- internal phantom register to divide the FPGA clock
 	signal		iregFIFOWrite		: std_logic;						-- internal phantom register to tell when CI_WriteAccess is 1
 	signal		iRegColumnCounter	: std_logic_vector (11 DOWNTO 0);	-- phantom counter from 0 to 3 to know if we are reading a valid column and not a skipped one
 	signal		iRegBlue			: std_logic_vector (11 DOWNTO 0); 	-- internal phantom register fot the binning of the actual pixel blue color
 
 BEGIN
-
--- Process to divide the FPGA clock
-ClkDivider:
-Process(CI_nReset, CI_Clk)
-Begin
-	if CI_nReset = '0' then	-- reset the internal phantom counter enabler register when pushing the reset key
-		iRegCountEnable	<= '0';
-	elsif rising_edge(CI_Clk) then -- toggle the iRegCountEnable in order to divide the in clock by 2, FPGA clock = 50 MHz, CI_XClkIn = 25 MHz
-		iRegCountEnable <= NOT iRegCountEnable;
-	end if;
-end process ClkDivider;
-
--- Process to send the XClkIn clock to the camera
-CameraClk:
-Process(iRegStatus, iRegCountEnable)
-Begin
-	if iRegStatus (0) = '1' then
-		CI_XClkIn <= iRegCountEnable;
-	else
-		CI_XClkIn <= '0';
-	end if;
-end process CameraClk;
 
 -- Process to send the PixClk clock to the FIFO
 FIFOClk:

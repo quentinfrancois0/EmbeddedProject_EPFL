@@ -27,7 +27,6 @@ ENTITY Top_Camera_Controller IS
 		AM_BurstCount		: OUT std_logic_vector (7 DOWNTO 0);	-- Number of datas in one burst
 		AM_WaitRequest		: IN std_logic;							-- Pin waitrequest which is 0 when the bus is available
 		
-		CA_XClkIn			: OUT std_logic;						-- clock sent to the camera
 		CA_PixClk			: IN std_logic;							-- pixel clock received from the camera
 		CA_Data				: IN std_logic_vector (11 DOWNTO 0);	-- pixel sent by the camera
 		CA_FrameValid		: IN std_logic;							-- 1 if the frame is valid
@@ -83,8 +82,7 @@ ARCHITECTURE bhv OF Top_Camera_Controller IS
 			CI_Clk			: IN std_logic;							-- clock input
 			
 			CI_Start		: IN std_logic;							-- Start information
-			
-			CI_XClkIn		: OUT std_logic;						-- clock sent to the camera
+		
 			CI_PixClk		: IN std_logic;							-- pixel clock received from the camera
 			CI_CAMData		: IN std_logic_vector (11 DOWNTO 0);	-- pixel sent by the camera
 			CI_FrameValid	: IN std_logic;							-- 1 if the frame is valid
@@ -176,7 +174,6 @@ BEGIN
 			
 			CI_Start		=> Sig_Start,
 		
-			CI_XClkIn		=> CA_XClkIn,
 			CI_PixClk		=> CA_PixClk,
 			CI_CAMData		=> CA_Data,
 			CI_FrameValid	=> CA_FrameValid,

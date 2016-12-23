@@ -1,0 +1,3 @@
+11:52:07 **** Clean-only build of configuration Nios II for project camera_controller_bsp ****
+make clean 
+[BSP clean complete]
