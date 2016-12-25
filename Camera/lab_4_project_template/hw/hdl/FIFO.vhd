@@ -44,15 +44,15 @@ ENTITY FIFO IS
 	(
 		FIFO_Reset			: IN STD_LOGIC ;
 		
-		FIFO_CIClk			: IN STD_LOGIC ;
-		FIFO_CIData			: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-		FIFO_WriteAccess	: IN STD_LOGIC ;
-		FIFO_CIUsedWords	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0);
+		FIFO_WriteClk		: IN STD_LOGIC ;
+		FIFO_CI_WriteData	: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+		FIFO_CI_WriteEnable	: IN STD_LOGIC ;
+		FIFO_CI_UsedWords	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0);
 		
-		FIFO_AMClk			: IN STD_LOGIC ;
-		FIFO_AMData			: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-		FIFO_ReadAccess		: IN STD_LOGIC ;
-		FIFO_AMUsedWords	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0)
+		FIFO_ReadClk		: IN STD_LOGIC ;
+		FIFO_AM_ReadData	: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+		FIFO_AM_ReadCheck	: IN STD_LOGIC ;
+		FIFO_AM_UsedWords	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0)
 	);
 END FIFO;
 
@@ -64,19 +64,19 @@ ARCHITECTURE SYN OF fifo IS
 
 	COMPONENT dcfifo_mixed_widths
 	GENERIC (
-		intended_device_family		: STRING;
-		lpm_numwords		: NATURAL;
-		lpm_showahead		: STRING;
-		lpm_type		: STRING;
-		lpm_width		: NATURAL;
-		lpm_widthu		: NATURAL;
-		lpm_widthu_r		: NATURAL;
-		lpm_width_r		: NATURAL;
+		intended_device_family	: STRING;
+		lpm_numwords			: NATURAL;
+		lpm_showahead			: STRING;
+		lpm_type				: STRING;
+		lpm_width				: NATURAL;
+		lpm_widthu				: NATURAL;
+		lpm_widthu_r			: NATURAL;
+		lpm_width_r				: NATURAL;
 		overflow_checking		: STRING;
 		rdsync_delaypipe		: NATURAL;
-		read_aclr_synch		: STRING;
+		read_aclr_synch			: STRING;
 		underflow_checking		: STRING;
-		use_eab		: STRING;
+		use_eab					: STRING;
 		write_aclr_synch		: STRING;
 		wrsync_delaypipe		: NATURAL
 	);
@@ -87,16 +87,16 @@ ARCHITECTURE SYN OF fifo IS
 			rdreq	: IN STD_LOGIC ;
 			wrclk	: IN STD_LOGIC ;
 			wrreq	: IN STD_LOGIC ;
-			q	: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+			q		: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
 			rdusedw	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0);
 			wrusedw	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0)
 	);
 	END COMPONENT;
 
 BEGIN
-	FIFO_AMData    <= sub_wire0(31 DOWNTO 0);
-	FIFO_AMUsedWords    <= sub_wire1(8 DOWNTO 0);
-	FIFO_CIUsedWords    <= sub_wire2(9 DOWNTO 0);
+	FIFO_AM_ReadData    	<= sub_wire0(31 DOWNTO 0);
+	FIFO_AM_UsedWords    <= sub_wire1(8 DOWNTO 0);
+	FIFO_CI_UsedWords    <= sub_wire2(9 DOWNTO 0);
 
 	dcfifo_mixed_widths_component : dcfifo_mixed_widths
 	GENERIC MAP (
@@ -118,11 +118,11 @@ BEGIN
 	)
 	PORT MAP (
 		aclr => FIFO_Reset,
-		data => FIFO_CIData,
-		rdclk => FIFO_AMClk,
-		rdreq => FIFO_ReadAccess,
-		wrclk => FIFO_CIClk,
-		wrreq => FIFO_WriteAccess,
+		data => FIFO_CI_WriteData,
+		rdclk => FIFO_ReadClk,
+		rdreq => FIFO_AM_ReadCheck,
+		wrclk => FIFO_WriteClk,
+		wrreq => FIFO_CI_WriteEnable,
 		q => sub_wire0,
 		rdusedw => sub_wire1,
 		wrusedw => sub_wire2

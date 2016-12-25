@@ -37,40 +37,51 @@ component FIFO is
 	PORT(
 		FIFO_Reset			: IN STD_LOGIC ;
 		
-		FIFO_CIClk			: IN STD_LOGIC ;
-		FIFO_CIData			: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-		FIFO_WriteAccess	: IN STD_LOGIC ;
-		FIFO_CIUsedWords	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0);
+		FIFO_WriteClk		: IN STD_LOGIC ;
+		FIFO_CI_WriteData	: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+		FIFO_CI_WriteEnable	: IN STD_LOGIC ;
+		FIFO_CI_UsedWords	: OUT STD_LOGIC_VECTOR (9 DOWNTO 0);
 		
-		FIFO_AMClk			: IN STD_LOGIC ;
-		FIFO_AMData			: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
-		FIFO_ReadAccess		: IN STD_LOGIC ;
-		FIFO_AMUsedWords	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0)
+		FIFO_ReadClk		: IN STD_LOGIC ;
+		FIFO_AM_ReadData	: OUT STD_LOGIC_VECTOR (31 DOWNTO 0);
+		FIFO_AM_ReadCheck	: IN STD_LOGIC ;
+		FIFO_AM_UsedWords	: OUT STD_LOGIC_VECTOR (8 DOWNTO 0)
 	);
 end component;
 
 -- The signals provided by the testbench :
-signal TB_FIFO_Reset			: STD_LOGIC  := '0';
-signal TB_FIFO_CIData			: STD_LOGIC_VECTOR (15 DOWNTO 0) := X"0000";
-signal TB_FIFO_AMClk			: STD_LOGIC := '0';
-signal TB_FIFO_ReadAccess		: STD_LOGIC := '0';
-signal TB_FIFO_CIClk			: STD_LOGIC := '0';
-signal TB_FIFO_WriteAccess		: STD_LOGIC := '0';
+signal FIFO_Reset_test			: STD_LOGIC  := '0';
 
-signal end_sim	: boolean := false;
-signal burstcount16 : integer := 0;
+signal FIFO_WriteClk_test		: STD_LOGIC := '0';
+signal FIFO_CI_WriteData_test	: STD_LOGIC_VECTOR (15 DOWNTO 0) := X"0000";
+signal FIFO_CI_WriteEnable_test	: STD_LOGIC := '0';
+-- signal FIFO_CI_UsedWords_test	: STD_LOGIC_VECTOR (9 DOWNTO 0) := "0000000000";
+
+signal FIFO_ReadClk_test		: STD_LOGIC := '0';
+-- signal FIFO_AM_ReadData_test	: STD_LOGIC_VECTOR (31 DOWNTO 0) := X"00000000";
+signal FIFO_AM_ReadCheck_test	: STD_LOGIC := '0';
+-- signal FIFO_AM_UsedWords_test	: STD_LOGIC_VECTOR (8 DOWNTO 0) := "000000000";
+
 constant HalfPeriod_CI  : TIME := 53.4 ns;  -- clk_CI = 18.73 MHz -> T_CI = 53.4 ns -> T/2 = 26.7 ns
 constant HalfPeriod_AM  : TIME := 20 ns;  -- clk_AM = 25 MHz -> T_AM = 40ns -> T/2 = 20 ns
+signal end_sim : boolean := false;
+
+signal burstcount16 : integer := 0;
 	
 BEGIN 
 DUT : FIFO	-- Component to test as Device Under Test       
 	Port MAP(	-- from component => signal in the architecture
-		FIFO_Reset => TB_FIFO_Reset,
-		FIFO_CIData => TB_FIFO_CIData,
-		FIFO_AMClk => TB_FIFO_AMClk,
-		FIFO_ReadAccess => TB_FIFO_ReadAccess,
-		FIFO_CIClk => TB_FIFO_CIClk,
-		FIFO_WriteAccess => TB_FIFO_WriteAccess
+		FIFO_Reset => FIFO_Reset_test,
+		
+		FIFO_WriteClk => FIFO_WriteClk_test,
+		FIFO_CI_WriteData => FIFO_CI_WriteData_test,
+		FIFO_CI_WriteEnable => FIFO_CI_WriteEnable_test,
+		-- FIFO_CI_UsedWords => FIFO_CI_UsedWords_test,
+		
+		FIFO_ReadClk => FIFO_ReadClk_test,
+		-- FIFO_AM_ReadData => FIFO_AM_ReadData_test,
+		FIFO_AM_ReadCheck => FIFO_AM_ReadCheck_test
+		-- FIFO_AM_UsedWords => FIFO_AM_UsedWords_test
 	);
 
 -- Process to generate the CI clock during the whole simulation
@@ -78,9 +89,9 @@ CIClkProcess :
 Process
 Begin
 	if not end_sim then	-- generate the clocc while simulation is running
-		TB_FIFO_CIClk <= '0';
+		FIFO_WriteClk_test <= '0';
 		wait for HalfPeriod_CI;
-		TB_FIFO_CIClk <= '1';
+		FIFO_WriteClk_test <= '1';
 		wait for HalfPeriod_CI;
 	else	-- when the simulation is ended, just wait
 		wait;
@@ -92,9 +103,9 @@ AMClkProcess :
 Process
 Begin
 	if not end_sim then	-- generate the clocc while simulation is running
-		TB_FIFO_AMClk <= '0';
+		FIFO_ReadClk_test <= '0';
 		wait for HalfPeriod_AM;
-		TB_FIFO_AMClk <= '1';
+		FIFO_ReadClk_test <= '1';
 		wait for HalfPeriod_AM;
 	else	-- when the simulation is ended, just wait
 		wait;
@@ -108,11 +119,11 @@ Process
 -- Procedure to toggle the reset
 	Procedure toggle_reset is
 	Begin
-		wait until rising_edge(TB_FIFO_AMClk);
-		TB_FIFO_Reset <= '1';
+		wait until rising_edge(FIFO_ReadClk_test);
+		FIFO_Reset_test <= '1';
 		
-		wait until rising_edge(TB_FIFO_AMClk);
-		TB_FIFO_Reset <= '0';
+		wait until rising_edge(FIFO_ReadClk_test);
+		FIFO_Reset_test <= '0';
 	end procedure toggle_reset;
 
 	variable RGB : std_logic_vector (15 DOWNTO 0) := "0000000000000001";
@@ -123,7 +134,7 @@ Begin
 	toggle_reset;
 
 	-- Start the acquisition
-	wait until rising_edge(TB_FIFO_CIClk);
+	wait until rising_edge(FIFO_WriteClk_test);
 	
 	loop_r: FOR row IN 1 TO 1 LOOP
 	
@@ -138,47 +149,47 @@ Begin
 		
 			wait for 2*HalfPeriod_CI;
 			
-			wait until falling_edge(TB_FIFO_CIClk);
-			TB_FIFO_WriteAccess <= '1';
-			wait until rising_edge(TB_FIFO_CIClk);
-			TB_FIFO_CIData <= std_logic_vector(unsigned(RGB) + unsigned(inc));
-			wait until falling_edge(TB_FIFO_CIClk);
-			TB_FIFO_WriteAccess <= '0';
+			wait until falling_edge(FIFO_WriteClk_test);
+			FIFO_CI_WriteEnable_test <= '1';
+			wait until rising_edge(FIFO_WriteClk_test);
+			FIFO_CI_WriteData_test <= std_logic_vector(unsigned(RGB) + unsigned(inc));
+			wait until falling_edge(FIFO_WriteClk_test);
+			FIFO_CI_WriteEnable_test <= '0';
 			
 			burstcount16 <= burstcount16 + 1;
 			
 			if burstcount16 >= 8 then
-				wait until rising_edge(TB_FIFO_AMClk);
+				wait until rising_edge(FIFO_ReadClk_test);
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_ReadAccess <= '1';
+				FIFO_AM_ReadCheck_test <= '1';
 				burstcount16 <= burstcount16 - 2;
-				wait until rising_edge(TB_FIFO_AMClk);
+				wait until rising_edge(FIFO_ReadClk_test);
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_ReadAccess <= '0';
+				FIFO_AM_ReadCheck_test <= '0';
 				
-				wait until rising_edge(TB_FIFO_AMClk);
+				wait until rising_edge(FIFO_ReadClk_test);
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_ReadAccess <= '1';
+				FIFO_AM_ReadCheck_test <= '1';
 				burstcount16 <= burstcount16 - 2;
-				wait until rising_edge(TB_FIFO_AMClk);
+				wait until rising_edge(FIFO_ReadClk_test);
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_ReadAccess <= '0';
+				FIFO_AM_ReadCheck_test <= '0';
 				
-				wait until rising_edge(TB_FIFO_AMClk);
+				wait until rising_edge(FIFO_ReadClk_test);
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_ReadAccess <= '1';
+				FIFO_AM_ReadCheck_test <= '1';
 				burstcount16 <= burstcount16 - 2;
-				wait until rising_edge(TB_FIFO_AMClk);
+				wait until rising_edge(FIFO_ReadClk_test);
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_ReadAccess <= '0';
+				FIFO_AM_ReadCheck_test <= '0';
 				
-				wait until rising_edge(TB_FIFO_AMClk);
+				wait until rising_edge(FIFO_ReadClk_test);
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_ReadAccess <= '1';
+				FIFO_AM_ReadCheck_test <= '1';
 				burstcount16 <= burstcount16 - 2;
-				wait until rising_edge(TB_FIFO_AMClk);
+				wait until rising_edge(FIFO_ReadClk_test);
 				wait for 2*HalfPeriod_AM;
-				TB_FIFO_ReadAccess <= '0';
+				FIFO_AM_ReadCheck_test <= '0';
 			end if;
 			
 			inc := std_logic_vector(unsigned(inc) + 1);

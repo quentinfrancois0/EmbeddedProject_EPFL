@@ -20,17 +20,16 @@ ENTITY Camera_Interface IS
 		CI_nReset		: IN std_logic;							-- nReset input
 		CI_Clk			: IN std_logic;							-- clock input
 		
-		CI_Start		: IN std_logic;							-- Start information
-
-		CI_PixClk		: IN std_logic;							-- pixel clock received from the camera
-		CI_CAMData		: IN std_logic_vector (11 DOWNTO 0);	-- pixel sent by the camera
-		CI_FrameValid	: IN std_logic;							-- 1 if the frame is valid
-		CI_LineValid	: IN std_logic;							-- 1 if the line is valid
+		CI_CA_PixClk		: IN std_logic;							-- pixel clock received from the camera
+		CI_CA_Data		: IN std_logic_vector (11 DOWNTO 0);	-- pixel sent by the camera
+		CI_CA_FrameValid	: IN std_logic;							-- 1 if the frame is valid
+		CI_CA_LineValid	: IN std_logic;							-- 1 if the line is valid
 		
-		CI_FIFOClk		: OUT std_logic;						-- FIFO clock = PixClk
-		CI_WriteAccess	: OUT std_logic;						-- 1 = write asked to the FIFO, 0 = no demand
-		CI_FIFOData		: OUT std_logic_vector (15 DOWNTO 0);	-- 16 bits pixel stored in the FIFO by the camera controller
-		CI_UsedWords	: IN std_logic_vector (9 DOWNTO 0)		-- 16 bits used words in the FIFO
+		CI_AS_Start		: IN std_logic;							-- Start information
+		
+		CI_FIFO_WriteEnable	: OUT std_logic;						-- 1 = write asked to the FIFO, 0 = no demand
+		CI_FIFO_WriteData		: OUT std_logic_vector (15 DOWNTO 0);	-- 16 bits pixel stored in the FIFO by the camera controller
+		CI_FIFO_UsedWords	: IN std_logic_vector (9 DOWNTO 0)		-- 16 bits used words in the FIFO
 	);
 END Camera_Interface;
 
@@ -41,22 +40,11 @@ ARCHITECTURE bhv OF Camera_Interface IS
 	TYPE Memory is array (639 DOWNTO 0) of std_logic_vector (11 DOWNTO 0);
 	signal		iRegMemory			: Memory; 							-- internal phantom memory register for the even read rows
 	
-	signal		iregFIFOWrite		: std_logic;						-- internal phantom register to tell when CI_WriteAccess is 1
+	signal		iregFIFOWrite		: std_logic;						-- internal phantom register to tell when CI_FIFO_WriteEnable is 1
 	signal		iRegColumnCounter	: std_logic_vector (11 DOWNTO 0);	-- phantom counter from 0 to 3 to know if we are reading a valid column and not a skipped one
 	signal		iRegBlue			: std_logic_vector (11 DOWNTO 0); 	-- internal phantom register fot the binning of the actual pixel blue color
 
 BEGIN
-
--- Process to send the PixClk clock to the FIFO
-FIFOClk:
-Process(iRegStatus, CI_PixClk)
-Begin
-	if iRegStatus (0) = '1' then
-		CI_FIFOClk <= CI_PixClk;
-	else
-		CI_FIFOClk <= '0';
-	end if;
-end process FIFOClk;
 
 -- Process to know set the pending flag
 PendingState:
@@ -65,8 +53,8 @@ Begin
 	if CI_nReset = '0' then
 		iRegStatus (1 DOWNTO 0) <= "00";
 	elsif rising_edge(CI_Clk) then
-		iRegStatus (0) <= CI_Start;
-		if CI_UsedWords > "1111111011" then
+		iRegStatus (0) <= CI_AS_Start;
+		if CI_FIFO_UsedWords > "1111111011" then
 			iRegStatus (1) <= '1';
 		else
 			iRegStatus (1) <= '0';
@@ -76,13 +64,13 @@ end process PendingState;
 
 -- Process to know the column number and the row parity
 CountColumns:
-Process(CI_nReset, CI_PixClk)
+Process(CI_nReset, CI_CA_PixClk)
 Begin
 	if CI_nReset = '0' then
 		iRegColumnCounter <= (others => '0');
 		iRegStatus (7 DOWNTO 2) <= "000000";
-	elsif falling_edge(CI_PixClk) then	-- read the pixel on the falling edge of the CI_PixClk
-		if CI_FrameValid = '1' AND CI_LineValid = '1' AND iRegStatus (0) = '1' then
+	elsif falling_edge(CI_CA_PixClk) then	-- read the pixel on the falling edge of the CI_CA_PixClk
+		if CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStatus (0) = '1' then
 			if iRegStatus (2) = '0' then	-- if we are on an even row
 				if (iRegColumnCounter = X"27F") then	-- if iRegColumnCounter = 639, reset it
 					iRegColumnCounter <= "000000000000";
@@ -110,7 +98,7 @@ end process CountColumns;
 
 -- Process to read the pixels and to compute evertything
 MainProcess:
-Process(CI_nReset, CI_PixClk)
+Process(CI_nReset, CI_CA_PixClk)
 
 variable iRegColumnCounter_unsign : unsigned (11 DOWNTO 0);
 variable iRegMemory_unsign : unsigned (11 DOWNTO 0);
@@ -123,25 +111,25 @@ Begin
 		iRegRGB <= (others => '0');
 		iRegMemory <= (others => "000000000000");
 		iRegBlue <= (others => '0');
-		CI_WriteAccess <= '0';
+		CI_FIFO_WriteEnable <= '0';
 		iRegFIFOWrite <= '0';
-	elsif falling_edge(CI_PixClk) then	-- read the pixel on the falling edge of the CI_PixClk
-		CI_WriteAccess <= '0';	-- we don't want to put the data in the FIFO for the moment
+	elsif falling_edge(CI_CA_PixClk) then	-- read the pixel on the falling edge of the CI_CA_PixClk
+		CI_FIFO_WriteEnable <= '0';	-- we don't want to put the data in the FIFO for the moment
 		iRegFIFOWrite <= '0';
-		if CI_FrameValid = '1' AND CI_LineValid = '1' AND iRegStatus (0) = '1' then
+		if CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStatus (0) = '1' then
 			if iRegStatus (2) = '0' then	-- if we are on an even row
 				iRegRGB <= (others => '0');
 				iRegBlue <= (others => '0');
-				iRegMemory(to_integer(unsigned(iRegColumnCounter))) <= CI_CAMData;	-- put the pixel in the internal memory
+				iRegMemory(to_integer(unsigned(iRegColumnCounter))) <= CI_CA_Data;	-- put the pixel in the internal memory
 			else	-- if we are on an odd row
 				if iRegStatus (3) = '0' then	-- if we are on an even column (blue pixel)
-					iRegBlue <= CI_CAMData;	-- but we have to store this blue pixel
+					iRegBlue <= CI_CA_Data;	-- but we have to store this blue pixel
 				else	-- if we are on an odd column (green G2 pixel)
 					iRegRGB (15 DOWNTO 11) <= iRegMemory(to_integer(unsigned(iRegColumnCounter))) (11 DOWNTO 7); -- put the red pixel stored in the memory in iRegRGB
 					
 					iRegColumnCounter_unsign := unsigned(iRegColumnCounter); -- pixel à l'adresse iRegColumnCounter
 					iRegMemory_unsign := unsigned(iRegMemory(to_integer(iRegColumnCounter_unsign - 1))); -- pixel précédent l'adresse iRegColumnCounter
-					CAM_Data_unsign := unsigned(CI_CAMData);
+					CAM_Data_unsign := unsigned(CI_CA_Data);
 					sum_unsign_13 := resize(CAM_Data_unsign + iRegMemory_unsign, sum_unsign_13'length);
 					sum_unsign_13 := sum_unsign_13 srl 1;
 					sum_std_12 := std_logic_vector(resize(signed(sum_unsign_13), sum_std_12'length));
@@ -150,7 +138,7 @@ Begin
 					
 					iRegRGB (4 DOWNTO 0) <= iRegBlue (11 DOWNTO 7);	-- put the blue pixel stored in iRegBlue in iRegRGB
 					
-					CI_WriteAccess <= '1';	-- we can write iRegRGB to the FIFO on the next rising edge of CI_PixClk
+					CI_FIFO_WriteEnable <= '1';	-- we can write iRegRGB to the FIFO on the next rising edge of CI_CA_PixClk
 					iRegFIFOWrite <= '1';
 					if iRegColumnCounter = X"27F" then	-- if iRegColumnCounter = 639, reset it
 						iRegMemory <= (others => "000000000000");
@@ -163,15 +151,15 @@ end process MainProcess;
 
 -- Process to put the datas in the FIFO
 TransferData:
-Process(CI_nReset, CI_PixClk)
+Process(CI_nReset, CI_CA_PixClk)
 Begin
 	if CI_nReset = '0' then
-		CI_FIFOData <= (others => 'Z');
-	elsif rising_edge(CI_PixClk) then
-		if CI_UsedWords <= "1111111011" AND iRegFIFOWrite = '1' then
-			CI_FIFOData <= iRegRGB;
+		CI_FIFO_WriteData <= (others => 'Z');
+	elsif rising_edge(CI_CA_PixClk) then
+		if CI_FIFO_UsedWords <= "1111111011" AND iRegFIFOWrite = '1' then
+			CI_FIFO_WriteData <= iRegRGB;
 		else
-			CI_FIFOData <= (others => 'Z');
+			CI_FIFO_WriteData <= (others => 'Z');
 		end if;
 	end if;
 end process TransferData;
