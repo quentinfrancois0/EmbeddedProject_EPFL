@@ -1,6 +1,6 @@
 lab_4_project_template/hw/*
 
-!lab_4_project_template/hw/hdl/*
+!lab_4_project_template/hw/hdl
 
 !lab_4_project_template/hw/modelsim/
 lab_4_project_template/hw/modelsim/**
