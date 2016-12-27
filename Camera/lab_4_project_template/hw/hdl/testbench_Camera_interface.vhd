@@ -52,19 +52,19 @@ component Camera_Interface is
 end component;
 
 -- The signals provided by the testbench :
-signal CI_nReset_test			: std_logic := '1';										-- CI_nReset_test input
-signal CI_Clk_test				: std_logic := '0';										-- clock input
+signal CI_nReset_test			: std_logic := '1';
+signal CI_Clk_test				: std_logic := '0';
 
-signal CI_CA_PixClk_test		: std_logic := '0';										-- pixel clock received from the camera
-signal CI_CA_Data_test			: std_logic_vector (11 DOWNTO 0) := "000000000000";		-- pixel sent by the camera
-signal CI_CA_FrameValid_test	: std_logic := '0';										-- 1 if the frame is valid
-signal CI_CA_LineValid_test		: std_logic := '0';										-- 1 if the line is valid
+signal CI_CA_PixClk_test		: std_logic := '0';
+signal CI_CA_Data_test			: std_logic_vector (11 DOWNTO 0) := "000000000000";
+signal CI_CA_FrameValid_test	: std_logic := '0';
+signal CI_CA_LineValid_test		: std_logic := '0';
 
-signal CI_AS_Start_test			: std_logic := '0';										-- start information
+signal CI_AS_Start_test			: std_logic := '0';
 
--- signal CI_FIFO_WriteEnable_test	: std_logic := '0';
--- signal CI_FIFO_WriteData_test	: std_logic_vector (15 DOWNTO 0) := X"0000";
-signal CI_FIFO_UsedWords_test	: std_logic_vector (9 DOWNTO 0) := "0000000000";		-- 16 bits used words in the FIFO
+signal CI_FIFO_WriteEnable_test	: std_logic;
+signal CI_FIFO_WriteData_test	: std_logic_vector (15 DOWNTO 0);
+signal CI_FIFO_UsedWords_test	: std_logic_vector (9 DOWNTO 0) := "0000000000";
 
 signal end_sim	: boolean := false;
 
@@ -74,19 +74,19 @@ constant HalfPeriod_cam  : TIME := 53.4 ns;  -- clk_CAM = 18.73 MHz -> T_CAM = 5
 BEGIN 
 DUT : Camera_Interface	-- Component to test as Device Under Test       
 	Port MAP(	-- from component => signal in the architecture
-		CI_nReset => CI_nReset_test,
-		CI_Clk => CI_Clk_test,
+		CI_nReset 			=> CI_nReset_test,
+		CI_Clk 				=> CI_Clk_test,
 		
-		CI_CA_PixClk => CI_CA_PixClk_test,
-		CI_CA_Data => CI_CA_Data_test,
-		CI_CA_FrameValid => CI_CA_FrameValid_test,
-		CI_CA_LineValid => CI_CA_LineValid_test,
+		CI_CA_PixClk 		=> CI_CA_PixClk_test,
+		CI_CA_Data 			=> CI_CA_Data_test,
+		CI_CA_FrameValid 	=> CI_CA_FrameValid_test,
+		CI_CA_LineValid 	=> CI_CA_LineValid_test,
 		
-		CI_AS_Start => CI_AS_Start_test,
+		CI_AS_Start 		=> CI_AS_Start_test,
 		
-		-- CI_FIFO_WriteEnable => CI_FIFO_WriteEnable_test,
-		-- CI_FIFO_WriteData => CI_FIFO_WriteData_test,
-		CI_FIFO_UsedWords => CI_FIFO_UsedWords_test
+		CI_FIFO_WriteEnable => CI_FIFO_WriteEnable_test,
+		CI_FIFO_WriteData 	=> CI_FIFO_WriteData_test,
+		CI_FIFO_UsedWords 	=> CI_FIFO_UsedWords_test
 	);
 
 -- Process to generate the clock during the whole simulation

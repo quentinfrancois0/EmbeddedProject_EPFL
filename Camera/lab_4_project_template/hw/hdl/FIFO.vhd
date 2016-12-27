@@ -94,9 +94,9 @@ ARCHITECTURE SYN OF fifo IS
 	END COMPONENT;
 
 BEGIN
-	FIFO_AM_ReadData    	<= sub_wire0(31 DOWNTO 0);
-	FIFO_AM_UsedWords    <= sub_wire1(8 DOWNTO 0);
-	FIFO_CI_UsedWords    <= sub_wire2(9 DOWNTO 0);
+	FIFO_AM_ReadData    <= sub_wire0(31 DOWNTO 0);
+	FIFO_AM_UsedWords   <= sub_wire1(8 DOWNTO 0);
+	FIFO_CI_UsedWords   <= sub_wire2(9 DOWNTO 0);
 
 	dcfifo_mixed_widths_component : dcfifo_mixed_widths
 	GENERIC MAP (

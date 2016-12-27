@@ -17,18 +17,18 @@ USE ieee.numeric_std.all;
 
 ENTITY Camera_Interface IS
 	PORT(
-		CI_nReset		: IN std_logic;							-- nReset input
-		CI_Clk			: IN std_logic;							-- clock input
+		CI_nReset			: IN std_logic;							-- nReset input
+		CI_Clk				: IN std_logic;							-- clock input
 		
 		CI_CA_PixClk		: IN std_logic;							-- pixel clock received from the camera
-		CI_CA_Data		: IN std_logic_vector (11 DOWNTO 0);	-- pixel sent by the camera
+		CI_CA_Data			: IN std_logic_vector (11 DOWNTO 0);	-- pixel sent by the camera
 		CI_CA_FrameValid	: IN std_logic;							-- 1 if the frame is valid
-		CI_CA_LineValid	: IN std_logic;							-- 1 if the line is valid
+		CI_CA_LineValid		: IN std_logic;							-- 1 if the line is valid
 		
-		CI_AS_Start		: IN std_logic;							-- Start information
+		CI_AS_Start			: IN std_logic;							-- Start information
 		
 		CI_FIFO_WriteEnable	: OUT std_logic;						-- 1 = write asked to the FIFO, 0 = no demand
-		CI_FIFO_WriteData		: OUT std_logic_vector (15 DOWNTO 0);	-- 16 bits pixel stored in the FIFO by the camera controller
+		CI_FIFO_WriteData	: OUT std_logic_vector (15 DOWNTO 0);	-- 16 bits pixel stored in the FIFO by the camera controller
 		CI_FIFO_UsedWords	: IN std_logic_vector (9 DOWNTO 0)		-- 16 bits used words in the FIFO
 	);
 END Camera_Interface;

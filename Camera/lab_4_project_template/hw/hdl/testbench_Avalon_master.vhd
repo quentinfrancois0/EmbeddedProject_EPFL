@@ -35,43 +35,44 @@ ARCHITECTURE bhv OF testbench IS
 -- The system to test under simulation
 component Avalon_master is
 	PORT(
-		AM_nReset			: IN std_logic;							-- AM_nReset input
+		AM_nReset			: IN std_logic;							-- nReset input
 		AM_Clk				: IN std_logic;							-- clock input
 		
-		AM_Start			: IN std_logic;							-- Start command
-		AS_StartAddress		: IN std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
-		AM_Length			: IN std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
+		AM_AB_MemoryAddress	: OUT std_logic_vector (31 DOWNTO 0);	-- Adress sent on the Avalon bus
+		AM_AB_MemoryData	: OUT std_logic_vector (31 DOWNTO 0);	-- Datas sent on the Avalon bus
+		AM_AB_WriteAccess	: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
+		AM_AB_BurstCount	: OUT std_logic_vector (7 DOWNTO 0);	-- Number of datas in one burst
+		AM_AB_WaitRequest	: IN std_logic;							-- Pin waitrequest which is 0 when the bus is available
 		
-		AM_UsedWords		: IN std_logic_vector (8 DOWNTO 0);		-- number of 32 bits words
-		AM_ReadAccess		: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
-		AM_FIFOData			: IN std_logic_vector (31 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
+		AM_AS_Start			: IN std_logic;							-- Start command
+		AM_AS_StartAddress	: IN std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
+		AM_AS_Length		: IN std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
+		AM_AS_Status		: OUT std_logic;						-- 1 when the image has been written to the memory
 		
-		AM_MemoryAddress	: OUT std_logic_vector (31 DOWNTO 0);	-- Adress sent on the Avalon bus
-		AM_AvalonData		: OUT std_logic_vector (31 DOWNTO 0);	-- Datas sent on the Avalon bus
-		AM_WriteRequest		: OUT std_logic;						-- Pin write, 1 when the component wants to use the bus
-		AM_BurstCount		: OUT std_logic_vector (7 DOWNTO 0);	-- Number of datas in one burst
-		AM_WaitRequest		: IN std_logic							-- Pin waitrequest which is 0 when the bus is available
-		
+		AM_FIFO_ReadCheck	: OUT std_logic;						-- 1 = information asked to the Fifo, 0 = no demand
+		AM_FIFO_ReadData	: IN std_logic_vector (31 DOWNTO 0);	-- 1 pixel stored in the FIFO by hte camera controller
+		AM_FIFO_UsedWords	: IN std_logic_vector (8 DOWNTO 0)		-- number of 32 bits words
 	);
 end component;
 
 -- The interconnection signals :
-signal AM_nReset			: std_logic := '1';
-signal AM_Clk				: std_logic := '0';
+signal AM_nReset_test			: std_logic := '1';
+signal AM_Clk_test				: std_logic := '0';
 
-signal Start_Address	: std_logic_vector (31 DOWNTO 0) := X"1000012C";
-signal Length			: std_logic_vector (31 DOWNTO 0) := X"10000140";
-signal Start			: std_logic := '0';
+signal AM_AB_MemoryAddress_test	: std_logic_vector (31 DOWNTO 0);
+signal AM_AB_MemoryData_test	: std_logic_vector (31 DOWNTO 0);
+signal AM_AB_WriteAccess_test	: std_logic;
+signal AM_AB_BurstCount_test	: std_logic_vector (7 DOWNTO 0);
+signal AM_AB_WaitRequest_test	: std_logic := '1';
 
-signal Number_words		: std_logic_vector (8 DOWNTO 0) := "000000000";
-signal Read_Access		: std_logic := '0';
-signal Data				: std_logic_vector (31 DOWNTO 0) := X"00000001";
+signal AM_AS_Start_test			: std_logic := '0';
+signal AM_AS_StartAddress_test	: std_logic_vector (31 DOWNTO 0) := X"1000012C";
+signal AM_AS_Length_test		: std_logic_vector (31 DOWNTO 0) := X"10000140";
+signal AM_AS_Status_test		: std_logic;
 
-signal Addr				: std_logic_vector (31 DOWNTO 0) := X"00000000";
-signal WData			: std_logic_vector (31 DOWNTO 0) := X"00000000";
-signal W				: std_logic := '0';
-signal BurstCount		: std_logic_vector (7 DOWNTO 0) := X"00";
-signal WaitRequest		: std_logic := '1';
+signal AM_FIFO_ReadCheck_test	: std_logic;
+signal AM_FIFO_ReadData_test	: std_logic_vector (31 DOWNTO 0) := X"00000001";
+signal AM_FIFO_UsedWords_test	: std_logic_vector (8 DOWNTO 0) := "000000000";
 
 signal Data_info : std_logic_vector (31 DOWNTO 0) := X"00000002";
 signal end_sim	: boolean := false;
@@ -80,23 +81,23 @@ constant HalfPeriod  : TIME := 10 ns;  -- clk_FPGA = 50 MHz -> T_FPGA = 20ns -> 
 BEGIN 
 DUT : Avalon_master	-- Component to test as Device Under Test       
 	Port MAP(	-- from component => signal in the architecture
-		AM_nReset => AM_nReset,
-		AM_Clk => AM_Clk,
+		AM_nReset 			=> AM_nReset_test,
+		AM_Clk 				=> AM_Clk_test,
 		
-		AS_StartAddress => Start_Address,
-		AM_Length => Length,
-		AM_Start => Start,
+		AM_AB_MemoryAddress => AM_AB_MemoryAddress_test,
+		AM_AB_MemoryData 	=> AM_AB_MemoryData_test,
+		AM_AB_WriteAccess 	=> AM_AB_WriteAccess_test,
+		AM_AB_BurstCount 	=> AM_AB_BurstCount_test,
+		AM_AB_WaitRequest 	=> AM_AB_WaitRequest_test,
 		
-		AM_UsedWords => Number_words,
-		AM_ReadAccess => Read_Access,
-		AM_FIFOData => Data,
+		AM_AS_StartAddress 	=> AM_AS_StartAddress_test,
+		AM_AS_Length 		=> AM_AS_Length_test,
+		AM_AS_Start 		=> AM_AS_Start_test,
+		AM_AS_Status 		=> AM_AS_Status_test,
 		
-		AM_MemoryAddress => Addr,
-		AM_AvalonData => WData,
-		AM_WriteRequest => W,
-		AM_BurstCount => BurstCount,
-		AM_WaitRequest => WaitRequest
-
+		AM_FIFO_ReadCheck 	=> AM_FIFO_ReadCheck_test,
+		AM_FIFO_ReadData 	=> AM_FIFO_ReadData_test,
+		AM_FIFO_UsedWords 	=> AM_FIFO_UsedWords_test
 	);
 
 -- Process to generate the clock during the whole simulation
@@ -104,9 +105,9 @@ clk_process :
 Process
 Begin
 	if not end_sim then	-- generate the clocc while simulation is running
-		AM_Clk <= '0';
+		AM_Clk_test <= '0';
 		wait for HalfPeriod;
-		AM_Clk <= '1';
+		AM_Clk_test <= '1';
 		wait for HalfPeriod;
 	else	-- when the simulation is ended, just wait
 		wait;
@@ -117,9 +118,9 @@ transfer_fifo :
 Process
 Begin
 	if unsigned(Data_info)<6 AND end_sim = false then
-		wait until rising_edge(AM_Clk) AND Read_Access = '1';
+		wait until rising_edge(AM_Clk_test) AND AM_FIFO_ReadCheck_test = '1';
 		Data_info <= std_logic_vector(unsigned(Data_info) + 1);
-		Data <= Data_info;
+		AM_FIFO_ReadData_test <= Data_info;
 	else 
 		end_sim <= true;
 		wait;
@@ -133,11 +134,11 @@ Process
 	-- Procedure to toggle the reset
 	Procedure toggle_reset is
 	Begin
-		wait until rising_edge(AM_Clk);
-		AM_nReset <= '0';
+		wait until rising_edge(AM_Clk_test);
+		AM_nReset_test <= '0';
 		
-		wait until rising_edge(AM_Clk);
-		AM_nReset <= '1';
+		wait until rising_edge(AM_Clk_test);
+		AM_nReset_test <= '1';
 	end procedure toggle_reset;
 	
 Begin
@@ -145,29 +146,29 @@ Begin
 	toggle_reset;
 	
 	-- Number words at 1 => not one burst in the FIFO
-	wait until rising_edge(AM_Clk);
-	Number_words <= "000000001";
+	wait until rising_edge(AM_Clk_test);
+	AM_FIFO_UsedWords_test <= "000000001";
 	
-	-- Start => 1
-	wait until rising_edge(AM_Clk);
-	Start <= '1';
-	Number_words <= "000001000";
-	WaitRequest <= '0';
+	-- AM_AS_Start_test => 1
+	wait until rising_edge(AM_Clk_test);
+	AM_AS_Start_test <= '1';
+	AM_FIFO_UsedWords_test <= "000001000";
+	AM_AB_WaitRequest_test <= '0';
 	
 --	-- Block the third transfer
-	wait until rising_edge(AM_Clk);
-	wait until rising_edge(AM_Clk);
-	wait until rising_edge(AM_Clk);
-	wait until rising_edge(AM_Clk);
-	WaitRequest <= '1';
+	wait until rising_edge(AM_Clk_test);
+	wait until rising_edge(AM_Clk_test);
+	wait until rising_edge(AM_Clk_test);
+	wait until rising_edge(AM_Clk_test);
+	AM_AB_WaitRequest_test <= '1';
 	
-	wait until rising_edge(AM_Clk);
-	wait until rising_edge(AM_Clk);
-	WaitRequest <= '0';
+	wait until rising_edge(AM_Clk_test);
+	wait until rising_edge(AM_Clk_test);
+	AM_AB_WaitRequest_test <= '0';
 --
 --	-- 2nd transfer on the bus
---	wait until rising_edge(AM_Clk) AND Read_Access = '1';
---	Data <= X"10100010"; --(0x0010 = 16) --wait a data asking (4th word)
+--	wait until rising_edge(AM_Clk_test) AND AM_FIFO_ReadCheck_test = '1';
+--	AM_FIFO_ReadData_test <= X"10100010"; --(0x0010 = 16) --wait a data asking (4th word)
 --	-- 4th transfer on the bus
 	
 	-- Set end_sim to "true", so the clock generation stops

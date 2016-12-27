@@ -55,12 +55,12 @@ signal FIFO_Reset_test			: STD_LOGIC  := '0';
 signal FIFO_WriteClk_test		: STD_LOGIC := '0';
 signal FIFO_CI_WriteData_test	: STD_LOGIC_VECTOR (15 DOWNTO 0) := X"0000";
 signal FIFO_CI_WriteEnable_test	: STD_LOGIC := '0';
--- signal FIFO_CI_UsedWords_test	: STD_LOGIC_VECTOR (9 DOWNTO 0) := "0000000000";
+signal FIFO_CI_UsedWords_test	: STD_LOGIC_VECTOR (9 DOWNTO 0);
 
 signal FIFO_ReadClk_test		: STD_LOGIC := '0';
--- signal FIFO_AM_ReadData_test	: STD_LOGIC_VECTOR (31 DOWNTO 0) := X"00000000";
+signal FIFO_AM_ReadData_test	: STD_LOGIC_VECTOR (31 DOWNTO 0);
 signal FIFO_AM_ReadCheck_test	: STD_LOGIC := '0';
--- signal FIFO_AM_UsedWords_test	: STD_LOGIC_VECTOR (8 DOWNTO 0) := "000000000";
+signal FIFO_AM_UsedWords_test	: STD_LOGIC_VECTOR (8 DOWNTO 0);
 
 constant HalfPeriod_CI  : TIME := 53.4 ns;  -- clk_CI = 18.73 MHz -> T_CI = 53.4 ns -> T/2 = 26.7 ns
 constant HalfPeriod_AM  : TIME := 20 ns;  -- clk_AM = 25 MHz -> T_AM = 40ns -> T/2 = 20 ns
@@ -71,17 +71,17 @@ signal burstcount16 : integer := 0;
 BEGIN 
 DUT : FIFO	-- Component to test as Device Under Test       
 	Port MAP(	-- from component => signal in the architecture
-		FIFO_Reset => FIFO_Reset_test,
+		FIFO_Reset 			=> FIFO_Reset_test,
 		
-		FIFO_WriteClk => FIFO_WriteClk_test,
-		FIFO_CI_WriteData => FIFO_CI_WriteData_test,
+		FIFO_WriteClk 		=> FIFO_WriteClk_test,
+		FIFO_CI_WriteData 	=> FIFO_CI_WriteData_test,
 		FIFO_CI_WriteEnable => FIFO_CI_WriteEnable_test,
-		-- FIFO_CI_UsedWords => FIFO_CI_UsedWords_test,
+		FIFO_CI_UsedWords 	=> FIFO_CI_UsedWords_test,
 		
-		FIFO_ReadClk => FIFO_ReadClk_test,
-		-- FIFO_AM_ReadData => FIFO_AM_ReadData_test,
-		FIFO_AM_ReadCheck => FIFO_AM_ReadCheck_test
-		-- FIFO_AM_UsedWords => FIFO_AM_UsedWords_test
+		FIFO_ReadClk 		=> FIFO_ReadClk_test,
+		FIFO_AM_ReadData 	=> FIFO_AM_ReadData_test,
+		FIFO_AM_ReadCheck 	=> FIFO_AM_ReadCheck_test,
+		FIFO_AM_UsedWords 	=> FIFO_AM_UsedWords_test
 	);
 
 -- Process to generate the CI clock during the whole simulation
