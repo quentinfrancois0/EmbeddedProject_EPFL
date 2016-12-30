@@ -37,7 +37,7 @@ component Top_Camera_Controller is
 	PORT(
 		TL_nReset				: IN std_logic;							-- nReset input
 		TL_Clk					: IN std_logic;							-- main clock input (and FIFO read clock input)
-		TL_FIFO_WriteClk		: IN std_logic;							-- FIFO write clock input
+		TL_PixClk				: IN std_logic;							-- FIFO write clock input
 		
 		TL_AS_AB_Address		: IN std_logic_vector (3 DOWNTO 0);		-- address bus
 		TL_AS_AB_ReadEnable		: IN std_logic;							-- read enabler
@@ -51,7 +51,6 @@ component Top_Camera_Controller is
 		TL_AM_AB_BurstCount		: OUT std_logic_vector (7 DOWNTO 0);	-- Number of datas in one burst
 		TL_AM_AB_WaitRequest	: IN std_logic;							-- Pin waitrequest which is 0 when the bus is available
 		
-		TL_CI_CA_PixClk			: IN std_logic;							-- pixel clock received from the camera
 		TL_CI_CA_Data			: IN std_logic_vector (11 DOWNTO 0);	-- pixel sent by the camera
 		TL_CI_CA_FrameValid		: IN std_logic;							-- 1 if the frame is valid
 		TL_CI_CA_LineValid		: IN std_logic							-- 1 if the line is valid
@@ -61,7 +60,7 @@ end component;
 -- The signals provided by the testbench :
 signal TL_nReset_test				: std_logic := '1';
 signal TL_Clk_test					: std_logic := '0';
-signal TL_FIFO_WriteClk_test		: std_logic := '0';
+signal TL_PixClk_test				: std_logic := '0';
 
 signal TL_AS_AB_Address_test		: std_logic_vector (3 DOWNTO 0) := "0000";
 signal TL_AS_AB_ReadEnable_test		: std_logic := '0';
@@ -90,7 +89,7 @@ DUT : Top_Camera_Controller	-- Component to test as Device Under Test
 	Port MAP(	-- from component => signal in the architecture
 		TL_nReset 				=> TL_nReset_test,
 		TL_Clk 					=> TL_Clk_test,
-		TL_FIFO_WriteClk 		=> TL_FIFO_WriteClk_test,
+		TL_PixClk 				=> TL_PixClk_test,
 
 		TL_AS_AB_Address 		=> TL_AS_AB_Address_test,
 		TL_AS_AB_ReadEnable 	=> TL_AS_AB_ReadEnable_test,
@@ -104,7 +103,6 @@ DUT : Top_Camera_Controller	-- Component to test as Device Under Test
 		TL_AM_AB_BurstCount 	=> TL_AM_AB_BurstCount_test,
 		TL_AM_AB_WaitRequest 	=> TL_AM_AB_WaitRequest_test,
 
-		TL_CI_CA_PixClk 		=> TL_CI_CA_PixClk_test,
 		TL_CI_CA_Data 			=> TL_CI_CA_Data_test,
 		TL_CI_CA_FrameValid 	=> TL_CI_CA_FrameValid_test,
 		TL_CI_CA_LineValid 		=> TL_CI_CA_LineValid_test
@@ -129,9 +127,9 @@ FIFO_Writeclk_process :
 Process
 Begin
 	if not end_sim then	-- generate the clock while simulation is running
-		TL_FIFO_WriteClk_test <= '0';
+		TL_PixClk_test <= '0';
 		wait for HalfPeriod_cam;
-		TL_FIFO_WriteClk_test <= '1';
+		TL_PixClk_test <= '1';
 		wait for HalfPeriod_cam;
 	else	-- when the simulation is ended, just wait
 		wait;

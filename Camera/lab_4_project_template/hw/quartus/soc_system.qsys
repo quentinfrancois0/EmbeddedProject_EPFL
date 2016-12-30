@@ -34,16 +34,8 @@
    {
       datum _sortIndex
       {
-         value = "6";
+         value = "9";
          type = "int";
-      }
-   }
-   element camera_controller_0.avalon_slave_0
-   {
-      datum baseAddress
-      {
-         value = "268437520";
-         type = "String";
       }
    }
    element clk_0
@@ -58,7 +50,7 @@
    {
       datum _sortIndex
       {
-         value = "9";
+         value = "8";
          type = "int";
       }
    }
@@ -66,7 +58,7 @@
    {
       datum _sortIndex
       {
-         value = "7";
+         value = "6";
          type = "int";
       }
    }
@@ -161,7 +153,7 @@
    {
       datum _sortIndex
       {
-         value = "8";
+         value = "7";
          type = "int";
       }
    }
@@ -268,7 +260,7 @@
  <module
    name="camera_controller_0"
    kind="camera_controller"
-   version="1.1"
+   version="1.2"
    enabled="1" />
  <module name="clk_0" kind="clock_source" version="16.0" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
@@ -868,7 +860,7 @@
   <parameter name="dataAddrWidth" value="29" />
   <parameter name="dataMasterHighPerformanceAddrWidth" value="1" />
   <parameter name="dataMasterHighPerformanceMapParam" value="" />
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='hps_0_bridges.f2h_sdram0_data' start='0x0' end='0x10000000' type='hps_bridge_avalon.f2h_sdram0_data' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x10000000' end='0x10000800' type='altera_nios2_gen2.debug_mem_slave' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x10000800' end='0x10000808' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='camera_controller_0.avalon_slave_0' start='0x10000810' end='0x10000820' type='camera_controller.avalon_slave_0' /><slave name='cmos_sensor_output_generator_0.avalon_slave' start='0x10000820' end='0x10000840' type='cmos_sensor_output_generator.avalon_slave' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10120000' type='altera_avalon_onchip_memory2.s1' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='camera_controller_0.avalon_slave_0' start='0x0' end='0x10' type='camera_controller.avalon_slave_0' /><slave name='hps_0_bridges.f2h_sdram0_data' start='0x0' end='0x10000000' type='hps_bridge_avalon.f2h_sdram0_data' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x10000000' end='0x10000800' type='altera_nios2_gen2.debug_mem_slave' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x10000800' end='0x10000808' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='cmos_sensor_output_generator_0.avalon_slave' start='0x10000820' end='0x10000840' type='cmos_sensor_output_generator.avalon_slave' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10120000' type='altera_avalon_onchip_memory2.s1' /></address-map>]]></parameter>
   <parameter name="data_master_high_performance_paddr_base" value="0" />
   <parameter name="data_master_high_performance_paddr_size" value="0" />
   <parameter name="data_master_paddr_base" value="0" />
@@ -1263,7 +1255,7 @@
    kind="avalon"
    version="16.0"
    start="camera_controller_0.avalon_master"
-   end="address_span_extender_0.windowed_slave">
+   end="camera_controller_0.avalon_slave_0">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
   <parameter name="defaultConnection" value="false" />
@@ -1292,7 +1284,7 @@
    start="nios2_gen2_0.data_master"
    end="camera_controller_0.avalon_slave_0">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x10000810" />
+  <parameter name="baseAddress" value="0x0000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -1381,7 +1373,7 @@
    kind="clock"
    version="16.0"
    start="clock_bridge_0.out_clk"
-   end="camera_controller_0.clock_sink_2" />
+   end="camera_controller_0.clock_sink_1" />
  <connection
    kind="clock"
    version="16.0"

@@ -9,7 +9,7 @@ z2
 cModel Technology
 dD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/modelsim/camera_interface
 Efifo
-Z0 w1482842785
+Z0 w1483127063
 Z1 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z2 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
 Z3 dD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/modelsim/FIFO
@@ -21,9 +21,9 @@ V[OAK9fi0kK=<DYdU2N5OT0
 !s100 :4`K[0IXZ8f=8O37j?`hM1
 Z6 OV;C;10.4d;61
 32
-Z7 !s110 1482844067
+Z7 !s110 1483128194
 !i10b 1
-Z8 !s108 1482844067.000000
+Z8 !s108 1483128194.000000
 Z9 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/FIFO.vhd|
 Z10 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/FIFO.vhd|
 !i113 1
@@ -32,11 +32,11 @@ Z12 tExplicit 1
 Asyn
 R1
 R2
-DEx4 work 4 fifo 0 22 [OAK9fi0kK=<DYdU2N5OT0
+Z13 DEx4 work 4 fifo 0 22 [OAK9fi0kK=<DYdU2N5OT0
 l96
 L59
-V`=CME9ZmU7g?iJ`CNMYJV2
-!s100 J9z`S`Bo1Z4kC?d1N[X222
+Z14 V`=CME9ZmU7g?iJ`CNMYJV2
+Z15 !s100 J9z`S`Bo1Z4kC?d1N[X222
 R6
 32
 R7
@@ -48,13 +48,13 @@ R10
 R11
 R12
 Etestbench
-Z13 w1482843399
-Z14 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+R0
+Z16 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
 R1
 R2
 R3
-Z15 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_FIFO.vhd
-Z16 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_FIFO.vhd
+Z17 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_FIFO.vhd
+Z18 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_FIFO.vhd
 l0
 L30
 VQ1cgT7M>oj>C`oi8XlEW]1
@@ -64,13 +64,13 @@ R6
 R7
 !i10b 1
 R8
-Z17 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_FIFO.vhd|
-Z18 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_FIFO.vhd|
+Z19 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_FIFO.vhd|
+Z20 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_FIFO.vhd|
 !i113 1
 R11
 R12
 Abhv
-R14
+R16
 R1
 R2
 DEx4 work 9 testbench 0 22 Q1cgT7M>oj>C`oi8XlEW]1
@@ -83,8 +83,8 @@ R6
 R7
 !i10b 1
 R8
-R17
-R18
+R19
+R20
 !i113 1
 R11
 R12

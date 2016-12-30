@@ -13,8 +13,8 @@ USE ieee.numeric_std.all;
 ENTITY Top_Camera_Controller IS
 	PORT(
 		TL_nReset				: IN std_logic;							-- nReset input
-		TL_Clk					: IN std_logic;							-- main clock input (and FIFO read clock input)
-		TL_FIFO_WriteClk		: IN std_logic;							-- FIFO write clock input
+		TL_MainClk				: IN std_logic;							-- main clock input, FIFO read clock input
+		TL_PixClk				: IN std_logic;							-- pixel clock received from the camera, FIFO write clock input
 		
 		TL_AS_AB_Address		: IN std_logic_vector (3 DOWNTO 0);		-- address bus
 		TL_AS_AB_ReadEnable		: IN std_logic;							-- read enabler
@@ -28,7 +28,6 @@ ENTITY Top_Camera_Controller IS
 		TL_AM_AB_BurstCount		: OUT std_logic_vector (7 DOWNTO 0);	-- Number of datas in one burst
 		TL_AM_AB_WaitRequest	: IN std_logic;							-- Pin waitrequest which is 0 when the bus is available
 		
-		TL_CI_CA_PixClk			: IN std_logic;							-- pixel clock received from the camera
 		TL_CI_CA_Data			: IN std_logic_vector (11 DOWNTO 0);	-- pixel sent by the camera
 		TL_CI_CA_FrameValid		: IN std_logic;							-- 1 if the frame is valid
 		TL_CI_CA_LineValid		: IN std_logic							-- 1 if the line is valid
@@ -131,7 +130,7 @@ BEGIN
 	low_Avalon_Slave : Avalon_slave
 		PORT MAP (
 			AS_nReset			=> TL_nReset,
-			AS_Clk 				=> TL_Clk,
+			AS_Clk 				=> TL_MainClk,
 			
 			AS_AB_Address		=> TL_AS_AB_Address,
 			AS_AB_ReadEnable	=> TL_AS_AB_ReadEnable,
@@ -148,7 +147,7 @@ BEGIN
 	low_Avalon_Master : Avalon_master
 		PORT MAP (
 			AM_nReset 			=> TL_nReset,
-			AM_Clk 				=> TL_Clk,
+			AM_Clk 				=> TL_MainClk,
 			
 			AM_AB_MemoryAddress	=> TL_AM_AB_MemoryAddress,
 			AM_AB_MemoryData	=> TL_AM_AB_MemoryData,
@@ -169,9 +168,9 @@ BEGIN
 	low_Camera_Interface : Camera_Interface
 		PORT MAP (
 			CI_nReset			=> TL_nReset,
-			CI_Clk				=> TL_Clk,
+			CI_Clk				=> TL_MainClk,
 		
-			CI_CA_PixClk		=> TL_CI_CA_PixClk,
+			CI_CA_PixClk		=> TL_PixClk,
 			CI_CA_Data			=> TL_CI_CA_Data,
 			CI_CA_FrameValid	=> TL_CI_CA_FrameValid,
 			CI_CA_LineValid		=> TL_CI_CA_LineValid,
@@ -193,12 +192,12 @@ end process ResetFIFO;
 		PORT MAP (
 			FIFO_Reset			=> Sig_Reset,
 		
-			FIFO_WriteClk		=> TL_FIFO_WriteClk,
+			FIFO_WriteClk		=> TL_PixClk,
 			FIFO_CI_WriteData	=> Sig_WriteData,
 			FIFO_CI_WriteEnable	=> Sig_WriteEnable,
 			FIFO_CI_UsedWords	=> Sig_CI_UsedWords,
 			
-			FIFO_ReadClk		=> TL_Clk,
+			FIFO_ReadClk		=> TL_MainClk,
 			FIFO_AM_ReadData	=> Sig_ReadData,
 			FIFO_AM_ReadCheck	=> Sig_ReadCheck,
 			FIFO_AM_UsedWords	=> Sig_AM_UsedWords
