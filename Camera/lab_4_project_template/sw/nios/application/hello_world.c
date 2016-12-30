@@ -28,7 +28,7 @@
 
 #define ONE_KB (1024)
 
-#define HPS_0_BRIDGES_SPAN 2*(10) /* address_span_expander span from system.h 320*240*2 bytes */
+#define HPS_0_BRIDGES_SPAN 2*(320*240) /* address_span_expander span from system.h 320*240*2 bytes */
 
 int main()
 {
@@ -46,7 +46,6 @@ int main()
 										   CMOS_SENSOR_OUTPUT_GENERATOR_CONFIG_FRAME_LINE_BLANK_MIN,
 										   CMOS_SENSOR_OUTPUT_GENERATOR_CONFIG_LINE_LINE_BLANK_MIN,
 										   CMOS_SENSOR_OUTPUT_GENERATOR_CONFIG_LINE_FRAME_BLANK_MIN);
-	cmos_sensor_output_generator_start(&cmos_sensor_output_generator);
 
 	//CAMERA CONTROLLER INITIALISATION
 	//Start Address
@@ -61,32 +60,45 @@ int main()
 	IOWR(CAMERA_CONTROLLER_0_BASE, 0x08, 0x00);
 	//Status
 	IOWR(CAMERA_CONTROLLER_0_BASE, 0x09, 0x00);
-	//Start
+
+	//START EVERYTHING
+	cmos_sensor_output_generator_start(&cmos_sensor_output_generator);
 	IOWR(CAMERA_CONTROLLER_0_BASE, 0x00, 0x01);
 
+	//WAIT FOR A WHILE
 	//while(IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x09)!=0x01){};
+	usleep(1000);
 
-	//usleep(1000);
+	//STOP EVERYTHING
+	IOWR(CAMERA_CONTROLLER_0_BASE, 0x00, 0x00);
+	cmos_sensor_output_generator_stop(&cmos_sensor_output_generator);
 
 	//READ THE IMAGE IN THE MEMORY
 	FILE* test;
-	test = fopen("/mnt/host/test.txt","w");
+	test = fopen("/mnt/host/data2.txt","w");
 
-	/*
+
 	for (uint32_t i = 0; i < HPS_0_BRIDGES_SPAN; i += sizeof(uint16_t))
 	{
 			uint32_t addr = HPS_0_BRIDGES_BASE + i;
 			// Read through address span expander
 			uint16_t readdata = IORD_16DIRECT(addr, 0);
 
-			fprintf(test, "%" PRIu16 " ", readdata);
+			fprintf(test, "%" PRIu16 "\n", readdata);
+	}
+
+	/*
+	for (int j = 0; j < 100; j++)
+	{
+		uint32_t addr = HPS_0_BRIDGES_BASE + j;
+		uint16_t readdata = IORD_16DIRECT(addr, 0);
+		fprintf(test, "%" PRIu16 "\n", readdata);
 	}
 	*/
 
-	fprintf(test, "blabla");
-	printf("blabla");
-
 	fclose(test);
+
+	printf("FINI !!!");
 
 	return EXIT_SUCCESS;
 }
