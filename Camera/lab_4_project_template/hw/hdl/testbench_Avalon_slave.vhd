@@ -162,9 +162,6 @@ Begin
 	write_register(X"7", X"20");
 	write_register(X"8", X"20");
 	
-	-- Writing AS_AM_Status of buffers
-	write_register(X"9", X"05");
-	
 	-- Writing AS_AMCI_Start information = 1
 	write_register(X"0", X"01");
 	
@@ -186,28 +183,47 @@ Begin
 	read_register(X"7");
 	read_register(X"8");
 	
+	wait for 2*HalfPeriod;
+	AS_AM_Status_test <= '1';
+	wait for 2*HalfPeriod;
+	AS_AM_Status_test <= '0';
+	
+	wait for 2*HalfPeriod;
+	AS_AM_Status_test <= '1';
+	wait for 2*HalfPeriod;
+	AS_AM_Status_test <= '0';
+	
+	-- Writing AS_AM_Status of buffers
+	write_register(X"9", "00000010");
+	
+	wait for 2*HalfPeriod;
+	AS_AM_Status_test <= '1';
+	wait for 2*HalfPeriod;
+	AS_AM_Status_test <= '0';
+	
+	wait for 2*HalfPeriod;
+	AS_AM_Status_test <= '1';
+	wait for 2*HalfPeriod;
+	AS_AM_Status_test <= '0';
+	
+	-- Writing AS_AM_Status of buffers
+	write_register(X"9", "00000101");
+	
+	wait for 2*HalfPeriod;
+	AS_AM_Status_test <= '1';
+	wait for 2*HalfPeriod;
+	AS_AM_Status_test <= '0';
+	
+	-- Writing AS_AM_Status of buffers
+	write_register(X"9", "00000011");
+	
+	wait for 2*HalfPeriod;
+	AS_AM_Status_test <= '1';
+	wait for 2*HalfPeriod;
+	AS_AM_Status_test <= '0';
+	
 	-- Reading AS_AM_Status of buffers
 	read_register(X"9");
-	
-	wait for 2*HalfPeriod;
-	AS_AM_Status_test <= '1';
-	wait for 2*HalfPeriod;
-	AS_AM_Status_test <= '0';
-	
-	wait for 2*HalfPeriod;
-	AS_AM_Status_test <= '1';
-	wait for 2*HalfPeriod;
-	AS_AM_Status_test <= '0';
-	
-	wait for 2*HalfPeriod;
-	AS_AM_Status_test <= '1';
-	wait for 2*HalfPeriod;
-	AS_AM_Status_test <= '0';
-	
-	wait for 2*HalfPeriod;
-	AS_AM_Status_test <= '1';
-	wait for 2*HalfPeriod;
-	AS_AM_Status_test <= '0';
 	
 	wait for 4*HalfPeriod;
 	

@@ -147,11 +147,11 @@ Begin
 	
 	inc2 := "000000000000";
 	
-	loop_r: FOR row IN 1 TO 240 LOOP
+	loop_r: FOR row IN 1 TO 2 LOOP
 	
 		inc1 := "000000000000";
 	
-		loop_row_1: FOR c1 IN 1 TO 320 LOOP		
+		loop_row_1a: FOR c1 IN 1 TO 100 LOOP		
 			-- First pixel
 			CI_CA_PixClk_test <= '1';
 			CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
@@ -167,11 +167,51 @@ Begin
 			wait for HalfPeriod_cam;
 			
 			inc1 := std_logic_vector(unsigned(inc1) + 1);
-		END LOOP loop_row_1;
+		END LOOP loop_row_1a;
+		
+		CI_CA_LineValid_test <= '0';
+		
+		loop_row_1b: FOR c1 IN 101 TO 120 LOOP		
+			-- First pixel
+			CI_CA_PixClk_test <= '1';
+			CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+		
+			-- Second pixel
+			CI_CA_PixClk_test <= '1';
+			CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+			
+			inc1 := std_logic_vector(unsigned(inc1) + 1);
+		END LOOP loop_row_1b;
+		
+		CI_CA_LineValid_test <= '1';
+		
+		loop_row_1c: FOR c1 IN 121 TO 320 LOOP		
+			-- First pixel
+			CI_CA_PixClk_test <= '1';
+			CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+		
+			-- Second pixel
+			CI_CA_PixClk_test <= '1';
+			CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+			
+			inc1 := std_logic_vector(unsigned(inc1) + 1);
+		END LOOP loop_row_1c;
 		
 		inc1 := "000000000000";
 		
-		loop_row_2: FOR c2 IN 1 TO 320 LOOP
+		loop_row_2a: FOR c2 IN 1 TO 59 LOOP
 			-- First pixel
 			CI_CA_PixClk_test <= '1';
 			CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
@@ -191,7 +231,55 @@ Begin
 			end if;
 			
 			inc1 := std_logic_vector(unsigned(inc1) + 1);
-		END LOOP loop_row_2;
+		END LOOP loop_row_2a;
+		
+		CI_CA_FrameValid_test <= '0';
+		
+		loop_row_2b: FOR c2 IN 60 TO 227 LOOP
+			-- First pixel
+			CI_CA_PixClk_test <= '1';
+			CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+		
+			-- Second pixel
+			CI_CA_PixClk_test <= '1';
+			CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+			
+			if CI_FIFO_UsedWords_test <= "1111111011" then
+				CI_FIFO_UsedWords_test <= std_logic_vector(unsigned(CI_FIFO_UsedWords_test) + 1);
+			end if;
+			
+			inc1 := std_logic_vector(unsigned(inc1) + 1);
+		END LOOP loop_row_2b;
+		
+		CI_CA_FrameValid_test <= '1';
+		
+		loop_row_2c: FOR c2 IN 228 TO 320 LOOP
+			-- First pixel
+			CI_CA_PixClk_test <= '1';
+			CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+		
+			-- Second pixel
+			CI_CA_PixClk_test <= '1';
+			CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+			
+			if CI_FIFO_UsedWords_test <= "1111111011" then
+				CI_FIFO_UsedWords_test <= std_logic_vector(unsigned(CI_FIFO_UsedWords_test) + 1);
+			end if;
+			
+			inc1 := std_logic_vector(unsigned(inc1) + 1);
+		END LOOP loop_row_2c;
 		
 		inc2 := std_logic_vector(unsigned(inc2) + 1);
 		

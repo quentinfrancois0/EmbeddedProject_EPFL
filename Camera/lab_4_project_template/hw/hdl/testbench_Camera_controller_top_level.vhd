@@ -59,26 +59,26 @@ component Top_Camera_Controller is
 end component;
 
 -- The signals provided by the testbench :
-signal TL_nReset_test				: std_logic;
-signal TL_Clk_test					: std_logic;
-signal TL_FIFO_WriteClk_test		: std_logic;
+signal TL_nReset_test				: std_logic := '1';
+signal TL_Clk_test					: std_logic := '0';
+signal TL_FIFO_WriteClk_test		: std_logic := '0';
 
-signal TL_AS_AB_Address_test		: std_logic_vector (3 DOWNTO 0);
-signal TL_AS_AB_ReadEnable_test		: std_logic;
-signal TL_AS_AB_WriteEnable_test	: std_logic;
+signal TL_AS_AB_Address_test		: std_logic_vector (3 DOWNTO 0) := "0000";
+signal TL_AS_AB_ReadEnable_test		: std_logic := '0';
+signal TL_AS_AB_WriteEnable_test	: std_logic := '0';
 signal TL_AS_AB_ReadData_test		: std_logic_vector (7 DOWNTO 0);
-signal TL_AS_AB_WriteData_test		: std_logic_vector (7 DOWNTO 0);
+signal TL_AS_AB_WriteData_test		: std_logic_vector (7 DOWNTO 0) := X"00";
 
 signal TL_AM_AB_MemoryAddress_test	: std_logic_vector (31 DOWNTO 0);
 signal TL_AM_AB_MemoryData_test		: std_logic_vector (31 DOWNTO 0);
 signal TL_AM_AB_WriteAccess_test	: std_logic;
 signal TL_AM_AB_BurstCount_test		: std_logic_vector (7 DOWNTO 0);
-signal TL_AM_AB_WaitRequest_test	: std_logic;
+signal TL_AM_AB_WaitRequest_test	: std_logic := '0';
 
-signal TL_CI_CA_PixClk_test			: std_logic;
-signal TL_CI_CA_Data_test			: std_logic_vector (11 DOWNTO 0);
-signal TL_CI_CA_FrameValid_test		: std_logic;
-signal TL_CI_CA_LineValid_test		: std_logic;
+signal TL_CI_CA_PixClk_test			: std_logic := '0';
+signal TL_CI_CA_Data_test			: std_logic_vector (11 DOWNTO 0) := X"000";
+signal TL_CI_CA_FrameValid_test		: std_logic := '0';
+signal TL_CI_CA_LineValid_test		: std_logic := '0';
 
 signal end_sim	: boolean := false;
 
@@ -124,6 +124,20 @@ Begin
 	end if;
 end process clk_process;
 
+-- Process to generate the clock during the whole simulation
+FIFO_Writeclk_process :
+Process
+Begin
+	if not end_sim then	-- generate the clock while simulation is running
+		TL_FIFO_WriteClk_test <= '0';
+		wait for HalfPeriod_cam;
+		TL_FIFO_WriteClk_test <= '1';
+		wait for HalfPeriod_cam;
+	else	-- when the simulation is ended, just wait
+		wait;
+	end if;
+end process FIFO_Writeclk_process;
+
 --	Process to test the component
 test :
 Process
@@ -166,9 +180,170 @@ Process
 		TL_AS_AB_Address_test <= "0000";
 	end procedure read_register;
 
+	variable G1 : std_logic_vector (11 DOWNTO 0) := "110000000000";
+	variable R : std_logic_vector (11 DOWNTO 0) := "100000000000";
+	variable B : std_logic_vector (11 DOWNTO 0) := "010000000000";
+	variable G2 : std_logic_vector (11 DOWNTO 0) := "000000000000";
+	
+	variable inc1 : std_logic_vector (11 DOWNTO 0) := "000000000000";
+	variable inc2 : std_logic_vector (11 DOWNTO 0) := "000000000000";
+	
 Begin
 	-- Toggling the reset
 	toggle_reset;
+	
+	-- Writing start_adress = 300 = 0x1010012C
+	write_register(X"1", X"2C");
+	write_register(X"2", X"01");
+	write_register(X"3", X"10");
+	write_register(X"4", X"10");
+	
+	-- Writing AS_AM_Length = 32 = 0x20204020
+	write_register(X"5", X"20");
+	write_register(X"6", X"40");
+	write_register(X"7", X"20");
+	write_register(X"8", X"20");
+	
+	-- Writing AS_AMCI_Start information = 1
+	write_register(X"0", X"01");
+	
+	-- CAM_Line_Valid = 1
+	TL_CI_CA_LineValid_test <= '1';
+	
+	wait for 2*HalfPeriod_cam;
+	
+	-- CAM_Frame_Valid = 1
+	TL_CI_CA_FrameValid_test <= '1';
+	
+	wait for 2*HalfPeriod_cam;
+	
+	inc2 := "000000000000";
+	
+	loop_r: FOR row IN 1 TO 2 LOOP
+	
+		inc1 := "000000000000";
+	
+		loop_row_1a: FOR c1 IN 1 TO 100 LOOP		
+			-- First pixel
+			TL_CI_CA_PixClk_test <= '1';
+			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			TL_CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+		
+			-- Second pixel
+			TL_CI_CA_PixClk_test <= '1';
+			TL_CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			TL_CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+			
+			inc1 := std_logic_vector(unsigned(inc1) + 1);
+		END LOOP loop_row_1a;
+		
+		TL_CI_CA_LineValid_test <= '0';
+		
+		loop_row_1b: FOR c1 IN 101 TO 120 LOOP		
+			-- First pixel
+			TL_CI_CA_PixClk_test <= '1';
+			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			TL_CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+		
+			-- Second pixel
+			TL_CI_CA_PixClk_test <= '1';
+			TL_CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			TL_CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+			
+			inc1 := std_logic_vector(unsigned(inc1) + 1);
+		END LOOP loop_row_1b;
+		
+		TL_CI_CA_LineValid_test <= '1';
+		
+		loop_row_1c: FOR c1 IN 121 TO 320 LOOP		
+			-- First pixel
+			TL_CI_CA_PixClk_test <= '1';
+			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			TL_CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+		
+			-- Second pixel
+			TL_CI_CA_PixClk_test <= '1';
+			TL_CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			TL_CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+			
+			inc1 := std_logic_vector(unsigned(inc1) + 1);
+		END LOOP loop_row_1c;
+		
+		inc1 := "000000000000";
+		
+		loop_row_2a: FOR c2 IN 1 TO 59 LOOP
+			-- First pixel
+			TL_CI_CA_PixClk_test <= '1';
+			TL_CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			TL_CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+		
+			-- Second pixel
+			TL_CI_CA_PixClk_test <= '1';
+			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			TL_CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+			
+			inc1 := std_logic_vector(unsigned(inc1) + 1);
+		END LOOP loop_row_2a;
+		
+		TL_CI_CA_FrameValid_test <= '0';
+		
+		loop_row_2b: FOR c2 IN 60 TO 227 LOOP
+			-- First pixel
+			TL_CI_CA_PixClk_test <= '1';
+			TL_CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			TL_CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+		
+			-- Second pixel
+			TL_CI_CA_PixClk_test <= '1';
+			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			TL_CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+			
+			inc1 := std_logic_vector(unsigned(inc1) + 1);
+		END LOOP loop_row_2b;
+		
+		TL_CI_CA_FrameValid_test <= '1';
+		
+		loop_row_2c: FOR c2 IN 228 TO 320 LOOP
+			-- First pixel
+			TL_CI_CA_PixClk_test <= '1';
+			TL_CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			TL_CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+		
+			-- Second pixel
+			TL_CI_CA_PixClk_test <= '1';
+			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
+			wait for HalfPeriod_cam;
+			TL_CI_CA_PixClk_test <= '0';
+			wait for HalfPeriod_cam;
+			
+			inc1 := std_logic_vector(unsigned(inc1) + 1);
+		END LOOP loop_row_2c;
+		
+		inc2 := std_logic_vector(unsigned(inc2) + 1);
+		
+	END LOOP loop_r;
 	
 	-- Set end_sim to "true", so the clock generation stops
 	end_sim <= true;

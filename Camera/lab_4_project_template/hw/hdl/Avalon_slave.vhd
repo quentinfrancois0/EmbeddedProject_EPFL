@@ -56,14 +56,15 @@ ARCHITECTURE bhv OF Avalon_slave IS
 	signal		iRegStart_Address	: std_logic_vector (31 DOWNTO 0);	-- internal register for the memory Start adress
 	signal		iRegLength			: std_logic_vector (31 DOWNTO 0);	-- internal register for the data stored Length
 	signal		iRegStatus			: std_logic_vector (2 DOWNTO 0);	-- internal register for the status of each buffer
-	signal		iRegNBuffer			: std_logic_vector (2 DOWNTO 0);	-- internal register to know the current buffer
+	signal		prevStatus			: std_logic;						-- previous state of AS_AM_Status
+	signal		nextBuffer			: std_logic_vector (1 DOWNTO 0);	-- next buffer to write
 
 BEGIN
 
 -- Process to write internal registers through Avalon bus interface
 -- Synchronous access on rising edge of the FPGA's clock
 WriteProcess:
-Process(AS_nReset, AS_Clk, AS_AM_Status)
+Process(AS_nReset, AS_Clk)
 Begin
 	if AS_nReset = '0' then	-- reset the four writable registers when pushing the reset key
 		iRegStart			<= '0';
@@ -71,6 +72,8 @@ Begin
 		iRegLength			<= (others => '0');
 		iFlagSettings		<= (others => '0');
 		iRegStatus			<= (others => '0');
+		prevStatus 			<= '0';
+		nextBuffer 			<= "00";
 	elsif rising_edge(AS_Clk) then
 		if AS_AB_WriteEnable = '1' then
 			case AS_AB_Address is
@@ -119,14 +122,20 @@ Begin
 				when others => null;
 			end case;
 		end if;
-		if iRegNBuffer = "000" then
-			iRegStatus <= "000";
-		elsif iRegNBuffer = "001" then
-			iRegStatus <= "001";
-		elsif iRegNBuffer = "010" then
-			iRegStatus <= "010";
-		elsif iRegNBuffer = "011" then
-			iRegStatus <= "100";
+		if AS_AM_Status = '1' AND prevStatus = '0' then
+			prevStatus <= '1';
+			if iRegStatus (0) = '0' AND nextBuffer = "00" then
+				iRegStatus (0) <= '1';
+				nextBuffer <= "01";
+			elsif iRegStatus (1) = '0' AND nextBuffer = "01" then
+				iRegStatus (1) <= '1';
+				nextBuffer <= "10";
+			elsif iRegStatus (2) = '0' AND nextBuffer = "10" then
+				iRegStatus (2) <= '1';
+				nextBuffer <= "00";
+			end if;
+		elsif AS_AM_Status = '0' AND prevStatus = '1' then
+			prevStatus <= '0';
 		end if;
 	end if;
 end process WriteProcess;
@@ -136,36 +145,23 @@ end process WriteProcess;
 ReadProcess:
 Process(AS_AB_ReadEnable, AS_AB_Address, iRegStart, iRegStart_Address, iRegLength, iRegStatus)
 Begin
-	AS_AB_ReadData <= (others => '0');	-- reset the data bus (read) when not used
+	AS_AB_ReadData <= (others => 'Z');	-- reset the data bus (read) when not used
 	if AS_AB_ReadEnable = '1' then
 		case AS_AB_Address is
 			when X"0" => AS_AB_ReadData(0) 				<= iRegStart;
-			when X"1" => AS_AB_ReadData 					<= iRegStart_Address (7 DOWNTO 0);
-			when X"2" => AS_AB_ReadData 					<= iRegStart_Address (15 DOWNTO 8);
-			when X"3" => AS_AB_ReadData 					<= iRegStart_Address (23 DOWNTO 16);
-			when X"4" => AS_AB_ReadData 					<= iRegStart_Address (31 DOWNTO 24);
-			when X"5" => AS_AB_ReadData 					<= iRegLength (7 DOWNTO 0);
-			when X"6" => AS_AB_ReadData 					<= iRegLength (15 DOWNTO 8);
-			when X"7" => AS_AB_ReadData 					<= iRegLength (23 DOWNTO 16);
-			when X"8" => AS_AB_ReadData 					<= iRegLength (31 DOWNTO 24);
-			when X"9" => AS_AB_ReadData (2 DOWNTO 0)		<= iRegStatus;
+			when X"1" => AS_AB_ReadData 				<= iRegStart_Address (7 DOWNTO 0);
+			when X"2" => AS_AB_ReadData 				<= iRegStart_Address (15 DOWNTO 8);
+			when X"3" => AS_AB_ReadData 				<= iRegStart_Address (23 DOWNTO 16);
+			when X"4" => AS_AB_ReadData 				<= iRegStart_Address (31 DOWNTO 24);
+			when X"5" => AS_AB_ReadData 				<= iRegLength (7 DOWNTO 0);
+			when X"6" => AS_AB_ReadData 				<= iRegLength (15 DOWNTO 8);
+			when X"7" => AS_AB_ReadData 				<= iRegLength (23 DOWNTO 16);
+			when X"8" => AS_AB_ReadData 				<= iRegLength (31 DOWNTO 24);
+			when X"9" => AS_AB_ReadData (2 DOWNTO 0)	<= iRegStatus;
 			when others => null;
 		end case;
 	end if;
 end process ReadProcess;
-
-NBuffer:
-Process(AS_nReset, AS_AM_Status)
-Begin
-	if AS_nReset = '0' then
-		iRegNBuffer <= (others => '0');
-	elsif rising_edge(AS_AM_Status) then
-		iRegNBuffer <= std_logic_vector(unsigned(iRegNBuffer) + 1);
-		if iRegNBuffer = "011" then
-			iRegNBuffer <= "001";
-		end if;
-	end if;
-end process NBuffer;
 
 -- Process to update the output towards the master and the camera controller
 UpdateOutput:

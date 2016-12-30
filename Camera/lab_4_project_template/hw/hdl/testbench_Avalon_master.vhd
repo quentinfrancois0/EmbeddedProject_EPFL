@@ -67,7 +67,7 @@ signal AM_AB_WaitRequest_test	: std_logic := '1';
 
 signal AM_AS_Start_test			: std_logic := '0';
 signal AM_AS_StartAddress_test	: std_logic_vector (31 DOWNTO 0) := X"1000012C";
-signal AM_AS_Length_test		: std_logic_vector (31 DOWNTO 0) := X"10000140";
+signal AM_AS_Length_test		: std_logic_vector (31 DOWNTO 0) := X"00012C00";
 signal AM_AS_Status_test		: std_logic;
 
 signal AM_FIFO_ReadCheck_test	: std_logic;
@@ -117,11 +117,12 @@ end process clk_process;
 transfer_fifo :
 Process
 Begin
-	if unsigned(Data_info)<6 AND end_sim = false then
+	if end_sim = false then
 		wait until rising_edge(AM_Clk_test) AND AM_FIFO_ReadCheck_test = '1';
 		Data_info <= std_logic_vector(unsigned(Data_info) + 1);
 		AM_FIFO_ReadData_test <= Data_info;
-	else 
+	end if;
+	if unsigned(Data_info)>115500 then
 		end_sim <= true;
 		wait;
 	end if;
@@ -165,6 +166,8 @@ Begin
 	wait until rising_edge(AM_Clk_test);
 	wait until rising_edge(AM_Clk_test);
 	AM_AB_WaitRequest_test <= '0';
+	
+	wait for 100*HalfPeriod;
 --
 --	-- 2nd transfer on the bus
 --	wait until rising_edge(AM_Clk_test) AND AM_FIFO_ReadCheck_test = '1';

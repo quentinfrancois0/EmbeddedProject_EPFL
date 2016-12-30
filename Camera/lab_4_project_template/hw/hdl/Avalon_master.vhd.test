@@ -57,7 +57,7 @@ ENTITY Avalon_master IS
 END Avalon_master;
 
 ARCHITECTURE bhv OF Avalon_master IS
-	constant    BURSTCOUNT_LENGTH : positive := 16;
+	constant    BURSTCOUNT_LENGTH : natural := 16;
 	constant    ADDR_INCREMENT : natural := (AM_AB_MemoryData'length / 8) * BURSTCOUNT_LENGTH;
 	
 	signal		iRegAlmostEmpty				: std_logic;						-- internal phantom register which says if there is at least a burst in the FIFO
@@ -89,10 +89,10 @@ begin
 	next_reg_SM_state <= reg_SM_state;
 	next_reg_burstcount <= reg_burstcount;
 	
-	AM_AB_MemoryAddress <= (others => 'Z');
+	AM_AB_MemoryAddress <= (others => '0');
 	AM_AB_WriteAccess <= '0';
-	AM_AB_MemoryData <= (others => 'Z');
-	AM_AB_BurstCount <= (others => 'Z');
+	AM_AB_MemoryData <= (others => '0');
+	AM_AB_BurstCount <= (others => '0');
 	AM_FIFO_ReadCheck <= '0';
 	AM_AS_Status <= '0';
 	
@@ -128,13 +128,14 @@ begin
 			AM_FIFO_ReadCheck <= '1';
 			next_reg_burstcount <= reg_burstcount + 1;
 			
-			if reg_burstcount = BURSTCOUNT_LENGTH - 1 then
+			if reg_burstcount >= BURSTCOUNT_LENGTH - 1 then
 				next_reg_SM_state <= WaitData;
 
 				next_iRegCounterAddress <= std_logic_vector (unsigned (iRegCounterAddress) + ADDR_INCREMENT); -- increase the iRegCounterAdress register
 				if iRegCounterAddress = AM_AS_Length then -- when the iRegCounterAddress is equal to the data length (at the end of the 3 buffers), reset the counter to 0 to restart
-					next_iRegCounterAddress <= (others => '0');
 					AM_AS_Status <= '1'; --tell to the slave that the image is finished
+				elsif unsigned(iRegCounterAddress) = 3*unsigned(AM_AS_Length) then
+					next_iRegCounterAddress <= (others => '0');
 				end if;
 			end if;
 		end if;

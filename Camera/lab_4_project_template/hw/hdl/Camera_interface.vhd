@@ -101,20 +101,21 @@ MainProcess:
 Process(CI_nReset, CI_CA_PixClk)
 
 variable iRegColumnCounter_unsign : unsigned (11 DOWNTO 0);
-variable iRegMemory_unsign : unsigned (11 DOWNTO 0);
-variable CAM_Data_unsign : unsigned (11 DOWNTO 0);
-variable sum_unsign_13 : unsigned (12 DOWNTO 0);
-variable sum_std_12 : std_logic_vector (11 DOWNTO 0);
+variable iRegMemoryG1_unsign_12 : unsigned (11 DOWNTO 0);
+variable CamDataG2_unsign_12 : unsigned (11 DOWNTO 0);
+variable sumG_unsign_12 : unsigned (11 DOWNTO 0);
+variable iRegMemoryG1_unsign_13 : unsigned (12 DOWNTO 0);
+variable CamDataG2_unsign_13 : unsigned (12 DOWNTO 0);
+variable sumG_unsign_13 : unsigned (12 DOWNTO 0);
+variable sumG_std_12 : std_logic_vector (11 DOWNTO 0);
 
 Begin
 	if CI_nReset = '0' then
 		iRegRGB <= (others => '0');
 		iRegMemory <= (others => "000000000000");
 		iRegBlue <= (others => '0');
-		CI_FIFO_WriteEnable <= '0';
 		iRegFIFOWrite <= '0';
 	elsif falling_edge(CI_CA_PixClk) then	-- read the pixel on the falling edge of the CI_CA_PixClk
-		CI_FIFO_WriteEnable <= '0';	-- we don't want to put the data in the FIFO for the moment
 		iRegFIFOWrite <= '0';
 		if CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStatus (0) = '1' then
 			if iRegStatus (2) = '0' then	-- if we are on an even row
@@ -127,18 +128,24 @@ Begin
 				else	-- if we are on an odd column (green G2 pixel)
 					iRegRGB (15 DOWNTO 11) <= iRegMemory(to_integer(unsigned(iRegColumnCounter))) (11 DOWNTO 7); -- put the red pixel stored in the memory in iRegRGB
 					
-					iRegColumnCounter_unsign := unsigned(iRegColumnCounter); -- pixel à l'adresse iRegColumnCounter
-					iRegMemory_unsign := unsigned(iRegMemory(to_integer(iRegColumnCounter_unsign - 1))); -- pixel précédent l'adresse iRegColumnCounter
-					CAM_Data_unsign := unsigned(CI_CA_Data);
-					sum_unsign_13 := resize(CAM_Data_unsign + iRegMemory_unsign, sum_unsign_13'length);
-					sum_unsign_13 := sum_unsign_13 srl 1;
-					sum_std_12 := std_logic_vector(resize(signed(sum_unsign_13), sum_std_12'length));
+					iRegColumnCounter_unsign := unsigned(iRegColumnCounter); -- iRegColumnCounter from std_logic_vector to unsigned
+					iRegMemoryG1_unsign_12 := unsigned(iRegMemory(to_integer(iRegColumnCounter_unsign - 1))); -- pixel G1 stored in the memory
+					CamDataG2_unsign_12 := unsigned(CI_CA_Data); -- pixel G2 from the camera data bus
+					if iRegMemoryG1_unsign_12(11) = '1' AND CamDataG2_unsign_12(11) = '1' then
+						iRegMemoryG1_unsign_13 := resize(iRegMemoryG1_unsign_12, iRegMemoryG1_unsign_13'length);
+						CamDataG2_unsign_13 := resize(CamDataG2_unsign_12, CamDataG2_unsign_13'length);
+						sumG_unsign_13 := iRegMemoryG1_unsign_13 + CamDataG2_unsign_13; -- G1 + G2, might be on 13 bits
+						sumG_std_12 := std_logic_vector(sumG_unsign_13(12 DOWNTO 1));
+					else
+						sumG_unsign_12 := iRegMemoryG1_unsign_12 + CamDataG2_unsign_12;
+						sumG_unsign_12 := sumG_unsign_12 srl 1;
+						sumG_std_12 := std_logic_vector(sumG_unsign_12);
+					end if;
 					
-					iRegRGB (10 DOWNTO 5) <= sum_std_12 (11 DOWNTO 6); -- compute the averaged green with the current cam data and the green G1 pixel stored in the memory and put it in iRegRGB
+					iRegRGB (10 DOWNTO 5) <= sumG_std_12 (11 DOWNTO 6); -- compute the averaged green with the current cam data and the green G1 pixel stored in the memory and put it in iRegRGB
 					
 					iRegRGB (4 DOWNTO 0) <= iRegBlue (11 DOWNTO 7);	-- put the blue pixel stored in iRegBlue in iRegRGB
 					
-					CI_FIFO_WriteEnable <= '1';	-- we can write iRegRGB to the FIFO on the next rising edge of CI_CA_PixClk
 					iRegFIFOWrite <= '1';
 					if iRegColumnCounter = X"27F" then	-- if iRegColumnCounter = 639, reset it
 						iRegMemory <= (others => "000000000000");
@@ -155,10 +162,13 @@ Process(CI_nReset, CI_CA_PixClk)
 Begin
 	if CI_nReset = '0' then
 		CI_FIFO_WriteData <= (others => 'Z');
+		CI_FIFO_WriteEnable <= '0';
 	elsif rising_edge(CI_CA_PixClk) then
 		if CI_FIFO_UsedWords <= "1111111011" AND iRegFIFOWrite = '1' then
 			CI_FIFO_WriteData <= iRegRGB;
+			CI_FIFO_WriteEnable <= '1';	-- we can write iRegRGB to the FIFO on the next rising edge of CI_CA_PixClk
 		else
+			CI_FIFO_WriteEnable <= '0';
 			CI_FIFO_WriteData <= (others => 'Z');
 		end if;
 	end if;
