@@ -2,11 +2,11 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>23 déc. 2016 11:52:18</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1482490338537</BspGeneratedUnixTimeStamp>
-        <BspGeneratedLocation>C:\Users\qfrancoi\Desktop\lab_4_project_template\sw\nios\camera_controller_bsp</BspGeneratedLocation>
-        <BspSettingsFile>settings.bsp</BspSettingsFile>
-        <SopcDesignFile>C:\Users\qfrancoi\Desktop\lab_4_project_template\hw\quartus\soc_system.sopcinfo</SopcDesignFile>
+        <BspGeneratedTimeStamp>30 déc. 2016 22:32:14</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1483133534328</BspGeneratedUnixTimeStamp>
+        <BspGeneratedLocation>D:\Temp\EmbeddedProject_EPFL\Camera\lab_4_project_template\sw\nios\camera_controller_bsp</BspGeneratedLocation>
+        <BspSettingsFile>.\settings.bsp</BspSettingsFile>
+        <SopcDesignFile>D:\Temp\EmbeddedProject_EPFL\Camera\lab_4_project_template\hw\quartus\soc_system.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
         <Cpu>nios2_gen2_0</Cpu>
         <SchemaVersion>1.9</SchemaVersion>
@@ -875,18 +875,6 @@
                 <Group>none</Group>
         </Setting>
         <Setting>
-                <SettingName>altera_hostfs.hostfs_name</SettingName>
-                <Identifier>ALTERA_HOSTFS_NAME</Identifier>
-                <Type>QuotedString</Type>
-                <Value>/mnt/host</Value>
-                <DefaultValue>/mnt/host</DefaultValue>
-                <DestinationFile>system_h_define</DestinationFile>
-                <Description>Mount point</Description>
-                <Restrictions>none</Restrictions>
-                <Enabled>false</Enabled>
-                <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-        </Setting>
-        <Setting>
                 <SettingName>altera_avalon_jtag_uart_driver.enable_small_driver</SettingName>
                 <Identifier>ALTERA_AVALON_JTAG_UART_SMALL</Identifier>
                 <Type>BooleanDefineOnly</Type>
@@ -964,8 +952,4 @@
                 <sectionName>.stack</sectionName>
                 <regionName>onchip_memory2_0</regionName>
         </LinkerSection>
-        <SoftwarePackageInfo>
-                <name>altera_hostfs</name>
-                <version>default</version>
-        </SoftwarePackageInfo>
 </sch:Settings>

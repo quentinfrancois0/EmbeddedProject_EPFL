@@ -2,9 +2,9 @@
  * linker.x - Linker script
  *
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'soc_system'
- * SOPC Builder design path: C:/Users/qfrancoi/Desktop/lab_4_project_template/hw/quartus/soc_system.sopcinfo
+ * SOPC Builder design path: D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/quartus/soc_system.sopcinfo
  *
- * Generated: Fri Dec 23 10:10:22 CET 2016
+ * Generated: Fri Dec 30 22:32:16 CET 2016
  */
 
 /*

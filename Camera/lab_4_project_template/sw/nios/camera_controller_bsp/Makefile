@@ -101,7 +101,7 @@ ACDS_VERSION := 16.0
 # BUILD_NUMBER: 211
 
 SETTINGS_FILE := settings.bsp
-SOPC_FILE := C:/Users/qfrancoi/Desktop/lab_4_project_template/hw/quartus/soc_system.sopcinfo
+SOPC_FILE := D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/quartus/soc_system.sopcinfo
 
 #-------------------------------------------------------------------------------
 #                             TOOL & COMMAND DEFINITIONS
@@ -230,13 +230,6 @@ altera_avalon_jtag_uart_driver_C_LIB_SRCS := \
 	$(altera_avalon_jtag_uart_driver_SRCS_ROOT)/src/altera_avalon_jtag_uart_ioctl.c \
 	$(altera_avalon_jtag_uart_driver_SRCS_ROOT)/src/altera_avalon_jtag_uart_fd.c
 
-# altera_hostfs sources root 
-altera_hostfs_SRCS_ROOT := drivers
-
-# altera_hostfs sources 
-altera_hostfs_C_LIB_SRCS := \
-	$(altera_hostfs_SRCS_ROOT)/src/altera_hostfs.c
-
 # altera_nios2_gen2_hal_driver sources root 
 altera_nios2_gen2_hal_driver_SRCS_ROOT := HAL
 
@@ -337,7 +330,6 @@ hal_C_LIB_SRCS := \
 # Assemble all component C source files 
 COMPONENT_C_LIB_SRCS += \
 	$(altera_avalon_jtag_uart_driver_C_LIB_SRCS) \
-	$(altera_hostfs_C_LIB_SRCS) \
 	$(altera_nios2_gen2_hal_driver_C_LIB_SRCS) \
 	$(hal_C_LIB_SRCS)
 

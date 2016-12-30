@@ -4,8 +4,8 @@
 
 BSP_TYPE=hal
 BSP_DIR=.
-SOPC_DIR=C:/Users/qfrancoi/Desktop/lab_4_project_template/hw/quartus/
-SOPC_FILE=C:/Users/qfrancoi/Desktop/lab_4_project_template/hw/quartus/soc_system.sopcinfo
+SOPC_DIR=D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/quartus/
+SOPC_FILE=D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/quartus/soc_system.sopcinfo
 NIOS2_BSP_ARGS=""
 CPU_NAME=
 

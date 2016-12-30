@@ -3,8 +3,8 @@
 # This script creates the hello_world application in this directory.
 
 
-BSP_DIR=C:/Users/qfrancoi/Desktop/lab_4_project_template/sw/nios/camera_controller_bsp/
-QUARTUS_PROJECT_DIR=C:/Users/qfrancoi/Desktop/lab_4_project_template/hw/quartus/
+BSP_DIR=D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/sw/nios/camera_controller_bsp/
+QUARTUS_PROJECT_DIR=D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/quartus/
 NIOS2_APP_GEN_ARGS="--elf-name camera_controller.elf --set OBJDUMP_INCLUDE_SOURCE 1 --src-files hello_world.c"
 
 

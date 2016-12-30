@@ -260,7 +260,7 @@
    kind="altera_clock_bridge"
    version="16.0"
    enabled="1">
-  <parameter name="DERIVED_CLOCK_RATE" value="18489984" />
+  <parameter name="DERIVED_CLOCK_RATE" value="18489583" />
   <parameter name="EXPLICIT_CLOCK_RATE" value="0" />
   <parameter name="NUM_CLOCK_OUTPUTS" value="2" />
  </module>
@@ -1233,10 +1233,10 @@
   <parameter name="gui_ps_units9" value="ps" />
   <parameter name="gui_refclk1_frequency" value="100.0" />
   <parameter name="gui_refclk_switch" value="false" />
-  <parameter name="gui_reference_clock_frequency" value="100.0" />
+  <parameter name="gui_reference_clock_frequency" value="50.0" />
   <parameter name="gui_switchover_delay" value="0" />
   <parameter name="gui_switchover_mode">Automatic Switchover</parameter>
-  <parameter name="gui_use_locked" value="true" />
+  <parameter name="gui_use_locked" value="false" />
  </module>
  <connection
    kind="avalon"
