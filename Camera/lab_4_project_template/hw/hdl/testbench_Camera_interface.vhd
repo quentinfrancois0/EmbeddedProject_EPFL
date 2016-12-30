@@ -103,6 +103,20 @@ Begin
 	end if;
 end process clk_process;
 
+-- Process to generate the clock during the whole simulation
+PixClk_process :
+Process
+Begin
+	if not end_sim then	-- generate the clock while simulation is running
+		CI_CA_PixClk_test <= '0';
+		wait for HalfPeriod_cam;
+		CI_CA_PixClk_test <= '1';
+		wait for HalfPeriod_cam;
+	else	-- when the simulation is ended, just wait
+		wait;
+	end if;
+end process PixClk_process;
+
 --	Process to test the component
 test :
 Process
@@ -153,18 +167,12 @@ Begin
 	
 		loop_row_1a: FOR c1 IN 1 TO 100 LOOP		
 			-- First pixel
-			CI_CA_PixClk_test <= '1';
+			wait until rising_edge(CI_CA_PixClk_test);
 			CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 		
 			-- Second pixel
-			CI_CA_PixClk_test <= '1';
+			wait until rising_edge(CI_CA_PixClk_test);
 			CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 			
 			inc1 := std_logic_vector(unsigned(inc1) + 1);
 		END LOOP loop_row_1a;
@@ -173,18 +181,12 @@ Begin
 		
 		loop_row_1b: FOR c1 IN 101 TO 120 LOOP		
 			-- First pixel
-			CI_CA_PixClk_test <= '1';
+			wait until rising_edge(CI_CA_PixClk_test);
 			CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 		
 			-- Second pixel
-			CI_CA_PixClk_test <= '1';
+			wait until rising_edge(CI_CA_PixClk_test);
 			CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 			
 			inc1 := std_logic_vector(unsigned(inc1) + 1);
 		END LOOP loop_row_1b;
@@ -193,18 +195,12 @@ Begin
 		
 		loop_row_1c: FOR c1 IN 121 TO 320 LOOP		
 			-- First pixel
-			CI_CA_PixClk_test <= '1';
+			wait until rising_edge(CI_CA_PixClk_test);
 			CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 		
 			-- Second pixel
-			CI_CA_PixClk_test <= '1';
+			wait until rising_edge(CI_CA_PixClk_test);
 			CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 			
 			inc1 := std_logic_vector(unsigned(inc1) + 1);
 		END LOOP loop_row_1c;
@@ -213,18 +209,12 @@ Begin
 		
 		loop_row_2a: FOR c2 IN 1 TO 59 LOOP
 			-- First pixel
-			CI_CA_PixClk_test <= '1';
+			wait until rising_edge(CI_CA_PixClk_test);
 			CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 		
 			-- Second pixel
-			CI_CA_PixClk_test <= '1';
+			wait until rising_edge(CI_CA_PixClk_test);
 			CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 			
 			if CI_FIFO_UsedWords_test <= "1111111011" then
 				CI_FIFO_UsedWords_test <= std_logic_vector(unsigned(CI_FIFO_UsedWords_test) + 1);
@@ -237,18 +227,12 @@ Begin
 		
 		loop_row_2b: FOR c2 IN 60 TO 227 LOOP
 			-- First pixel
-			CI_CA_PixClk_test <= '1';
+			wait until rising_edge(CI_CA_PixClk_test);
 			CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 		
 			-- Second pixel
-			CI_CA_PixClk_test <= '1';
+			wait until rising_edge(CI_CA_PixClk_test);
 			CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 			
 			if CI_FIFO_UsedWords_test <= "1111111011" then
 				CI_FIFO_UsedWords_test <= std_logic_vector(unsigned(CI_FIFO_UsedWords_test) + 1);
@@ -261,18 +245,12 @@ Begin
 		
 		loop_row_2c: FOR c2 IN 228 TO 320 LOOP
 			-- First pixel
-			CI_CA_PixClk_test <= '1';
+			wait until rising_edge(CI_CA_PixClk_test);
 			CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 		
 			-- Second pixel
-			CI_CA_PixClk_test <= '1';
+			wait until rising_edge(CI_CA_PixClk_test);
 			CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 			
 			if CI_FIFO_UsedWords_test <= "1111111011" then
 				CI_FIFO_UsedWords_test <= std_logic_vector(unsigned(CI_FIFO_UsedWords_test) + 1);

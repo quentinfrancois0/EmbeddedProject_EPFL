@@ -36,8 +36,8 @@ ARCHITECTURE bhv OF testbench IS
 component Top_Camera_Controller is
 	PORT(
 		TL_nReset				: IN std_logic;							-- nReset input
-		TL_Clk					: IN std_logic;							-- main clock input (and FIFO read clock input)
-		TL_PixClk				: IN std_logic;							-- FIFO write clock input
+		TL_MainClk				: IN std_logic;							-- main clock input, FIFO read clock input
+		TL_PixClk				: IN std_logic;							-- pixel clock received from the camera, FIFO write clock input
 		
 		TL_AS_AB_Address		: IN std_logic_vector (3 DOWNTO 0);		-- address bus
 		TL_AS_AB_ReadEnable		: IN std_logic;							-- read enabler
@@ -59,7 +59,7 @@ end component;
 
 -- The signals provided by the testbench :
 signal TL_nReset_test				: std_logic := '1';
-signal TL_Clk_test					: std_logic := '0';
+signal TL_MainClk_test					: std_logic := '0';
 signal TL_PixClk_test				: std_logic := '0';
 
 signal TL_AS_AB_Address_test		: std_logic_vector (3 DOWNTO 0) := "0000";
@@ -74,7 +74,6 @@ signal TL_AM_AB_WriteAccess_test	: std_logic;
 signal TL_AM_AB_BurstCount_test		: std_logic_vector (7 DOWNTO 0);
 signal TL_AM_AB_WaitRequest_test	: std_logic := '0';
 
-signal TL_CI_CA_PixClk_test			: std_logic := '0';
 signal TL_CI_CA_Data_test			: std_logic_vector (11 DOWNTO 0) := X"000";
 signal TL_CI_CA_FrameValid_test		: std_logic := '0';
 signal TL_CI_CA_LineValid_test		: std_logic := '0';
@@ -88,7 +87,7 @@ BEGIN
 DUT : Top_Camera_Controller	-- Component to test as Device Under Test       
 	Port MAP(	-- from component => signal in the architecture
 		TL_nReset 				=> TL_nReset_test,
-		TL_Clk 					=> TL_Clk_test,
+		TL_MainClk 				=> TL_MainClk_test,
 		TL_PixClk 				=> TL_PixClk_test,
 
 		TL_AS_AB_Address 		=> TL_AS_AB_Address_test,
@@ -109,21 +108,21 @@ DUT : Top_Camera_Controller	-- Component to test as Device Under Test
 	);
 
 -- Process to generate the clock during the whole simulation
-clk_process :
+MainClk_process :
 Process
 Begin
 	if not end_sim then	-- generate the clocc while simulation is running
-		TL_Clk_test <= '0';
+		TL_MainClk_test <= '0';
 		wait for HalfPeriod;
-		TL_Clk_test <= '1';
+		TL_MainClk_test <= '1';
 		wait for HalfPeriod;
 	else	-- when the simulation is ended, just wait
 		wait;
 	end if;
-end process clk_process;
+end process MainClk_process;
 
 -- Process to generate the clock during the whole simulation
-FIFO_Writeclk_process :
+PixClk_process :
 Process
 Begin
 	if not end_sim then	-- generate the clock while simulation is running
@@ -134,7 +133,7 @@ Begin
 	else	-- when the simulation is ended, just wait
 		wait;
 	end if;
-end process FIFO_Writeclk_process;
+end process PixClk_process;
 
 --	Process to test the component
 test :
@@ -143,22 +142,22 @@ Process
 	-- Procedure to toggle the reset
 	Procedure toggle_reset is
 	Begin
-		wait until rising_edge(TL_Clk_test);
+		wait until rising_edge(TL_MainClk_test);
 		TL_nReset_test <= '0';
 		
-		wait until rising_edge(TL_Clk_test);
+		wait until rising_edge(TL_MainClk_test);
 		TL_nReset_test <= '1';
 	end procedure toggle_reset;
 	
 	-- Procedure to write a register, inputs are (address, data_to_write)
 	Procedure write_register(addr_write: std_logic_vector; data: std_logic_vector) is
 	Begin
-		wait until rising_edge(TL_Clk_test);	-- write between two consecutive rising edges of the clock
+		wait until rising_edge(TL_MainClk_test);	-- write between two consecutive rising edges of the clock
 		TL_AS_AB_WriteEnable_test <= '1';
 		TL_AS_AB_Address_test <= addr_write;
 		TL_AS_AB_WriteData_test <= data;
 		
-		wait until rising_edge(TL_Clk_test);	-- then reset everything
+		wait until rising_edge(TL_MainClk_test);	-- then reset everything
 		TL_AS_AB_WriteEnable_test <= '0';
 		TL_AS_AB_Address_test <= "0000";
 		TL_AS_AB_WriteData_test <= "00000000";
@@ -167,13 +166,13 @@ Process
 	-- Procedure to read a register, input is (address)
 	Procedure read_register(addr_read: std_logic_vector) is
 	Begin
-		wait until rising_edge(TL_Clk_test);	-- set the read access, so the internal phantom read register will be set to 1 on the next rising edge of the clock
+		wait until rising_edge(TL_MainClk_test);	-- set the read access, so the internal phantom read register will be set to 1 on the next rising edge of the clock
 		TL_AS_AB_ReadEnable_test <= '1';
 		
-		wait until rising_edge(TL_Clk_test);	-- now the internal phantom read register will be set to 1, we can read the register
+		wait until rising_edge(TL_MainClk_test);	-- now the internal phantom read register will be set to 1, we can read the register
 		TL_AS_AB_Address_test <= addr_read;
 		
-		wait until rising_edge(TL_Clk_test);	-- then reset everything
+		wait until rising_edge(TL_MainClk_test);	-- then reset everything
 		TL_AS_AB_ReadEnable_test <= '0';
 		TL_AS_AB_Address_test <= "0000";
 	end procedure read_register;
@@ -223,18 +222,12 @@ Begin
 	
 		loop_row_1a: FOR c1 IN 1 TO 100 LOOP		
 			-- First pixel
-			TL_CI_CA_PixClk_test <= '1';
+			wait until rising_edge(TL_PixClk_test);
 			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			TL_CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 		
 			-- Second pixel
-			TL_CI_CA_PixClk_test <= '1';
+			wait until rising_edge(TL_PixClk_test);
 			TL_CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			TL_CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 			
 			inc1 := std_logic_vector(unsigned(inc1) + 1);
 		END LOOP loop_row_1a;
@@ -243,18 +236,12 @@ Begin
 		
 		loop_row_1b: FOR c1 IN 101 TO 120 LOOP		
 			-- First pixel
-			TL_CI_CA_PixClk_test <= '1';
+			wait until rising_edge(TL_PixClk_test);
 			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			TL_CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 		
 			-- Second pixel
-			TL_CI_CA_PixClk_test <= '1';
+			wait until rising_edge(TL_PixClk_test);
 			TL_CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			TL_CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 			
 			inc1 := std_logic_vector(unsigned(inc1) + 1);
 		END LOOP loop_row_1b;
@@ -263,18 +250,12 @@ Begin
 		
 		loop_row_1c: FOR c1 IN 121 TO 320 LOOP		
 			-- First pixel
-			TL_CI_CA_PixClk_test <= '1';
+			wait until rising_edge(TL_PixClk_test);
 			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			TL_CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 		
 			-- Second pixel
-			TL_CI_CA_PixClk_test <= '1';
+			wait until rising_edge(TL_PixClk_test);
 			TL_CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			TL_CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 			
 			inc1 := std_logic_vector(unsigned(inc1) + 1);
 		END LOOP loop_row_1c;
@@ -283,18 +264,12 @@ Begin
 		
 		loop_row_2a: FOR c2 IN 1 TO 59 LOOP
 			-- First pixel
-			TL_CI_CA_PixClk_test <= '1';
+			wait until rising_edge(TL_PixClk_test);
 			TL_CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			TL_CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 		
 			-- Second pixel
-			TL_CI_CA_PixClk_test <= '1';
+			wait until rising_edge(TL_PixClk_test);
 			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			TL_CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 			
 			inc1 := std_logic_vector(unsigned(inc1) + 1);
 		END LOOP loop_row_2a;
@@ -303,18 +278,12 @@ Begin
 		
 		loop_row_2b: FOR c2 IN 60 TO 227 LOOP
 			-- First pixel
-			TL_CI_CA_PixClk_test <= '1';
+			wait until rising_edge(TL_PixClk_test);
 			TL_CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			TL_CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 		
 			-- Second pixel
-			TL_CI_CA_PixClk_test <= '1';
+			wait until rising_edge(TL_PixClk_test);
 			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			TL_CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 			
 			inc1 := std_logic_vector(unsigned(inc1) + 1);
 		END LOOP loop_row_2b;
@@ -323,18 +292,12 @@ Begin
 		
 		loop_row_2c: FOR c2 IN 228 TO 320 LOOP
 			-- First pixel
-			TL_CI_CA_PixClk_test <= '1';
+			wait until rising_edge(TL_PixClk_test);
 			TL_CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			TL_CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 		
 			-- Second pixel
-			TL_CI_CA_PixClk_test <= '1';
+			wait until rising_edge(TL_PixClk_test);
 			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
-			wait for HalfPeriod_cam;
-			TL_CI_CA_PixClk_test <= '0';
-			wait for HalfPeriod_cam;
 			
 			inc1 := std_logic_vector(unsigned(inc1) + 1);
 		END LOOP loop_row_2c;
