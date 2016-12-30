@@ -26,9 +26,9 @@
 #include "io.h"
 #include "system.h"
 
-#define HPS_0_BRIDGES_SPAN (151 * 1024) /* address_span_expander span from system.h 320*240*2 bytes */
-
 #define ONE_KB (1024)
+
+#define HPS_0_BRIDGES_SPAN 2*(10) /* address_span_expander span from system.h 320*240*2 bytes */
 
 int main()
 {
@@ -66,30 +66,27 @@ int main()
 
 	//while(IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x09)!=0x01){};
 
-	usleep(1000);
+	//usleep(1000);
 
 	//READ THE IMAGE IN THE MEMORY
-	uint32_t kilobyte_count = 0;
 	FILE* test;
 	test = fopen("/mnt/host/test.txt","w");
 
-	    for (uint32_t i = 0; i < HPS_0_BRIDGES_SPAN; i += sizeof(uint16_t)) {
+	/*
+	for (uint32_t i = 0; i < HPS_0_BRIDGES_SPAN; i += sizeof(uint16_t))
+	{
+			uint32_t addr = HPS_0_BRIDGES_BASE + i;
+			// Read through address span expander
+			uint16_t readdata = IORD_16DIRECT(addr, 0);
 
-	        // Print progress through 256 MB memory available through address span expander
-	        if ((i % ONE_KB) == 0) {
-	            printf("kilobyte_count = %i \n", kilobyte_count);
-	            kilobyte_count++;
-	        }
+			fprintf(test, "%" PRIu16 " ", readdata);
+	}
+	*/
 
-	        uint32_t addr = HPS_0_BRIDGES_BASE + i;
+	fprintf(test, "blabla");
+	printf("blabla");
 
-	        // Read through address span expander
-	        uint16_t readdata = IORD_16DIRECT(addr, 0);
-
-	        fprintf(test, "%" PRIu16 " ", readdata);
-
-	    }
-	    fclose(test);
+	fclose(test);
 
 	return EXIT_SUCCESS;
 }

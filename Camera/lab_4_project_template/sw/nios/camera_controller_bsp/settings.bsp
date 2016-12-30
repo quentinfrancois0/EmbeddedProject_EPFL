@@ -2,10 +2,10 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>30 déc. 2016 22:32:14</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1483133534328</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>30 déc. 2016 23:24:09</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1483136649387</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>D:\Temp\EmbeddedProject_EPFL\Camera\lab_4_project_template\sw\nios\camera_controller_bsp</BspGeneratedLocation>
-        <BspSettingsFile>.\settings.bsp</BspSettingsFile>
+        <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>D:\Temp\EmbeddedProject_EPFL\Camera\lab_4_project_template\hw\quartus\soc_system.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
         <Cpu>nios2_gen2_0</Cpu>
