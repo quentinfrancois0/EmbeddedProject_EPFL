@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="soc_system" kind="soc_system" version="1.0" fabric="QSYS">
  <!-- Format version 16.0 211 (Future versions may contain additional information.) -->
- <!-- 2016.12.30.22:04:19 -->
+ <!-- 2016.12.31.14:42:04 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1483131858</value>
+  <value>1483191724</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -1102,7 +1102,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="camera_controller_0"
    kind="camera_controller"
-   version="1.2"
+   version="1.0"
    path="camera_controller_0">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -1898,51 +1898,6 @@ parameters are a RESULT of the module parameters. -->
     <role>clk</role>
    </port>
   </interface>
-  <interface name="reset_sink" kind="reset_sink" version="16.0">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="synchronousEdges">
-    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
-    <value>DEASSERT</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>reset</type>
-   <isStart>false</isStart>
-   <port>
-    <name>TL_nReset</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>reset_n</role>
-   </port>
-  </interface>
   <interface name="clock_sink_1" kind="clock_sink" version="16.0">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
@@ -1986,6 +1941,51 @@ parameters are a RESULT of the module parameters. -->
     <direction>Input</direction>
     <width>1</width>
     <role>clk</role>
+   </port>
+  </interface>
+  <interface name="reset_sink" kind="reset_sink" version="16.0">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="synchronousEdges">
+    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
+    <value>DEASSERT</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>reset</type>
+   <isStart>false</isStart>
+   <port>
+    <name>TL_nReset</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>reset_n</role>
    </port>
   </interface>
  </module>
@@ -91740,11 +91740,11 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>in_clk</endConnectionPoint>
  </connection>
  <connection
-   name="cmos_sensor_output_generator_0.cmos_sensor/camera_controller_0.conduit_end"
+   name="camera_controller_0.conduit_end/cmos_sensor_output_generator_0.cmos_sensor"
    kind="conduit"
    version="16.0"
-   start="cmos_sensor_output_generator_0.cmos_sensor"
-   end="camera_controller_0.conduit_end">
+   start="camera_controller_0.conduit_end"
+   end="cmos_sensor_output_generator_0.cmos_sensor">
   <parameter name="endPort">
    <type>com.altera.entityinterfaces.IPort</type>
    <value></value>
@@ -91801,10 +91801,10 @@ parameters are a RESULT of the module parameters. -->
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <startModule>cmos_sensor_output_generator_0</startModule>
-  <startConnectionPoint>cmos_sensor</startConnectionPoint>
-  <endModule>camera_controller_0</endModule>
-  <endConnectionPoint>conduit_end</endConnectionPoint>
+  <startModule>camera_controller_0</startModule>
+  <startConnectionPoint>conduit_end</startConnectionPoint>
+  <endModule>cmos_sensor_output_generator_0</endModule>
+  <endConnectionPoint>cmos_sensor</endConnectionPoint>
  </connection>
  <connection
    name="nios2_gen2_0.irq/jtag_uart_0.irq"
@@ -92454,7 +92454,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName>camera_controller</displayName>
-  <version>1.2</version>
+  <version>1.0</version>
  </plugin>
  <plugin>
   <instanceCount>6</instanceCount>

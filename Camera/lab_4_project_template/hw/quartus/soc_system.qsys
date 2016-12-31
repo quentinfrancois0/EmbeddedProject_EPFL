@@ -247,7 +247,7 @@
  <module
    name="camera_controller_0"
    kind="camera_controller"
-   version="1.2"
+   version="1.0"
    enabled="1" />
  <module name="clk_0" kind="clock_source" version="16.0" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
@@ -1369,8 +1369,8 @@
  <connection
    kind="conduit"
    version="16.0"
-   start="cmos_sensor_output_generator_0.cmos_sensor"
-   end="camera_controller_0.conduit_end">
+   start="camera_controller_0.conduit_end"
+   end="cmos_sensor_output_generator_0.cmos_sensor">
   <parameter name="endPort" value="" />
   <parameter name="endPortLSB" value="0" />
   <parameter name="startPort" value="" />
