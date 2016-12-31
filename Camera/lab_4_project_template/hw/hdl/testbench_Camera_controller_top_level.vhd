@@ -189,17 +189,17 @@ Begin
 	-- Toggling the reset
 	toggle_reset;
 	
-	-- Writing start_adress = 300 = 0x1010012C
-	write_register(X"1", X"2C");
-	write_register(X"2", X"01");
-	write_register(X"3", X"10");
+	-- Writing start_adress = 0x10000000
+	write_register(X"1", X"00");
+	write_register(X"2", X"00");
+	write_register(X"3", X"00");
 	write_register(X"4", X"10");
 	
-	-- Writing AS_AM_Length = 32 = 0x20204020
-	write_register(X"5", X"20");
-	write_register(X"6", X"40");
-	write_register(X"7", X"20");
-	write_register(X"8", X"20");
+	-- Writing AS_AM_Length = 76800 = 0x00012C00
+	write_register(X"5", X"00");
+	write_register(X"6", X"2C");
+	write_register(X"7", X"01");
+	write_register(X"8", X"00");
 	
 	-- Writing AS_AMCI_Start information = 1
 	write_register(X"0", X"01");
@@ -214,97 +214,101 @@ Begin
 	
 	wait for 2*HalfPeriod_cam;
 	
-	inc2 := "000000000000";
+	loop_img: FOR img IN 1 TO 2 LOOP
 	
-	loop_r: FOR row IN 1 TO 2 LOOP
+		inc2 := "000000000000";
+		
+		loop_row: FOR row IN 1 TO 240 LOOP
+		
+			inc1 := "000000000000";
+		
+			loop_r1_ca: FOR c1 IN 1 TO 100 LOOP		
+				-- First pixel
+				wait until rising_edge(TL_PixClk_test);
+				TL_CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
+			
+				-- Second pixel
+				wait until rising_edge(TL_PixClk_test);
+				TL_CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
+				
+				inc1 := std_logic_vector(unsigned(inc1) + 1);
+			END LOOP loop_r1_ca;
+			
+			-- TL_CI_CA_LineValid_test <= '0';
+			
+			loop_r1_cb: FOR c1 IN 101 TO 120 LOOP		
+				-- First pixel
+				wait until rising_edge(TL_PixClk_test);
+				TL_CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
+			
+				-- Second pixel
+				wait until rising_edge(TL_PixClk_test);
+				TL_CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
+				
+				inc1 := std_logic_vector(unsigned(inc1) + 1);
+			END LOOP loop_r1_cb;
+			
+			-- TL_CI_CA_LineValid_test <= '1';
+			
+			loop_r1_cc: FOR c1 IN 121 TO 320 LOOP		
+				-- First pixel
+				wait until rising_edge(TL_PixClk_test);
+				TL_CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
+			
+				-- Second pixel
+				wait until rising_edge(TL_PixClk_test);
+				TL_CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
+				
+				inc1 := std_logic_vector(unsigned(inc1) + 1);
+			END LOOP loop_r1_cc;
+			
+			inc1 := "000000000000";
+			
+			loop_r2_ca: FOR c2 IN 1 TO 59 LOOP
+				-- First pixel
+				wait until rising_edge(TL_PixClk_test);
+				TL_CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
+			
+				-- Second pixel
+				wait until rising_edge(TL_PixClk_test);
+				TL_CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
+				
+				inc1 := std_logic_vector(unsigned(inc1) + 1);
+			END LOOP loop_r2_ca;
+			
+			-- TL_CI_CA_FrameValid_test <= '0';
+			
+			loop_r2_cb: FOR c2 IN 60 TO 227 LOOP
+				-- First pixel
+				wait until rising_edge(TL_PixClk_test);
+				TL_CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
+			
+				-- Second pixel
+				wait until rising_edge(TL_PixClk_test);
+				TL_CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
+				
+				inc1 := std_logic_vector(unsigned(inc1) + 1);
+			END LOOP loop_r2_cb;
+			
+			-- TL_CI_CA_FrameValid_test <= '1';
+			
+			loop_r3_cc: FOR c2 IN 228 TO 320 LOOP
+				-- First pixel
+				wait until rising_edge(TL_PixClk_test);
+				TL_CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
+			
+				-- Second pixel
+				wait until rising_edge(TL_PixClk_test);
+				TL_CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
+				
+				inc1 := std_logic_vector(unsigned(inc1) + 1);
+			END LOOP loop_r3_cc;
+			
+			inc2 := std_logic_vector(unsigned(inc2) + 1);
+			
+		END LOOP loop_row;
 	
-		inc1 := "000000000000";
-	
-		loop_row_1a: FOR c1 IN 1 TO 100 LOOP		
-			-- First pixel
-			wait until rising_edge(TL_PixClk_test);
-			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
-		
-			-- Second pixel
-			wait until rising_edge(TL_PixClk_test);
-			TL_CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
-			
-			inc1 := std_logic_vector(unsigned(inc1) + 1);
-		END LOOP loop_row_1a;
-		
-		TL_CI_CA_LineValid_test <= '0';
-		
-		loop_row_1b: FOR c1 IN 101 TO 120 LOOP		
-			-- First pixel
-			wait until rising_edge(TL_PixClk_test);
-			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
-		
-			-- Second pixel
-			wait until rising_edge(TL_PixClk_test);
-			TL_CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
-			
-			inc1 := std_logic_vector(unsigned(inc1) + 1);
-		END LOOP loop_row_1b;
-		
-		TL_CI_CA_LineValid_test <= '1';
-		
-		loop_row_1c: FOR c1 IN 121 TO 320 LOOP		
-			-- First pixel
-			wait until rising_edge(TL_PixClk_test);
-			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
-		
-			-- Second pixel
-			wait until rising_edge(TL_PixClk_test);
-			TL_CI_CA_Data_test <= std_logic_vector(unsigned(R) + unsigned(inc1) + unsigned(inc2));
-			
-			inc1 := std_logic_vector(unsigned(inc1) + 1);
-		END LOOP loop_row_1c;
-		
-		inc1 := "000000000000";
-		
-		loop_row_2a: FOR c2 IN 1 TO 59 LOOP
-			-- First pixel
-			wait until rising_edge(TL_PixClk_test);
-			TL_CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
-		
-			-- Second pixel
-			wait until rising_edge(TL_PixClk_test);
-			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
-			
-			inc1 := std_logic_vector(unsigned(inc1) + 1);
-		END LOOP loop_row_2a;
-		
-		TL_CI_CA_FrameValid_test <= '0';
-		
-		loop_row_2b: FOR c2 IN 60 TO 227 LOOP
-			-- First pixel
-			wait until rising_edge(TL_PixClk_test);
-			TL_CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
-		
-			-- Second pixel
-			wait until rising_edge(TL_PixClk_test);
-			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
-			
-			inc1 := std_logic_vector(unsigned(inc1) + 1);
-		END LOOP loop_row_2b;
-		
-		TL_CI_CA_FrameValid_test <= '1';
-		
-		loop_row_2c: FOR c2 IN 228 TO 320 LOOP
-			-- First pixel
-			wait until rising_edge(TL_PixClk_test);
-			TL_CI_CA_Data_test <= std_logic_vector(unsigned(B) + unsigned(inc1) + unsigned(inc2));
-		
-			-- Second pixel
-			wait until rising_edge(TL_PixClk_test);
-			TL_CI_CA_Data_test <= std_logic_vector(unsigned(G2) + unsigned(inc1) + unsigned(inc2));
-			
-			inc1 := std_logic_vector(unsigned(inc1) + 1);
-		END LOOP loop_row_2c;
-		
-		inc2 := std_logic_vector(unsigned(inc2) + 1);
-		
-	END LOOP loop_r;
+	END LOOP loop_img;
 	
 	-- Set end_sim to "true", so the clock generation stops
 	end_sim <= true;

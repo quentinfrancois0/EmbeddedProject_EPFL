@@ -147,20 +147,17 @@ Begin
 	-- Toggling the reset
 	toggle_reset;
 	
-	-- Writing AS_AM_StartAddress = 20 = 0x00000014
-	write_register(X"1", X"14");
-	
-	-- Writing start_adress = 300 = 0x1010012C -> 0x10100114
-	write_register(X"1", X"2C"); --not writed because of the flag
-	write_register(X"2", X"01");
-	write_register(X"3", X"10");
+	-- Writing start_adress = 0x10000000
+	write_register(X"1", X"00");
+	write_register(X"2", X"00");
+	write_register(X"3", X"00");
 	write_register(X"4", X"10");
 	
-	-- Writing AS_AM_Length = 32 = 0x20204020
-	write_register(X"5", X"20");
-	write_register(X"6", X"40");
-	write_register(X"7", X"20");
-	write_register(X"8", X"20");
+	-- Writing AS_AM_Length = 76800 = 0x00012C00
+	write_register(X"5", X"00");
+	write_register(X"6", X"2C");
+	write_register(X"7", X"01");
+	write_register(X"8", X"00");
 	
 	-- Writing AS_AMCI_Start information = 1
 	write_register(X"0", X"01");

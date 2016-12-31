@@ -66,7 +66,7 @@ signal AM_AB_BurstCount_test	: std_logic_vector (7 DOWNTO 0);
 signal AM_AB_WaitRequest_test	: std_logic := '1';
 
 signal AM_AS_Start_test			: std_logic := '0';
-signal AM_AS_StartAddress_test	: std_logic_vector (31 DOWNTO 0) := X"1000012C";
+signal AM_AS_StartAddress_test	: std_logic_vector (31 DOWNTO 0) := X"10000000";
 signal AM_AS_Length_test		: std_logic_vector (31 DOWNTO 0) := X"00012C00";
 signal AM_AS_Status_test		: std_logic;
 
@@ -156,7 +156,7 @@ Begin
 	AM_FIFO_UsedWords_test <= "000001000";
 	AM_AB_WaitRequest_test <= '0';
 	
---	-- Block the third transfer
+	-- Block the third transfer
 	wait until rising_edge(AM_Clk_test);
 	wait until rising_edge(AM_Clk_test);
 	wait until rising_edge(AM_Clk_test);

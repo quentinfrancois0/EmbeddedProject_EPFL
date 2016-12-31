@@ -57,37 +57,37 @@ ENTITY Avalon_master IS
 END Avalon_master;
 
 ARCHITECTURE bhv OF Avalon_master IS
-	constant    BURSTCOUNT_LENGTH : positive := 16;
-	constant    ADDR_INCREMENT : natural := (AM_AB_MemoryData'length / 8) * BURSTCOUNT_LENGTH;
+	constant	BURSTCOUNT_LENGTH 	: unsigned (7 DOWNTO 0) := X"10";
+	constant	ADDR_INCREMENT 		: unsigned (7 DOWNTO 0) := X"40";							--(AM_AB_MemoryData'length / 8) * BURSTCOUNT_LENGTH;
 	
-	signal		iRegAlmostEmpty				: std_logic;						-- internal phantom register which says if there is at least a burst in the FIFO
-	signal		iRegCounterAddress, next_iRegCounterAddress			: std_logic_vector (31 DOWNTO 0);	-- internal phantom register which points on the current adress in the memory
-	TYPE		SM 	IS (WaitData, Burst, STATE_BURSTCOUNT);
-	Signal		reg_SM_State, next_reg_SM_state					: SM;
+	signal		iRegAlmostEmpty								: std_logic;						-- internal phantom register which says if there is at least a burst in the FIFO
+	signal		iRegCounterAddress, next_iRegCounterAddress	: std_logic_vector (31 DOWNTO 0);	-- internal phantom register which points on the current adress in the memory
+	signal 		iRegBurstCount, next_iRegBurstCount 		: unsigned (7 DOWNTO 0);
 	
-	signal reg_burstcount, next_reg_burstcount : natural;
+	TYPE		SM 	IS (WAITDATA, BURST, BURSTCOUNT);
+	signal		iRegStateSM, next_iRegStateSM				: SM;
 
 BEGIN
 
 process(AM_nReset, AM_Clk)
 begin
 	if AM_nReset = '0' then
-		reg_SM_state <= WaitData;
+		iRegStateSM <= WAITDATA;
 		iRegCounterAddress <= (others => '0');
-		reg_burstcount <= 0;
+		iRegBurstCount <= X"00";
 		
 	elsif rising_edge(AM_Clk) then
-		reg_SM_state <= next_reg_SM_state;
+		iRegStateSM <= next_iRegStateSM;
 		iRegCounterAddress <= next_iRegCounterAddress;
-		reg_burstcount <= next_reg_burstcount;
+		iRegBurstCount <= next_iRegBurstCount;
 	end if;
 end process;
 
-process(iRegCounterAddress, reg_SM_state, AM_FIFO_UsedWords, iRegAlmostEmpty, AM_AS_Start, AM_FIFO_ReadData, AM_AS_StartAddress, AM_AB_WaitRequest, AM_AS_Length, reg_burstcount)
+process(iRegCounterAddress, iRegStateSM, iRegBurstCount, AM_FIFO_UsedWords, iRegAlmostEmpty, AM_AS_Start, AM_FIFO_ReadData, AM_AS_StartAddress, AM_AB_WaitRequest, AM_AS_Length)
 begin
 	next_iRegCounterAddress <= iRegCounterAddress;
-	next_reg_SM_state <= reg_SM_state;
-	next_reg_burstcount <= reg_burstcount;
+	next_iRegStateSM <= iRegStateSM;
+	next_iRegBurstCount <= iRegBurstCount;
 	
 	AM_AB_MemoryAddress <= (others => 'Z');
 	AM_AB_WriteAccess <= '0';
@@ -96,43 +96,43 @@ begin
 	AM_FIFO_ReadCheck <= '0';
 	AM_AS_Status <= '0';
 	
-	if unsigned(AM_FIFO_UsedWords) > 3 then
+	if unsigned(AM_FIFO_UsedWords) < BURSTCOUNT_LENGTH then
 		iRegAlmostEmpty <= '1';
 	else
 		iRegAlmostEmpty <= '0';
 	end if;
-
-	case reg_SM_state is
-		when WaitData =>
-			if iRegAlmostEmpty = '1' AND AM_AS_Start = '1' then
-				next_reg_SM_state <= STATE_BURSTCOUNT;
+	
+	case iRegStateSM is
+		when WAITDATA =>
+			if iRegAlmostEmpty = '0' AND AM_AS_Start = '1' then
+				next_iRegStateSM <= BURSTCOUNT;
 			end if;
 			
-		when STATE_BURSTCOUNT =>
-			AM_AB_BurstCount <= std_logic_vector(to_unsigned(BURSTCOUNT_LENGTH, AM_AB_BurstCount'length));
+		when BURSTCOUNT =>
+			AM_AB_BurstCount <= std_logic_vector(BURSTCOUNT_LENGTH);
 			AM_AB_MemoryData <= AM_FIFO_ReadData;
 			AM_AB_MemoryAddress <= std_logic_vector(unsigned(AM_AS_StartAddress) + unsigned(iRegCounterAddress));
 			AM_AB_WriteAccess <= '1';
 			
 			if AM_AB_WaitRequest = '0' then
 				AM_FIFO_ReadCheck <= '1';
-				next_reg_SM_state <= Burst;
+				next_iRegStateSM <= BURST;
 			end if;
 			
-		when Burst =>
+		when BURST =>
 		AM_AB_WriteAccess <= '1';
 		AM_AB_MemoryAddress <= std_logic_vector(unsigned(AM_AS_StartAddress) + unsigned(iRegCounterAddress));
 		AM_AB_MemoryData <= AM_FIFO_ReadData;
 		
 		if AM_AB_WaitRequest = '0' then
 			AM_FIFO_ReadCheck <= '1';
-			next_reg_burstcount <= reg_burstcount + 1;
+			next_iRegBurstCount <= iRegBurstCount + 1;
 			
-			if reg_burstcount = BURSTCOUNT_LENGTH - 1 then
-				next_reg_SM_state <= WaitData;
-
-				next_iRegCounterAddress <= std_logic_vector (unsigned (iRegCounterAddress) + ADDR_INCREMENT); -- increase the iRegCounterAdress register
-				if iRegCounterAddress = AM_AS_Length then -- when the iRegCounterAddress is equal to the data length (at the end of the 3 buffers), reset the counter to 0 to restart
+			if iRegBurstCount = BURSTCOUNT_LENGTH - 1 then
+				next_iRegStateSM <= WAITDATA;
+				next_iRegBurstCount <= X"00";
+				next_iRegCounterAddress <= std_logic_vector(unsigned(iRegCounterAddress) + ADDR_INCREMENT); -- increase the iRegCounterAdress register
+				if unsigned(iRegCounterAddress) = unsigned(AM_AS_Length)*2 - ADDR_INCREMENT then
 					next_iRegCounterAddress <= (others => '0');
 					AM_AS_Status <= '1'; --tell to the slave that the image is finished
 				end if;

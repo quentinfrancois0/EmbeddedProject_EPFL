@@ -51,9 +51,12 @@ ENTITY Avalon_slave IS
 END Avalon_slave;
 
 ARCHITECTURE bhv OF Avalon_slave IS	
+	constant	BURST_LENGTH		: unsigned (31 DOWNTO 0) := X"00025800";
+
 	signal		iFlagSettings		: std_logic_vector (7 DOWNTO 0);	-- internal phantom flag in order to avoid seetings modification after configuration
 	signal		iRegStart			: std_logic;						-- internal register for the Start information
-	signal		iRegStart_Address	: std_logic_vector (31 DOWNTO 0);	-- internal register for the memory Start adress
+	signal		iRegStartAddress	: std_logic_vector (31 DOWNTO 0);	-- internal register for the memory Start adress
+	signal		iRegBufferAddress	: std_logic_vector (31 DOWNTO 0);	-- internal register for the buffer address
 	signal		iRegLength			: std_logic_vector (31 DOWNTO 0);	-- internal register for the data stored Length
 	signal		iRegStatus			: std_logic_vector (2 DOWNTO 0);	-- internal register for the status of each buffer
 	signal		prevStatus			: std_logic;						-- previous state of AS_AM_Status
@@ -68,7 +71,8 @@ Process(AS_nReset, AS_Clk)
 Begin
 	if AS_nReset = '0' then	-- reset the four writable registers when pushing the reset key
 		iRegStart			<= '0';
-		iRegStart_Address	<= (others => '0');
+		iRegStartAddress	<= (others => '0');
+		iRegBufferAddress	<= (others => '0');
 		iRegLength			<= (others => '0');
 		iFlagSettings		<= (others => '0');
 		iRegStatus			<= (others => '0');
@@ -80,22 +84,26 @@ Begin
 				when X"0" => iRegStart	<= AS_AB_WriteData(0);
 				when X"1" => 
 					if iFlagSettings(0) = '0' then
-						iRegStart_Address (7 DOWNTO 0)	<= AS_AB_WriteData;
+						iRegStartAddress (7 DOWNTO 0)	<= AS_AB_WriteData;
+						iRegBufferAddress (7 DOWNTO 0)	<= AS_AB_WriteData;
 						iFlagSettings(0) <= '1';
 					end if;
 				when X"2" => 
 					if iFlagSettings(1) = '0' then
-						iRegStart_Address (15 DOWNTO 8)	<= AS_AB_WriteData;
+						iRegStartAddress (15 DOWNTO 8)	<= AS_AB_WriteData;
+						iRegBufferAddress (15 DOWNTO 8)	<= AS_AB_WriteData;
 						iFlagSettings(1) <= '1';
 					end if;
 				when X"3" => 
 					if iFlagSettings(2) = '0' then
-						iRegStart_Address (23 DOWNTO 16)	<= AS_AB_WriteData;
+						iRegStartAddress (23 DOWNTO 16)	<= AS_AB_WriteData;
+						iRegBufferAddress (23 DOWNTO 16)<= AS_AB_WriteData;
 						iFlagSettings(2) <= '1';
 					end if;
 				when X"4" => 
 					if iFlagSettings(3) = '0' then
-						iRegStart_Address (31 DOWNTO 24)	<= AS_AB_WriteData;
+						iRegStartAddress (31 DOWNTO 24)	<= AS_AB_WriteData;
+						iRegBufferAddress (31 DOWNTO 24)<= AS_AB_WriteData;
 						iFlagSettings(3) <= '1';
 					end if;
 				when X"5" => 
@@ -126,12 +134,15 @@ Begin
 			prevStatus <= '1';
 			if iRegStatus (0) = '0' AND nextBuffer = "00" then
 				iRegStatus (0) <= '1';
+				iRegBufferAddress <= std_logic_vector(unsigned(iRegStartAddress) + BURST_LENGTH);
 				nextBuffer <= "01";
 			elsif iRegStatus (1) = '0' AND nextBuffer = "01" then
 				iRegStatus (1) <= '1';
+				iRegBufferAddress <= std_logic_vector(unsigned(iRegStartAddress) + BURST_LENGTH + BURST_LENGTH);
 				nextBuffer <= "10";
 			elsif iRegStatus (2) = '0' AND nextBuffer = "10" then
 				iRegStatus (2) <= '1';
+				iRegBufferAddress <= iRegStartAddress;
 				nextBuffer <= "00";
 			end if;
 		elsif AS_AM_Status = '0' AND prevStatus = '1' then
@@ -143,16 +154,16 @@ end process WriteProcess;
 -- Process to read internal registers through Avalon bus interface
 -- Synchronous access on rising edge of the FPGA's clock with 1 wait
 ReadProcess:
-Process(AS_AB_ReadEnable, AS_AB_Address, iRegStart, iRegStart_Address, iRegLength, iRegStatus)
+Process(AS_AB_ReadEnable, AS_AB_Address, iRegStart, iRegStartAddress, iRegLength, iRegStatus)
 Begin
 	AS_AB_ReadData <= (others => 'Z');	-- reset the data bus (read) when not used
 	if AS_AB_ReadEnable = '1' then
 		case AS_AB_Address is
 			when X"0" => AS_AB_ReadData(0) 				<= iRegStart;
-			when X"1" => AS_AB_ReadData 				<= iRegStart_Address (7 DOWNTO 0);
-			when X"2" => AS_AB_ReadData 				<= iRegStart_Address (15 DOWNTO 8);
-			when X"3" => AS_AB_ReadData 				<= iRegStart_Address (23 DOWNTO 16);
-			when X"4" => AS_AB_ReadData 				<= iRegStart_Address (31 DOWNTO 24);
+			when X"1" => AS_AB_ReadData 				<= iRegStartAddress (7 DOWNTO 0);
+			when X"2" => AS_AB_ReadData 				<= iRegStartAddress (15 DOWNTO 8);
+			when X"3" => AS_AB_ReadData 				<= iRegStartAddress (23 DOWNTO 16);
+			when X"4" => AS_AB_ReadData 				<= iRegStartAddress (31 DOWNTO 24);
 			when X"5" => AS_AB_ReadData 				<= iRegLength (7 DOWNTO 0);
 			when X"6" => AS_AB_ReadData 				<= iRegLength (15 DOWNTO 8);
 			when X"7" => AS_AB_ReadData 				<= iRegLength (23 DOWNTO 16);
@@ -172,7 +183,7 @@ Begin
 		AS_AM_Length <= (others => '0');
 		AS_AMCI_Start	<= '0';
 	elsif rising_edge(AS_Clk) then
-		AS_AM_StartAddress <= iRegStart_Address;
+		AS_AM_StartAddress <= iRegBufferAddress;
 		AS_AM_Length <= iRegLength;
 		AS_AMCI_Start <= iRegStart;
 	end if;
