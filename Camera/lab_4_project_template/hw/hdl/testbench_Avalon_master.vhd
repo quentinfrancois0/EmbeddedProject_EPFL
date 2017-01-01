@@ -67,11 +67,11 @@ signal AM_AB_WaitRequest_test	: std_logic := '1';
 
 signal AM_AS_Start_test			: std_logic := '0';
 signal AM_AS_StartAddress_test	: std_logic_vector (31 DOWNTO 0) := X"10000000";
-signal AM_AS_Length_test		: std_logic_vector (31 DOWNTO 0) := X"00012C00";
+signal AM_AS_Length_test		: std_logic_vector (31 DOWNTO 0) := X"00025800";
 signal AM_AS_Status_test		: std_logic;
 
 signal AM_FIFO_ReadCheck_test	: std_logic;
-signal AM_FIFO_ReadData_test	: std_logic_vector (31 DOWNTO 0) := X"00000001";
+signal AM_FIFO_ReadData_test	: std_logic_vector (31 DOWNTO 0) := X"00000000";
 signal AM_FIFO_UsedWords_test	: std_logic_vector (8 DOWNTO 0) := "000000000";
 
 signal Data_info : std_logic_vector (31 DOWNTO 0) := X"00000002";
@@ -116,16 +116,33 @@ end process clk_process;
 
 transfer_fifo :
 Process
+
+	variable inc1 : std_logic_vector (31 DOWNTO 0) := X"00000000";
+	variable inc2 : std_logic_vector (31 DOWNTO 0) := X"00000000";
+
 Begin
-	if end_sim = false then
-		wait until rising_edge(AM_Clk_test) AND AM_FIFO_ReadCheck_test = '1';
-		Data_info <= std_logic_vector(unsigned(Data_info) + 1);
-		AM_FIFO_ReadData_test <= Data_info;
-	end if;
-	if unsigned(Data_info)>115500 then
-		end_sim <= true;
-		wait;
-	end if;
+	inc2 := X"00000000";
+
+	loop_img: FOR img IN 1 TO 2 LOOP
+
+		inc1 := X"00000000";
+		
+		loop_pix: FOR pix IN 1 TO 38400 LOOP
+		
+			wait until rising_edge(AM_Clk_test);
+			if AM_FIFO_ReadCheck_test = '1' then
+				AM_FIFO_ReadData_test <= std_logic_vector(unsigned(inc1) + unsigned(inc2));
+				inc1 := std_logic_vector(unsigned(inc1) + 1);
+			end if;
+			
+		END LOOP loop_pix;
+		
+		inc2 := std_logic_vector(unsigned(inc2) + X"10000000");
+		
+	END LOOP loop_img;
+	
+	end_sim <= true;
+	wait;
 end process transfer_fifo;
 
 --	Process to test the component
@@ -153,7 +170,7 @@ Begin
 	-- AM_AS_Start_test => 1
 	wait until rising_edge(AM_Clk_test);
 	AM_AS_Start_test <= '1';
-	AM_FIFO_UsedWords_test <= "000001000";
+	AM_FIFO_UsedWords_test <= "000010000";
 	AM_AB_WaitRequest_test <= '0';
 	
 	-- Block the third transfer
@@ -166,15 +183,7 @@ Begin
 	wait until rising_edge(AM_Clk_test);
 	wait until rising_edge(AM_Clk_test);
 	AM_AB_WaitRequest_test <= '0';
-	
-	wait for 100*HalfPeriod;
---
---	-- 2nd transfer on the bus
---	wait until rising_edge(AM_Clk_test) AND AM_FIFO_ReadCheck_test = '1';
---	AM_FIFO_ReadData_test <= X"10100010"; --(0x0010 = 16) --wait a data asking (4th word)
---	-- 4th transfer on the bus
-	
-	-- Set end_sim to "true", so the clock generation stops
+
 	wait;
 end process test;
 

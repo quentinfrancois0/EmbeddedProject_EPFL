@@ -59,7 +59,7 @@ end component;
 
 -- The signals provided by the testbench :
 signal TL_nReset_test				: std_logic := '1';
-signal TL_MainClk_test					: std_logic := '0';
+signal TL_MainClk_test				: std_logic := '0';
 signal TL_PixClk_test				: std_logic := '0';
 
 signal TL_AS_AB_Address_test		: std_logic_vector (3 DOWNTO 0) := "0000";
@@ -193,24 +193,16 @@ Begin
 	write_register(X"3", X"00");
 	write_register(X"4", X"10");
 	
-	-- Writing AS_AM_Length = 76800 = 0x00012C00
+	-- Writing AS_AM_Length = 76800*2 = 0x00025800
 	write_register(X"5", X"00");
-	write_register(X"6", X"2C");
-	write_register(X"7", X"01");
+	write_register(X"6", X"58");
+	write_register(X"7", X"02");
 	write_register(X"8", X"00");
 	
 	-- Writing AS_AMCI_Start information = 1
 	write_register(X"0", X"01");
 	
-	-- CAM_Line_Valid = 1
-	TL_CI_CA_LineValid_test <= '1';
-	
-	wait for 2*HalfPeriod_cam;
-	
-	-- CAM_Frame_Valid = 1
-	TL_CI_CA_FrameValid_test <= '1';
-	
-	wait for 2*HalfPeriod_cam;
+	read_register(X"0");
 	
 	loop_img: FOR img IN 1 TO 3 LOOP
 	
@@ -223,6 +215,8 @@ Begin
 			loop_r1_ca: FOR c1 IN 1 TO 100 LOOP		
 				-- First pixel
 				wait until rising_edge(TL_PixClk_test);
+				TL_CI_CA_LineValid_test <= '1';
+				TL_CI_CA_FrameValid_test <= '1';
 				TL_CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
 			
 				-- Second pixel
@@ -305,6 +299,15 @@ Begin
 			inc2 := std_logic_vector(unsigned(inc2) + 1);
 			
 		END LOOP loop_row;
+		
+		wait until rising_edge(TL_PixClk_test);
+		wait until rising_edge(TL_PixClk_test);
+		wait until rising_edge(TL_PixClk_test);
+		wait until rising_edge(TL_PixClk_test);
+		wait until rising_edge(TL_PixClk_test);
+		wait until rising_edge(TL_PixClk_test);
+		wait until rising_edge(TL_PixClk_test);
+		read_register(X"0");
 	
 	END LOOP loop_img;
 	

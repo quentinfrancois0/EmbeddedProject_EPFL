@@ -89,11 +89,11 @@ begin
 	next_iRegStateSM <= iRegStateSM;
 	next_iRegBurstCount <= iRegBurstCount;
 	
-	AM_AB_MemoryAddress <= (others => 'Z');
+	AM_FIFO_ReadCheck <= '0';
 	AM_AB_WriteAccess <= '0';
+	AM_AB_MemoryAddress <= (others => 'Z');
 	AM_AB_MemoryData <= (others => 'Z');
 	AM_AB_BurstCount <= (others => 'Z');
-	AM_FIFO_ReadCheck <= '0';
 	AM_AS_Status <= '0';
 	
 	if unsigned(AM_FIFO_UsedWords) < BURSTCOUNT_LENGTH then
@@ -103,6 +103,7 @@ begin
 	end if;
 	
 	case iRegStateSM is
+	
 		when WAITDATA =>
 			if iRegAlmostEmpty = '0' AND AM_AS_Start = '1' then
 				next_iRegStateSM <= BURSTCOUNT;
@@ -110,8 +111,8 @@ begin
 			
 		when BURSTCOUNT =>
 			AM_AB_BurstCount <= std_logic_vector(BURSTCOUNT_LENGTH);
-			AM_AB_MemoryData <= AM_FIFO_ReadData;
 			AM_AB_MemoryAddress <= std_logic_vector(unsigned(AM_AS_StartAddress) + unsigned(iRegCounterAddress));
+			AM_AB_MemoryData <= AM_FIFO_ReadData;
 			AM_AB_WriteAccess <= '1';
 			
 			if AM_AB_WaitRequest = '0' then
@@ -120,24 +121,30 @@ begin
 			end if;
 			
 		when BURST =>
-		AM_AB_WriteAccess <= '1';
-		AM_AB_MemoryAddress <= std_logic_vector(unsigned(AM_AS_StartAddress) + unsigned(iRegCounterAddress));
-		AM_AB_MemoryData <= AM_FIFO_ReadData;
-		
-		if AM_AB_WaitRequest = '0' then
-			AM_FIFO_ReadCheck <= '1';
-			next_iRegBurstCount <= iRegBurstCount + 1;
+			AM_AB_MemoryAddress <= std_logic_vector(unsigned(AM_AS_StartAddress) + unsigned(iRegCounterAddress));
+			AM_AB_MemoryData <= AM_FIFO_ReadData;
+			AM_AB_WriteAccess <= '1';
 			
-			if iRegBurstCount = BURSTCOUNT_LENGTH - 1 then
-				next_iRegStateSM <= WAITDATA;
-				next_iRegBurstCount <= X"00";
-				next_iRegCounterAddress <= std_logic_vector(unsigned(iRegCounterAddress) + ADDR_INCREMENT); -- increase the iRegCounterAdress register
-				if unsigned(iRegCounterAddress) = unsigned(AM_AS_Length)*2 - ADDR_INCREMENT then
-					next_iRegCounterAddress <= (others => '0');
-					AM_AS_Status <= '1'; --tell to the slave that the image is finished
+			if AM_AB_WaitRequest = '0' then
+			
+				AM_FIFO_ReadCheck <= '1';
+				next_iRegBurstCount <= iRegBurstCount + 1;
+				
+				if iRegBurstCount = BURSTCOUNT_LENGTH - 2 then
+				
+					next_iRegStateSM <= WAITDATA;
+					next_iRegBurstCount <= X"00";
+					next_iRegCounterAddress <= std_logic_vector(unsigned(iRegCounterAddress) + ADDR_INCREMENT); -- increase the iRegCounterAdress register
+					
+					if unsigned(iRegCounterAddress) = unsigned(AM_AS_Length) - ADDR_INCREMENT then
+						next_iRegCounterAddress <= (others => '0');
+						AM_AS_Status <= '1'; --tell to the slave that the image is finished
+					end if;
+					
 				end if;
+				
 			end if;
-		end if;
+		
 	end case;
 end process;
 

@@ -145,19 +145,7 @@ Begin
 	
 	-- Start the acquisition
 	wait until rising_edge(CI_Clk_test);
-	CI_AS_Start_test <= '1';
-	
-	wait for 2*HalfPeriod_cam;
-	
-	-- CAM_Line_Valid = 1
-	CI_CA_LineValid_test <= '1';
-	
-	wait for 2*HalfPeriod_cam;
-	
-	-- CAM_Frame_Valid = 1
-	CI_CA_FrameValid_test <= '1';
-	
-	wait for 2*HalfPeriod_cam;
+	CI_AS_Start_test <= '1';	
 	
 	inc2 := "000000000000";
 	
@@ -168,6 +156,8 @@ Begin
 		loop_row_1a: FOR c1 IN 1 TO 100 LOOP		
 			-- First pixel
 			wait until rising_edge(CI_CA_PixClk_test);
+			CI_CA_LineValid_test <= '1';
+			CI_CA_FrameValid_test <= '1';
 			CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
 		
 			-- Second pixel
