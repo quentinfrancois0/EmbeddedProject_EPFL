@@ -177,7 +177,7 @@ Begin
 			inc1 := std_logic_vector(unsigned(inc1) + 1);
 		END LOOP loop_row_1a;
 		
-		CI_CA_LineValid_test <= '0';
+		-- CI_CA_LineValid_test <= '0';
 		
 		loop_row_1b: FOR c1 IN 101 TO 120 LOOP		
 			-- First pixel
@@ -191,7 +191,7 @@ Begin
 			inc1 := std_logic_vector(unsigned(inc1) + 1);
 		END LOOP loop_row_1b;
 		
-		CI_CA_LineValid_test <= '1';
+		-- CI_CA_LineValid_test <= '1';
 		
 		loop_row_1c: FOR c1 IN 121 TO 320 LOOP		
 			-- First pixel
@@ -223,7 +223,7 @@ Begin
 			inc1 := std_logic_vector(unsigned(inc1) + 1);
 		END LOOP loop_row_2a;
 		
-		CI_CA_FrameValid_test <= '0';
+		-- CI_CA_FrameValid_test <= '0';
 		
 		loop_row_2b: FOR c2 IN 60 TO 227 LOOP
 			-- First pixel
@@ -241,7 +241,7 @@ Begin
 			inc1 := std_logic_vector(unsigned(inc1) + 1);
 		END LOOP loop_row_2b;
 		
-		CI_CA_FrameValid_test <= '1';
+		-- CI_CA_FrameValid_test <= '1';
 		
 		loop_row_2c: FOR c2 IN 228 TO 320 LOOP
 			-- First pixel

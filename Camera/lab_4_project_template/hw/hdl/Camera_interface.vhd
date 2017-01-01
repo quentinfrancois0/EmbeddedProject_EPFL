@@ -40,13 +40,13 @@ ARCHITECTURE bhv OF Camera_Interface IS
 	TYPE Memory is array (639 DOWNTO 0) of std_logic_vector (11 DOWNTO 0);
 	signal		iRegMemory			: Memory; 							-- internal phantom memory register for the even read rows
 	
-	signal		iregFIFOWrite		: std_logic;						-- internal phantom register to tell when CI_FIFO_WriteEnable is 1
+	signal		iRegFIFOWrite		: std_logic;						-- internal phantom register to tell when CI_FIFO_WriteEnable is 1
 	signal		iRegColumnCounter	: std_logic_vector (11 DOWNTO 0);	-- phantom counter from 0 to 3 to know if we are reading a valid column and not a skipped one
 	signal		iRegBlue			: std_logic_vector (11 DOWNTO 0); 	-- internal phantom register fot the binning of the actual pixel blue color
 
 BEGIN
 
--- Process to know set the pending flag
+-- Process to set the pending flag
 PendingState:
 Process(CI_nReset, CI_Clk)
 Begin

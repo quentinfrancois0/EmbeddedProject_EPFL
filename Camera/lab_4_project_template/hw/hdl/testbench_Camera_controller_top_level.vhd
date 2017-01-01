@@ -168,8 +168,6 @@ Process
 	Begin
 		wait until rising_edge(TL_MainClk_test);	-- set the read access, so the internal phantom read register will be set to 1 on the next rising edge of the clock
 		TL_AS_AB_ReadEnable_test <= '1';
-		
-		wait until rising_edge(TL_MainClk_test);	-- now the internal phantom read register will be set to 1, we can read the register
 		TL_AS_AB_Address_test <= addr_read;
 		
 		wait until rising_edge(TL_MainClk_test);	-- then reset everything
@@ -214,7 +212,7 @@ Begin
 	
 	wait for 2*HalfPeriod_cam;
 	
-	loop_img: FOR img IN 1 TO 2 LOOP
+	loop_img: FOR img IN 1 TO 3 LOOP
 	
 		inc2 := "000000000000";
 		
