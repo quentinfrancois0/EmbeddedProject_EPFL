@@ -97,6 +97,7 @@ int main()
 	IOWR(CAMERA_CONTROLLER_0_BASE, 0x0, 0x00);
 	cmos_sensor_output_generator_stop(&cmos_sensor_output_generator);
 
+	printf("%" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x0));
 
 	//READ THE IMAGE IN THE MEMORY
 	FILE* data;

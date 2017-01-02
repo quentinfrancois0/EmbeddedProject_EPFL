@@ -153,7 +153,7 @@ Begin
 	write_register(X"3", X"00");
 	write_register(X"4", X"10");
 	
-	-- Writing AS_AM_Length = 76800 = 0x00012C00
+	-- Writing AS_AM_Length = 320*240*2 = 0x00025800
 	write_register(X"5", X"00");
 	write_register(X"6", X"2C");
 	write_register(X"7", X"01");
@@ -188,7 +188,7 @@ Begin
 	AS_AM_Status_test <= '0';
 	
 	-- Writing AS_AM_Status of buffers
-	write_register(X"0", "00000101");
+	write_register(X"9", "00000010");
 	
 	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '1';
@@ -201,7 +201,7 @@ Begin
 	AS_AM_Status_test <= '0';
 	
 	-- Writing AS_AM_Status of buffers
-	write_register(X"0", "00001011");
+	write_register(X"9", "00000101");
 	
 	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '1';
@@ -209,7 +209,7 @@ Begin
 	AS_AM_Status_test <= '0';
 	
 	-- Writing AS_AM_Status of buffers
-	write_register(X"0", "00000111");
+	write_register(X"9", "00000011");
 	
 	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '1';
@@ -217,7 +217,7 @@ Begin
 	AS_AM_Status_test <= '0';
 	
 	-- Reading AS_AM_Status of buffers
-	read_register(X"0");
+	read_register(X"9");
 	
 	wait until rising_edge(AS_Clk_test);
 	

@@ -53,6 +53,7 @@ END Avalon_slave;
 ARCHITECTURE bhv OF Avalon_slave IS	
 	constant	BURST_LENGTH		: unsigned (31 DOWNTO 0) := X"00025800";
 
+	signal		iRegStart			: std_logic_vector (7 DOWNTO 0);	-- internal register for the start information
 	signal		iFlagSettings		: std_logic_vector (7 DOWNTO 0);	-- internal phantom flag in order to avoid seetings modification after configuration
 	signal		iRegStartAddress	: std_logic_vector (31 DOWNTO 0);	-- internal register for the memory Start adress
 	signal		iRegBufferAddress	: std_logic_vector (31 DOWNTO 0);	-- internal register for the buffer address
@@ -69,6 +70,7 @@ WriteProcess:
 Process(AS_nReset, AS_Clk)
 Begin
 	if AS_nReset = '0' then	-- reset the four writable registers when pushing the reset key
+		iRegStart			<= (others => '0');
 		iRegStartAddress	<= (others => '0');
 		iRegBufferAddress	<= (others => '0');
 		iRegLength			<= (others => '0');
@@ -79,7 +81,7 @@ Begin
 	elsif rising_edge(AS_Clk) then
 		if AS_AB_WriteEnable = '1' then
 			case AS_AB_Address is
-				when X"0" => iRegStatus	<= AS_AB_WriteData;
+				when X"0" => iRegStart	<= AS_AB_WriteData;
 				when X"1" => 
 					if iFlagSettings(0) = '0' then
 						iRegStartAddress (7 DOWNTO 0)	<= AS_AB_WriteData;
@@ -124,21 +126,22 @@ Begin
 						iRegLength (31 DOWNTO 24)		<= AS_AB_WriteData;
 						iFlagSettings(7) <= '1';
 					end if;
+				when X"9" =>
+					iRegStatus	<= AS_AB_WriteData;
 				when others => null;
 			end case;
-		end if;
-		if AS_AM_Status = '1' AND prevStatus = '0' then
+		elsif AS_AM_Status = '1' AND prevStatus = '0' then
 			prevStatus <= '1';
-			if iRegStatus (1) = '0' AND nextBuffer = "00" then
-				iRegStatus (1) <= '1';
+			if iRegStatus (0) = '0' AND nextBuffer = "00" then
+				iRegStatus (0) <= '1';
 				iRegBufferAddress <= std_logic_vector(unsigned(iRegStartAddress) + BURST_LENGTH);
 				nextBuffer <= "01";
-			elsif iRegStatus (2) = '0' AND nextBuffer = "01" then
-				iRegStatus (2) <= '1';
+			elsif iRegStatus (1) = '0' AND nextBuffer = "01" then
+				iRegStatus (1) <= '1';
 				iRegBufferAddress <= std_logic_vector(unsigned(iRegStartAddress) + BURST_LENGTH + BURST_LENGTH);
 				nextBuffer <= "10";
-			elsif iRegStatus (3) = '0' AND nextBuffer = "10" then
-				iRegStatus (3) <= '1';
+			elsif iRegStatus (2) = '0' AND nextBuffer = "10" then
+				iRegStatus (2) <= '1';
 				iRegBufferAddress <= iRegStartAddress;
 				nextBuffer <= "00";
 			end if;
@@ -151,12 +154,12 @@ end process WriteProcess;
 -- Process to read internal registers through Avalon bus interface
 -- Synchronous access on rising edge of the FPGA's clock with 1 wait
 ReadProcess:
-Process(AS_AB_ReadEnable, AS_AB_Address, iRegStartAddress, iRegLength, iRegStatus)
+Process(AS_AB_ReadEnable, AS_AB_Address, iRegStart, iRegStartAddress, iRegLength, iRegStatus)
 Begin
 	AS_AB_ReadData <= (others => 'Z');	-- reset the data bus (read) when not used
 	if AS_AB_ReadEnable = '1' then
 		case AS_AB_Address is
-			when X"0" => AS_AB_ReadData 	<= iRegStatus;
+			when X"0" => AS_AB_ReadData 	<= iRegStart;
 			when X"1" => AS_AB_ReadData 	<= iRegStartAddress (7 DOWNTO 0);
 			when X"2" => AS_AB_ReadData 	<= iRegStartAddress (15 DOWNTO 8);
 			when X"3" => AS_AB_ReadData 	<= iRegStartAddress (23 DOWNTO 16);
@@ -165,6 +168,7 @@ Begin
 			when X"6" => AS_AB_ReadData 	<= iRegLength (15 DOWNTO 8);
 			when X"7" => AS_AB_ReadData 	<= iRegLength (23 DOWNTO 16);
 			when X"8" => AS_AB_ReadData 	<= iRegLength (31 DOWNTO 24);
+			when X"9" => AS_AB_ReadData 	<= iRegStatus;
 			when others => null;
 		end case;
 	end if;
@@ -181,7 +185,7 @@ Begin
 	elsif rising_edge(AS_Clk) then
 		AS_AM_StartAddress <= iRegBufferAddress;
 		AS_AM_Length <= iRegLength;
-		AS_AMCI_Start <= iRegStatus(0);
+		AS_AMCI_Start <= iRegStart (0);
 	end if;
 end process UpdateOutput;
 

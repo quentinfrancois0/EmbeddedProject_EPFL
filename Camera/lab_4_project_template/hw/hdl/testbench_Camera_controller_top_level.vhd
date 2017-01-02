@@ -259,18 +259,18 @@ Begin
 	write_register(X"3", X"00");
 	write_register(X"4", X"10");
 	
-	-- Writing AS_AM_Length = 76800*2 = 0x00025800
+	-- Writing AS_AM_Length = 320*240*2 = 0x00025800
 	write_register(X"5", X"00");
 	write_register(X"6", X"58");
 	write_register(X"7", X"02");
 	write_register(X"8", X"00");
 	
-	wait for 1000*HalfPeriod_cam;
+	-- wait for 1000*HalfPeriod_cam;
 	
 	-- Writing AS_AMCI_Start information = 1
 	write_register(X"0", X"01");
 	
-	read_register(X"0");
+	read_register(X"9");
 	
 	-- wait for 1000*HalfPeriod;
 	
@@ -317,7 +317,7 @@ end process test;
 -- Begin
 	-- if not end_sim then
 		-- if frame_finish then
-			-- read_register(X"0");
+			-- read_register(X"9");
 		-- else
 			-- wait;
 		-- end if;
