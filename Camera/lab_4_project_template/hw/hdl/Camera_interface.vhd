@@ -34,71 +34,93 @@ ENTITY Camera_Interface IS
 END Camera_Interface;
 
 ARCHITECTURE bhv OF Camera_Interface IS
-	signal		iRegStatus			: std_logic_vector (7 DOWNTO 0);	-- internal register for an overall status of the acquisition
-	signal		iRegRGB				: std_logic_vector (15 DOWNTO 0); 	-- internal register for the actual computed pixel with 5*6*5 RGB format
+	signal	iRegStart			: std_logic;						-- internal register for the start information
+	signal	iRegPending			: std_logic;						-- internal register for the pending information
+	signal	iRegNewFrame		: std_logic;						-- internal register to know if a new frame is avalaible
+	signal	iRegRow				: std_logic;						-- internal register to know on which row we are
+	signal	iRegColumn			: std_logic;						-- internal register to know on which column we are
+	signal	iRegFIFOWrite		: std_logic;						-- internal register to tell when CI_FIFO_WriteEnable is 1
+	signal	iRegColumnCounter	: std_logic_vector (11 DOWNTO 0);	-- phantom counter from 0 to 3 to know if we are reading a valid column and not a skipped one
 	
 	TYPE Memory is array (639 DOWNTO 0) of std_logic_vector (11 DOWNTO 0);
-	signal		iRegMemory			: Memory; 							-- internal phantom memory register for the even read rows
+	signal	iRegMemory			: Memory; 							-- internal memory register for the even read rows
 	
-	signal		iRegFIFOWrite		: std_logic;						-- internal phantom register to tell when CI_FIFO_WriteEnable is 1
-	signal		iRegColumnCounter	: std_logic_vector (11 DOWNTO 0);	-- phantom counter from 0 to 3 to know if we are reading a valid column and not a skipped one
-	signal		iRegBlue			: std_logic_vector (11 DOWNTO 0); 	-- internal phantom register fot the binning of the actual pixel blue color
+	signal	iRegBlue			: std_logic_vector (11 DOWNTO 0); 	-- internal register fot the binning of the actual pixel blue color
+	signal	iRegRGB				: std_logic_vector (15 DOWNTO 0); 	-- internal register for the actual computed pixel with 5*6*5 RGB format
 
 BEGIN
 
 -- Process to set the pending flag
-PendingState:
+Acquisition:
 Process(CI_nReset, CI_Clk)
 Begin
 	if CI_nReset = '0' then
-		iRegStatus (1 DOWNTO 0) <= "00";
+		iRegStart <= '0';
 	elsif rising_edge(CI_Clk) then
-		iRegStatus (0) <= CI_AS_Start;
-		if CI_FIFO_UsedWords > "1111111011" then
-			iRegStatus (1) <= '1';
+		iRegStart <= CI_AS_Start;
+		if CI_FIFO_UsedWords > "1111110000" then
+			iRegPending <= '1';
 		else
-			iRegStatus (1) <= '0';
+			iRegPending <= '0';
 		end if;
 	end if;
-end process PendingState;
+end process Acquisition;
+
+-- Process to know when a new frame will be outputed
+NewFrame:
+Process(CI_nReset, CI_Clk)
+Begin
+	if CI_nReset = '0' then
+		iRegNewFrame <= '0';
+	elsif rising_edge(CI_Clk) then
+		if (iRegStart = '0' OR iRegPending = '1') AND (CI_CA_FrameValid = '1' OR CI_CA_LineValid = '1') then
+			iRegNewFrame <= '0';
+		elsif CI_CA_FrameValid = '0' AND CI_CA_LineValid = '0' then
+			iRegNewFrame <= '1';
+		end if;
+	end if;
+end process NewFrame;
 
 -- Process to know the column number and the row parity
 CountColumns:
-Process(CI_nReset, CI_CA_FrameValid, CI_CA_LineValid, iRegStatus, CI_CA_PixClk)
+Process(CI_nReset, CI_CA_PixClk)
 Begin
 	if CI_nReset = '0' then
 		iRegColumnCounter <= (others => '0');
-		iRegStatus (7 DOWNTO 2) <= "000000";
-	elsif CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStatus (0) = '1' then
-		if rising_edge(CI_CA_PixClk) then	-- read the pixel on the falling edge of the CI_CA_PixClk
-			if iRegStatus (2) = '0' then	-- if we are on an even row
+		iRegRow <= '0';
+		iRegColumn <= '0';
+	elsif rising_edge(CI_CA_PixClk) then	-- read the pixel on the falling edge of the CI_CA_PixClk
+		if CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStart = '1' AND iRegNewFrame = '1' then
+			if iRegRow = '0' then	-- if we are on an even row
 				if (iRegColumnCounter = X"27F") then	-- if iRegColumnCounter = 639, reset it
 					iRegColumnCounter <= "000000000000";
-					iRegStatus (2) <= '1';	-- switch to the odd row
+					iRegRow <= '1';	-- switch to the odd row
 				else
 					iRegColumnCounter <= std_logic_vector(unsigned(iRegColumnCounter) + 1);	-- increment the column counter
 				end if;
 			else	-- if we are on an odd row
-				if iRegStatus (3) = '0' then	-- if we are on an even column (blue pixel)
-					iRegStatus (3) <= '1';	-- now switch to the odd column
+				if iRegColumn = '0' then	-- if we are on an even column (blue pixel)
+					iRegColumn <= '1';	-- now switch to the odd column
 					iRegColumnCounter <= std_logic_vector(unsigned(iRegColumnCounter) + 1);	-- increment the column counter
 				else	-- if we are on an odd column (green G2 pixel)
-					iRegStatus (3) <= '0';	-- and switch to the next even column
+					iRegColumn <= '0';	-- and switch to the next even column
 					if iRegColumnCounter = X"27F" then	-- if iRegColumnCounter = 639, reset it
 						iRegColumnCounter <= "000000000000";
-						iRegStatus (2) <= '0';	-- switch to the even row
+						iRegRow <= '0';	-- switch to the even row
 					else
 						iRegColumnCounter <= std_logic_vector(unsigned(iRegColumnCounter) + 1);	-- increment the column counter
 					end if;
 				end if;
 			end if;
+		elsif (iRegStart = '0' OR iRegPending = '1') AND (CI_CA_FrameValid = '1' OR CI_CA_LineValid = '1') then
+			iRegColumnCounter <= "000000000000";
 		end if;
 	end if;
 end process CountColumns;
 
 -- Process to read the pixels and to compute evertything
 MainProcess:
-Process(CI_nReset, CI_CA_FrameValid, CI_CA_LineValid, iRegStatus, CI_CA_PixClk)
+Process(CI_nReset, CI_CA_PixClk)
 
 variable iRegColumnCounter_unsign : unsigned (11 DOWNTO 0);
 variable iRegMemoryG1_unsign_12 : unsigned (11 DOWNTO 0);
@@ -115,15 +137,15 @@ Begin
 		iRegMemory <= (others => "000000000000");
 		iRegBlue <= (others => '0');
 		iRegFIFOWrite <= '0';
-	elsif CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStatus (0) = '1' then
-		if falling_edge(CI_CA_PixClk) then	-- read the pixel on the falling edge of the CI_CA_PixClk
-			iRegFIFOWrite <= '0';
-			if iRegStatus (2) = '0' then	-- if we are on an even row
+	elsif falling_edge(CI_CA_PixClk) then	-- read the pixel on the falling edge of the CI_CA_PixClk
+		iRegFIFOWrite <= '0';
+		if CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStart = '1' AND iRegPending = '0' AND iRegNewFrame = '1' then
+			if iRegRow = '0' then	-- if we are on an even row
 				iRegRGB <= (others => '0');
 				iRegBlue <= (others => '0');
 				iRegMemory(to_integer(unsigned(iRegColumnCounter))) <= CI_CA_Data;	-- put the pixel in the internal memory
 			else	-- if we are on an odd row
-				if iRegStatus (3) = '0' then	-- if we are on an even column (blue pixel)
+				if iRegColumn = '0' then	-- if we are on an even column (blue pixel)
 					iRegBlue <= CI_CA_Data;	-- but we have to store this blue pixel
 				else	-- if we are on an odd column (green G2 pixel)
 					iRegRGB (15 DOWNTO 11) <= iRegMemory(to_integer(unsigned(iRegColumnCounter))) (11 DOWNTO 7); -- put the red pixel stored in the memory in iRegRGB
@@ -152,6 +174,11 @@ Begin
 					end if;
 				end if;
 			end if;
+		elsif (iRegStart = '0' OR iRegPending = '1') AND (CI_CA_FrameValid = '1' OR CI_CA_LineValid = '1') then
+			iRegRGB <= (others => '0');
+			iRegMemory <= (others => "000000000000");
+			iRegBlue <= (others => '0');
+			iRegFIFOWrite <= '0';
 		end if;
 	end if;
 end process MainProcess;

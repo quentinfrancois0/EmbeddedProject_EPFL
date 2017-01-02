@@ -165,9 +165,6 @@ Begin
 	-- Reading AS_AMCI_Start information
 	read_register(X"0");
 	
-	-- Writing AS_AMCI_Start information = 0
-	write_register(X"0", X"00");
-	
 	-- Reading the AS_AM_StartAddress(0x10100114)
 	read_register(X"1");
 	read_register(X"2");
@@ -180,49 +177,49 @@ Begin
 	read_register(X"7");
 	read_register(X"8");
 	
-	wait for 2*HalfPeriod;
+	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '1';
-	wait for 2*HalfPeriod;
+	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '0';
 	
-	wait for 2*HalfPeriod;
+	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '1';
-	wait for 2*HalfPeriod;
-	AS_AM_Status_test <= '0';
-	
-	-- Writing AS_AM_Status of buffers
-	write_register(X"9", "00000010");
-	
-	wait for 2*HalfPeriod;
-	AS_AM_Status_test <= '1';
-	wait for 2*HalfPeriod;
-	AS_AM_Status_test <= '0';
-	
-	wait for 2*HalfPeriod;
-	AS_AM_Status_test <= '1';
-	wait for 2*HalfPeriod;
+	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '0';
 	
 	-- Writing AS_AM_Status of buffers
-	write_register(X"9", "00000101");
+	write_register(X"0", "00000101");
 	
-	wait for 2*HalfPeriod;
+	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '1';
-	wait for 2*HalfPeriod;
+	wait until rising_edge(AS_Clk_test);
+	AS_AM_Status_test <= '0';
+	
+	wait until rising_edge(AS_Clk_test);
+	AS_AM_Status_test <= '1';
+	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '0';
 	
 	-- Writing AS_AM_Status of buffers
-	write_register(X"9", "00000011");
+	write_register(X"0", "00001011");
 	
-	wait for 2*HalfPeriod;
+	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '1';
-	wait for 2*HalfPeriod;
+	wait until rising_edge(AS_Clk_test);
+	AS_AM_Status_test <= '0';
+	
+	-- Writing AS_AM_Status of buffers
+	write_register(X"0", "00000111");
+	
+	wait until rising_edge(AS_Clk_test);
+	AS_AM_Status_test <= '1';
+	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '0';
 	
 	-- Reading AS_AM_Status of buffers
-	read_register(X"9");
+	read_register(X"0");
 	
-	wait for 4*HalfPeriod;
+	wait until rising_edge(AS_Clk_test);
 	
 	-- Set end_sim to "true", so the clock generation stops
 	end_sim <= true;

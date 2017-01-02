@@ -1,5 +1,5 @@
 Flow report for ES_mini_project_TRDB_D5M_LT24
-Sun Jan 01 23:51:22 2017
+Mon Jan 02 19:10:26 2017
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -41,15 +41,15 @@ agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Sun Jan 01 23:49:02 2017       ;
+; Flow Status                     ; Successful - Mon Jan 02 19:07:58 2017       ;
 ; Quartus Prime Version           ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                   ; ES_mini_project_TRDB_D5M_LT24               ;
 ; Top-level Entity Name           ; DE0_Nano_SoC_TRDB_D5M_LT24_top_level        ;
 ; Family                          ; Cyclone V                                   ;
 ; Device                          ; 5CSEMA4U23C6                                ;
 ; Timing Models                   ; Final                                       ;
-; Logic utilization (in ALMs)     ; 7,414 / 15,880 ( 47 % )                     ;
-; Total registers                 ; 11303                                       ;
+; Logic utilization (in ALMs)     ; 7,645 / 15,880 ( 48 % )                     ;
+; Total registers                 ; 11302                                       ;
 ; Total pins                      ; 207 / 314 ( 66 % )                          ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 1,130,624 / 2,764,800 ( 41 % )              ;
@@ -68,7 +68,7 @@ agreement for further details.
 +-------------------+-------------------------------+
 ; Option            ; Setting                       ;
 +-------------------+-------------------------------+
-; Start date & time ; 01/01/2017 23:31:49           ;
+; Start date & time ; 01/02/2017 18:47:08           ;
 ; Main task         ; Compilation                   ;
 ; Revision Name     ; ES_mini_project_TRDB_D5M_LT24 ;
 +-------------------+-------------------------------+
@@ -79,7 +79,7 @@ agreement for further details.
 +---------------------------------------+---------------------------------------+-------------------------------+--------------------------------------+----------------------+
 ; Assignment Name                       ; Value                                 ; Default Value                 ; Entity Name                          ; Section Id           ;
 +---------------------------------------+---------------------------------------+-------------------------------+--------------------------------------+----------------------+
-; COMPILER_SIGNATURE_ID                 ; 1098258261821.148330990901484         ; --                            ; --                                   ; --                   ;
+; COMPILER_SIGNATURE_ID                 ; 1098258261821.148337922802412         ; --                            ; --                                   ; --                   ;
 ; ECO_REGENERATE_REPORT                 ; On                                    ; Off                           ; --                                   ; --                   ;
 ; EDA_INPUT_DATA_FORMAT                 ; Edif                                  ; --                            ; --                                   ; eda_design_synthesis ;
 ; MAX_CORE_JUNCTION_TEMP                ; 85                                    ; --                            ; --                                   ; --                   ;
@@ -100,11 +100,11 @@ agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:03:11     ; 1.0                     ; 1357 MB             ; 00:05:09                           ;
-; Fitter                    ; 00:13:14     ; 1.0                     ; 2814 MB             ; 00:15:35                           ;
-; Assembler                 ; 00:00:22     ; 1.0                     ; 1070 MB             ; 00:00:17                           ;
-; TimeQuest Timing Analyzer ; 00:02:17     ; 1.0                     ; 1836 MB             ; 00:02:14                           ;
-; Total                     ; 00:19:04     ; --                      ; --                  ; 00:23:15                           ;
+; Analysis & Synthesis      ; 00:03:04     ; 1.0                     ; 1370 MB             ; 00:05:14                           ;
+; Fitter                    ; 00:17:06     ; 1.0                     ; 2822 MB             ; 00:20:20                           ;
+; Assembler                 ; 00:00:18     ; 1.0                     ; 1079 MB             ; 00:00:17                           ;
+; TimeQuest Timing Analyzer ; 00:02:25     ; 1.0                     ; 1845 MB             ; 00:02:24                           ;
+; Total                     ; 00:22:53     ; --                      ; --                  ; 00:28:15                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

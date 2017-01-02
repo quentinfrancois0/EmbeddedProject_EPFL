@@ -31,28 +31,21 @@
 
 int main()
 {
-	/*
 	FILE* test;
 	test = fopen("/mnt/host/test.txt","w");
 
-	uint16_t j = 0;
-	for (uint32_t i = 0; i < 100; i += 2)
+	for (uint32_t i = 0; i < ONE_FRAME; i += sizeof(uint16_t))
 	{
-		uint32_t addr = HPS_0_BRIDGES_BASE + i;
-
 		// Write through address span expander
-		IOWR_16DIRECT(addr, 0, j);
+		IOWR_16DIRECT(HPS_0_BRIDGES_BASE, i, i);
 
 		// Read through address span expander
-		uint16_t readdata = IORD_16DIRECT(addr, 0);
+		uint16_t readdata = IORD_16DIRECT(HPS_0_BRIDGES_BASE, i);
 
 		fprintf(test, "%" PRIu16 "\n", readdata);
-
-		j++;
 	}
 
 	fclose(test);
-	*/
 
 	//CAMERA INITIALISATION
 	cmos_sensor_output_generator_dev cmos_sensor_output_generator = cmos_sensor_output_generator_inst(CMOS_SENSOR_OUTPUT_GENERATOR_0_BASE,
@@ -71,21 +64,21 @@ int main()
 
 	//CAMERA CONTROLLER INITIALISATION
 	//Status
-	IOWR(CAMERA_CONTROLLER_0_BASE, 0x00, 0x00);
+	IOWR(CAMERA_CONTROLLER_0_BASE, 0x0, 0x00);
 	//Start Address = 0x00000000
-	IOWR(CAMERA_CONTROLLER_0_BASE, 0x01, 0x00);
-	IOWR(CAMERA_CONTROLLER_0_BASE, 0x02, 0x00);
-	IOWR(CAMERA_CONTROLLER_0_BASE, 0x03, 0x00);
-	IOWR(CAMERA_CONTROLLER_0_BASE, 0x04, 0x00);
+	IOWR(CAMERA_CONTROLLER_0_BASE, 0x1, 0x00);
+	IOWR(CAMERA_CONTROLLER_0_BASE, 0x2, 0x00);
+	IOWR(CAMERA_CONTROLLER_0_BASE, 0x3, 0x00);
+	IOWR(CAMERA_CONTROLLER_0_BASE, 0x4, 0x00);
 	//Length = 320*240*2 = 0x00025800
-	IOWR(CAMERA_CONTROLLER_0_BASE, 0x05, 0x00);
-	IOWR(CAMERA_CONTROLLER_0_BASE, 0x06, 0x58);
-	IOWR(CAMERA_CONTROLLER_0_BASE, 0x07, 0x02);
-	IOWR(CAMERA_CONTROLLER_0_BASE, 0x08, 0x00);
+	IOWR(CAMERA_CONTROLLER_0_BASE, 0x5, 0x00);
+	IOWR(CAMERA_CONTROLLER_0_BASE, 0x6, 0x58);
+	IOWR(CAMERA_CONTROLLER_0_BASE, 0x7, 0x02);
+	IOWR(CAMERA_CONTROLLER_0_BASE, 0x8, 0x00);
 
 	//START EVERYTHING
 	cmos_sensor_output_generator_start(&cmos_sensor_output_generator);
-	IOWR(CAMERA_CONTROLLER_0_BASE, 0x00, 0x01);
+	IOWR(CAMERA_CONTROLLER_0_BASE, 0x0, 0x01);
 
 	//WAIT FOR A WHILE
 	/*
@@ -98,10 +91,10 @@ int main()
 		}
 	}
 	*/
-	usleep(100000);
+	usleep(100000); //Wait for 3 frames
 
 	//STOP EVERYTHING
-	IOWR(CAMERA_CONTROLLER_0_BASE, 0x00, 0x00);
+	IOWR(CAMERA_CONTROLLER_0_BASE, 0x0, 0x00);
 	cmos_sensor_output_generator_stop(&cmos_sensor_output_generator);
 
 
@@ -109,15 +102,13 @@ int main()
 	FILE* data;
 	data = fopen("/mnt/host/data.txt","w");
 
-	uint16_t readdata = 0x0000;
-
 	for (uint32_t i = 0; i < ONE_FRAME; i += sizeof(uint16_t))
 	{
-			// Read through address span expander
-			readdata = IORD_16DIRECT(HPS_0_BRIDGES_BASE, i);
+		// Read through address span expander
+		uint16_t readdata = IORD_16DIRECT(HPS_0_BRIDGES_BASE, i);
 
-			fprintf(data, "%" PRIu16 "\n", readdata);
-			//fprintf(data, "%" PRIu32 " : %" PRIu16 "\n", i, readdata);
+		fprintf(data, "%" PRIu16 "\n", readdata);
+		//fprintf(data, "%" PRIu32 " : %" PRIu16 "\n", i, readdata);
 	}
 
 	fclose(data);

@@ -117,6 +117,7 @@ begin
 			
 			if AM_AB_WaitRequest = '0' then
 				AM_FIFO_ReadCheck <= '1';
+				next_iRegBurstCount <= iRegBurstCount + 1;
 				next_iRegStateSM <= BURST;
 			end if;
 			
@@ -130,7 +131,7 @@ begin
 				AM_FIFO_ReadCheck <= '1';
 				next_iRegBurstCount <= iRegBurstCount + 1;
 				
-				if iRegBurstCount = BURSTCOUNT_LENGTH - 2 then
+				if iRegBurstCount = BURSTCOUNT_LENGTH - 1 then
 				
 					next_iRegStateSM <= WAITDATA;
 					next_iRegBurstCount <= X"00";
@@ -142,7 +143,7 @@ begin
 					end if;
 					
 				end if;
-				
+
 			end if;
 		
 	end case;

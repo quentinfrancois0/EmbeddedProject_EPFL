@@ -63,7 +63,7 @@ signal AM_AB_MemoryAddress_test	: std_logic_vector (31 DOWNTO 0);
 signal AM_AB_MemoryData_test	: std_logic_vector (31 DOWNTO 0);
 signal AM_AB_WriteAccess_test	: std_logic;
 signal AM_AB_BurstCount_test	: std_logic_vector (7 DOWNTO 0);
-signal AM_AB_WaitRequest_test	: std_logic := '1';
+signal AM_AB_WaitRequest_test	: std_logic := '0';
 
 signal AM_AS_Start_test			: std_logic := '0';
 signal AM_AS_StartAddress_test	: std_logic_vector (31 DOWNTO 0) := X"10000000";
@@ -121,8 +121,6 @@ Process
 	variable inc2 : std_logic_vector (31 DOWNTO 0) := X"00000000";
 
 Begin
-	inc2 := X"00000000";
-
 	loop_img: FOR img IN 1 TO 2 LOOP
 
 		inc1 := X"00000000";
@@ -130,7 +128,8 @@ Begin
 		loop_pix: FOR pix IN 1 TO 38400 LOOP
 		
 			wait until rising_edge(AM_Clk_test);
-			if AM_FIFO_ReadCheck_test = '1' then
+			-- if AM_FIFO_ReadCheck_test = '1' then
+			if AM_AB_WaitRequest_test = '0' then
 				AM_FIFO_ReadData_test <= std_logic_vector(unsigned(inc1) + unsigned(inc2));
 				inc1 := std_logic_vector(unsigned(inc1) + 1);
 			end if;
@@ -163,24 +162,21 @@ Begin
 	-- Toggling the reset
 	toggle_reset;
 	
-	-- Number words at 1 => not one burst in the FIFO
-	wait until rising_edge(AM_Clk_test);
-	AM_FIFO_UsedWords_test <= "000000001";
-	
 	-- AM_AS_Start_test => 1
 	wait until rising_edge(AM_Clk_test);
 	AM_AS_Start_test <= '1';
+	
+	-- Number words at 1 => not one burst in the FIFO
+	wait for 6*HalfPeriod;
+	wait until rising_edge(AM_Clk_test);
 	AM_FIFO_UsedWords_test <= "000010000";
-	AM_AB_WaitRequest_test <= '0';
 	
 	-- Block the third transfer
-	wait until rising_edge(AM_Clk_test);
-	wait until rising_edge(AM_Clk_test);
-	wait until rising_edge(AM_Clk_test);
+	wait for 6*HalfPeriod;
 	wait until rising_edge(AM_Clk_test);
 	AM_AB_WaitRequest_test <= '1';
 	
-	wait until rising_edge(AM_Clk_test);
+	wait for 10*HalfPeriod;
 	wait until rising_edge(AM_Clk_test);
 	AM_AB_WaitRequest_test <= '0';
 
