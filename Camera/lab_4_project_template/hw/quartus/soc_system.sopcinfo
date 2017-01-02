@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="soc_system" kind="soc_system" version="1.0" fabric="QSYS">
  <!-- Format version 16.0 211 (Future versions may contain additional information.) -->
- <!-- 2016.12.31.14:42:04 -->
+ <!-- 2017.01.01.23:32:25 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1483191724</value>
+  <value>1483309945</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -1102,7 +1102,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="camera_controller_0"
    kind="camera_controller"
-   version="1.0"
+   version="1.3"
    path="camera_controller_0">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -92454,7 +92454,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName>camera_controller</displayName>
-  <version>1.0</version>
+  <version>1.3</version>
  </plugin>
  <plugin>
   <instanceCount>6</instanceCount>

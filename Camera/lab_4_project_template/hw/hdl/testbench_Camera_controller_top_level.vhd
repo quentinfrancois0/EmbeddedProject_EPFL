@@ -79,6 +79,7 @@ signal TL_CI_CA_FrameValid_test		: std_logic := '0';
 signal TL_CI_CA_LineValid_test		: std_logic := '0';
 
 signal end_sim	: boolean := false;
+signal frame_finish : std_logic := '0';
 
 constant HalfPeriod  : TIME := 10 ns;  -- clk_FPGA = 50 MHz -> T_FPGA = 20ns -> T/2 = 10 ns
 constant HalfPeriod_cam  : TIME := 53.4 ns;  -- clk_CAM = 18.73 MHz -> T_CAM = 53.4 ns -> T/2 = 26.7 ns
@@ -217,6 +218,7 @@ Begin
 				wait until rising_edge(TL_PixClk_test);
 				TL_CI_CA_LineValid_test <= '1';
 				TL_CI_CA_FrameValid_test <= '1';
+				frame_finish <= '0';
 				TL_CI_CA_Data_test <= std_logic_vector(unsigned(G1) + unsigned(inc1) + unsigned(inc2));
 			
 				-- Second pixel
@@ -308,6 +310,7 @@ Begin
 		wait until rising_edge(TL_PixClk_test);
 		wait until rising_edge(TL_PixClk_test);
 		read_register(X"0");
+		frame_finish <= '1';
 	
 	END LOOP loop_img;
 	
@@ -315,5 +318,37 @@ Begin
 	end_sim <= true;
 	wait;
 end process test;
+
+-- ReadStatus :
+-- Process
+
+	-- -- Procedure to read a register, input is (address)
+	-- Procedure read_register(addr_read: std_logic_vector) is
+	-- Begin
+		-- wait until rising_edge(TL_MainClk_test);	-- set the read access, so the internal phantom read register will be set to 1 on the next rising edge of the clock
+		-- TL_AS_AB_ReadEnable_test <= '1';
+		-- TL_AS_AB_Address_test <= addr_read;
+		
+		-- wait until rising_edge(TL_MainClk_test);	-- then reset everything
+		-- TL_AS_AB_ReadEnable_test <= '0';
+		-- TL_AS_AB_Address_test <= "0000";
+	-- end procedure read_register;
+
+-- Begin
+	-- if not end_sim then
+		-- if rising_edge(frame_finish) then
+			-- wait until rising_edge(TL_PixClk_test);
+			-- wait until rising_edge(TL_PixClk_test);
+			-- wait until rising_edge(TL_PixClk_test);
+			-- wait until rising_edge(TL_PixClk_test);
+			-- wait until rising_edge(TL_PixClk_test);
+			-- wait until rising_edge(TL_PixClk_test);
+			-- wait until rising_edge(TL_PixClk_test);
+			-- read_register(X"0");
+		-- end if;
+	-- else
+		-- wait;
+	-- end if;
+-- end process ReadStatus;
 
 END bhv;

@@ -70,19 +70,18 @@ int main()
 										   CMOS_SENSOR_OUTPUT_GENERATOR_CONFIG_LINE_FRAME_BLANK_MIN);
 
 	//CAMERA CONTROLLER INITIALISATION
+	//Status
 	IOWR(CAMERA_CONTROLLER_0_BASE, 0x00, 0x00);
 	//Start Address = 0x00000000
 	IOWR(CAMERA_CONTROLLER_0_BASE, 0x01, 0x00);
 	IOWR(CAMERA_CONTROLLER_0_BASE, 0x02, 0x00);
 	IOWR(CAMERA_CONTROLLER_0_BASE, 0x03, 0x00);
 	IOWR(CAMERA_CONTROLLER_0_BASE, 0x04, 0x00);
-	//Length = 320*240 = 0x00012C00
+	//Length = 320*240*2 = 0x00025800
 	IOWR(CAMERA_CONTROLLER_0_BASE, 0x05, 0x00);
-	IOWR(CAMERA_CONTROLLER_0_BASE, 0x06, 0x2C);
-	IOWR(CAMERA_CONTROLLER_0_BASE, 0x07, 0x01);
+	IOWR(CAMERA_CONTROLLER_0_BASE, 0x06, 0x58);
+	IOWR(CAMERA_CONTROLLER_0_BASE, 0x07, 0x02);
 	IOWR(CAMERA_CONTROLLER_0_BASE, 0x08, 0x00);
-	//Status
-	IOWR(CAMERA_CONTROLLER_0_BASE, 0x09, 0x00);
 
 	//START EVERYTHING
 	cmos_sensor_output_generator_start(&cmos_sensor_output_generator);
@@ -90,19 +89,21 @@ int main()
 
 	//WAIT FOR A WHILE
 	/*
-	while(IORD(CAMERA_CONTROLLER_0_BASE, 0x09) != 0x01)
+	while(IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x00) == 0x01)
 	{
-		printf("%" PRIu8 "\n", IORD(CAMERA_CONTROLLER_0_BASE, 0x09));
+		//printf("%" PRIu8 "\n", IORD(CAMERA_CONTROLLER_0_BASE, 0x00));
+		if (IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x00) != 0x01)
+		{
+			printf("%" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x00));
+		}
 	}
 	*/
-	//for (int i = 0; i < 100000; i++) {}
 	usleep(100000);
 
 	//STOP EVERYTHING
 	IOWR(CAMERA_CONTROLLER_0_BASE, 0x00, 0x00);
 	cmos_sensor_output_generator_stop(&cmos_sensor_output_generator);
 
-	usleep(100000);
 
 	//READ THE IMAGE IN THE MEMORY
 	FILE* data;
@@ -115,7 +116,8 @@ int main()
 			// Read through address span expander
 			readdata = IORD_16DIRECT(HPS_0_BRIDGES_BASE, i);
 
-			fprintf(data, "%" PRIu32 " : %" PRIu16 "\n", i, readdata);
+			fprintf(data, "%" PRIu16 "\n", readdata);
+			//fprintf(data, "%" PRIu32 " : %" PRIu16 "\n", i, readdata);
 	}
 
 	fclose(data);

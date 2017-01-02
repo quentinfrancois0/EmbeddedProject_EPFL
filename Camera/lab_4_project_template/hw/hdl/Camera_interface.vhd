@@ -69,8 +69,7 @@ Begin
 	if CI_nReset = '0' then
 		iRegColumnCounter <= (others => '0');
 		iRegStatus (7 DOWNTO 2) <= "000000";
-	end if;
-	if CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStatus (0) = '1' then
+	elsif CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStatus (0) = '1' then
 		if rising_edge(CI_CA_PixClk) then	-- read the pixel on the falling edge of the CI_CA_PixClk
 			if iRegStatus (2) = '0' then	-- if we are on an even row
 				if (iRegColumnCounter = X"27F") then	-- if iRegColumnCounter = 639, reset it
@@ -116,10 +115,9 @@ Begin
 		iRegMemory <= (others => "000000000000");
 		iRegBlue <= (others => '0');
 		iRegFIFOWrite <= '0';
-	end if;
-	if CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStatus (0) = '1' then
-		iRegFIFOWrite <= '0';
+	elsif CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStatus (0) = '1' then
 		if falling_edge(CI_CA_PixClk) then	-- read the pixel on the falling edge of the CI_CA_PixClk
+			iRegFIFOWrite <= '0';
 			if iRegStatus (2) = '0' then	-- if we are on an even row
 				iRegRGB <= (others => '0');
 				iRegBlue <= (others => '0');
