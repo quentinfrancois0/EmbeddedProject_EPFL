@@ -9,7 +9,7 @@ z2
 cModel Technology
 dD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/modelsim/avalon_slave
 Ecamera_interface
-Z0 w1483369909
+Z0 w1483386646
 Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
 Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
@@ -22,9 +22,9 @@ VKL>_KgZP1=B26_<dObFDK1
 !s100 ;jZc:<bG7L8Ll;ZR?l?zG1
 Z7 OV;C;10.4d;61
 32
-Z8 !s110 1483378967
+Z8 !s110 1483437996
 !i10b 1
-Z9 !s108 1483378967.000000
+Z9 !s108 1483437995.000000
 Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_interface.vhd|
 Z11 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_interface.vhd|
 !i113 1
@@ -37,8 +37,8 @@ R3
 Z14 DEx4 work 16 camera_interface 0 22 KL>_KgZP1=B26_<dObFDK1
 l51
 L36
-Z15 VLM6>1YaV:a1=8fRo:hbEf2
-Z16 !s100 DP3idQ_QTHMOllliAJ<mT0
+V>B=hohcfE@oRAB=A=iFLa1
+!s100 YO5g`8Y[XW^nhn[nX^J9E3
 R7
 32
 R8
@@ -50,24 +50,24 @@ R11
 R12
 R13
 Etestbench
-Z17 w1483378553
+Z15 w1483383479
 R1
 R2
 R3
 R4
-Z18 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_interface.vhd
-Z19 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_interface.vhd
+Z16 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_interface.vhd
+Z17 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_interface.vhd
 l0
 L30
 VQ1cgT7M>oj>C`oi8XlEW]1
 !s100 A;F`C<`FdHG<_[89Nz87W1
 R7
 32
-Z20 !s110 1483378966
+Z18 !s110 1483437995
 !i10b 1
-Z21 !s108 1483378966.000000
-Z22 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_interface.vhd|
-Z23 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_interface.vhd|
+R9
+Z19 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_interface.vhd|
+Z20 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_interface.vhd|
 !i113 1
 R12
 R13
@@ -82,11 +82,11 @@ VRCai?V`nY6jU;IfZT4m[]0
 !s100 6l?:`d[C9R1T2]K<[^mYY3
 R7
 32
-R20
+R18
 !i10b 1
-R21
-R22
-R23
+R9
+R19
+R20
 !i113 1
 R12
 R13

@@ -295,7 +295,7 @@
  <module
    name="camera_controller_0"
    kind="camera_controller"
-   version="1.8"
+   version="2.0"
    enabled="1" />
  <module name="clk_0" kind="clock_source" version="16.0" enabled="1">
   <parameter name="clockFrequency" value="50000000" />

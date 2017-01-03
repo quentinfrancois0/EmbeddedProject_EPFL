@@ -36,7 +36,7 @@ END Camera_Interface;
 ARCHITECTURE bhv OF Camera_Interface IS
 	signal	iRegStart			: std_logic;						-- internal register for the start information
 	signal	iRegPending			: std_logic;						-- internal register for the pending information
-	signal	iRegNewFrame		: std_logic;						-- internal register to know if a new frame is avalaible
+	-- signal	iRegNewFrame		: std_logic;						-- internal register to know if a new frame is avalaible
 	signal	iRegRow				: std_logic;						-- internal register to know on which row we are
 	signal	iRegColumn			: std_logic;						-- internal register to know on which column we are
 	signal	iRegFIFOWrite		: std_logic;						-- internal register to tell when CI_FIFO_WriteEnable is 1
@@ -66,20 +66,20 @@ Begin
 	end if;
 end process Acquisition;
 
--- Process to know when a new frame will be outputed
-NewFrame:
-Process(CI_nReset, CI_Clk)
-Begin
-	if CI_nReset = '0' then
-		iRegNewFrame <= '0';
-	elsif rising_edge(CI_Clk) then
-		if (iRegStart = '0' OR iRegPending = '1') AND (CI_CA_FrameValid = '1' OR CI_CA_LineValid = '1') then
-			iRegNewFrame <= '0';
-		elsif CI_CA_FrameValid = '0' AND CI_CA_LineValid = '0' then
-			iRegNewFrame <= '1';
-		end if;
-	end if;
-end process NewFrame;
+-- -- Process to know when a new frame will be outputed
+-- NewFrame:
+-- Process(CI_nReset, CI_Clk)
+-- Begin
+	-- if CI_nReset = '0' then
+		-- iRegNewFrame <= '0';
+	-- elsif rising_edge(CI_Clk) then
+		-- if (iRegStart = '0' OR iRegPending = '1') AND (CI_CA_FrameValid = '1' OR CI_CA_LineValid = '1') then
+			-- iRegNewFrame <= '0';
+		-- elsif CI_CA_FrameValid = '0' AND CI_CA_LineValid = '0' then
+			-- iRegNewFrame <= '1';
+		-- end if;
+	-- end if;
+-- end process NewFrame;
 
 -- Process to know the column number and the row parity
 CountColumns:
@@ -90,7 +90,7 @@ Begin
 		iRegRow <= '0';
 		iRegColumn <= '0';
 	elsif rising_edge(CI_CA_PixClk) then	-- read the pixel on the falling edge of the CI_CA_PixClk
-		if CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStart = '1' AND iRegNewFrame = '1' then
+		if CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStart = '1' then -- AND iRegNewFrame = '1' then
 			if iRegRow = '0' then	-- if we are on an even row
 				if (iRegColumnCounter = X"27F") then	-- if iRegColumnCounter = 639, reset it
 					iRegColumnCounter <= "000000000000";
@@ -139,7 +139,7 @@ Begin
 		iRegFIFOWrite <= '0';
 	elsif falling_edge(CI_CA_PixClk) then	-- read the pixel on the falling edge of the CI_CA_PixClk
 		iRegFIFOWrite <= '0';
-		if CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStart = '1' AND iRegPending = '0' AND iRegNewFrame = '1' then
+		if CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStart = '1' AND iRegPending = '0' then -- AND iRegNewFrame = '1' then
 			if iRegRow = '0' then	-- if we are on an even row
 				iRegRGB <= (others => '0');
 				iRegBlue <= (others => '0');

@@ -1,5 +1,5 @@
 Analysis & Synthesis report for ES_mini_project_TRDB_D5M_LT24
-Mon Jan 02 20:57:06 2017
+Tue Jan 03 11:07:05 2017
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -381,7 +381,7 @@ agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Mon Jan 02 20:57:06 2017       ;
+; Analysis & Synthesis Status     ; Successful - Tue Jan 03 11:07:05 2017       ;
 ; Quartus Prime Version           ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                   ; ES_mini_project_TRDB_D5M_LT24               ;
 ; Top-level Entity Name           ; DE0_Nano_SoC_TRDB_D5M_LT24_top_level        ;
@@ -2478,7 +2478,7 @@ Encoding Type:  One-Hot
 ; 4:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; Yes        ; |DE0_Nano_SoC_TRDB_D5M_LT24_top_level|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|mixer_addr_reg_internal[2]                               ;
 ; 4:1                ; 6 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; Yes        ; |DE0_Nano_SoC_TRDB_D5M_LT24_top_level|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|sld_rom_sr:hub_info_reg|word_counter[0]                  ;
 ; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |DE0_Nano_SoC_TRDB_D5M_LT24_top_level|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|irsr_reg[2]                                              ;
-; 34:1               ; 4 bits    ; 88 LEs        ; 60 LEs               ; 28 LEs                 ; Yes        ; |DE0_Nano_SoC_TRDB_D5M_LT24_top_level|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|design_hash_reg[0]                                       ;
+; 34:1               ; 4 bits    ; 88 LEs        ; 64 LEs               ; 24 LEs                 ; Yes        ; |DE0_Nano_SoC_TRDB_D5M_LT24_top_level|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|design_hash_reg[0]                                       ;
 ; 36:1               ; 4 bits    ; 96 LEs        ; 64 LEs               ; 32 LEs                 ; Yes        ; |DE0_Nano_SoC_TRDB_D5M_LT24_top_level|sld_hub:auto_hub|alt_sld_fab_with_jtag_input:\instrumentation_fabric_with_node_gen:fabric_gen_new_way:with_jtag_input_gen:instrumentation_fabric|alt_sld_fab:instrumentation_fabric|alt_sld_fab_alt_sld_fab:alt_sld_fab|alt_sld_fab_alt_sld_fab_sldfabric:sldfabric|sld_jtag_hub:\jtag_hub_gen:real_sld_jtag_hub|sld_rom_sr:hub_info_reg|WORD_SR[0]                       ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
@@ -9226,7 +9226,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +---------------------------------------+--------------+
 ; Partition Name                        ; Elapsed Time ;
 +---------------------------------------+--------------+
-; Top                                   ; 00:00:42     ;
+; Top                                   ; 00:00:44     ;
 ; soc_system_hps_0_hps_io_border:border ; 00:00:01     ;
 ; sld_hub:auto_hub                      ; 00:00:01     ;
 ; pzdyqx:nabboc                         ; 00:00:00     ;
@@ -9239,36 +9239,36 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
-    Info: Processing started: Mon Jan 02 20:53:42 2017
+    Info: Processing started: Tue Jan 03 11:03:24 2017
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off ES_mini_project_TRDB_D5M_LT24 -c ES_mini_project_TRDB_D5M_LT24
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12248): Elaborating Qsys system entity "soc_system.qsys"
-Info (12250): 2017.01.02.20:54:00 Progress: Loading quartus/soc_system.qsys
-Info (12250): 2017.01.02.20:54:00 Progress: Reading input file
-Info (12250): 2017.01.02.20:54:01 Progress: Adding address_span_extender_0 [altera_address_span_extender 16.0]
-Info (12250): 2017.01.02.20:54:02 Progress: Parameterizing module address_span_extender_0
-Info (12250): 2017.01.02.20:54:02 Progress: Adding camera_controller_0 [camera_controller 1.8]
-Info (12250): 2017.01.02.20:54:02 Progress: Parameterizing module camera_controller_0
-Info (12250): 2017.01.02.20:54:02 Progress: Adding clk_0 [clock_source 16.0]
-Info (12250): 2017.01.02.20:54:03 Progress: Parameterizing module clk_0
-Info (12250): 2017.01.02.20:54:03 Progress: Adding clock_bridge_0 [altera_clock_bridge 16.0]
-Info (12250): 2017.01.02.20:54:03 Progress: Parameterizing module clock_bridge_0
-Info (12250): 2017.01.02.20:54:03 Progress: Adding cmos_sensor_output_generator_0 [cmos_sensor_output_generator 15.1]
-Info (12250): 2017.01.02.20:54:03 Progress: Parameterizing module cmos_sensor_output_generator_0
-Info (12250): 2017.01.02.20:54:03 Progress: Adding hps_0 [altera_hps 16.0]
-Info (12250): 2017.01.02.20:54:04 Progress: Parameterizing module hps_0
-Info (12250): 2017.01.02.20:54:04 Progress: Adding jtag_uart_0 [altera_avalon_jtag_uart 16.0]
-Info (12250): 2017.01.02.20:54:04 Progress: Parameterizing module jtag_uart_0
-Info (12250): 2017.01.02.20:54:04 Progress: Adding nios2_gen2_0 [altera_nios2_gen2 16.0]
-Info (12250): 2017.01.02.20:54:04 Progress: Parameterizing module nios2_gen2_0
-Info (12250): 2017.01.02.20:54:04 Progress: Adding onchip_memory2_0 [altera_avalon_onchip_memory2 16.0]
-Info (12250): 2017.01.02.20:54:04 Progress: Parameterizing module onchip_memory2_0
-Info (12250): 2017.01.02.20:54:04 Progress: Adding pll_0 [altera_pll 16.0]
-Info (12250): 2017.01.02.20:54:05 Progress: Parameterizing module pll_0
-Info (12250): 2017.01.02.20:54:05 Progress: Building connections
-Info (12250): 2017.01.02.20:54:05 Progress: Parameterizing connections
-Info (12250): 2017.01.02.20:54:05 Progress: Validating
-Info (12250): 2017.01.02.20:54:17 Progress: Done reading input file
+Info (12250): 2017.01.03.11:03:41 Progress: Loading quartus/soc_system.qsys
+Info (12250): 2017.01.03.11:03:42 Progress: Reading input file
+Info (12250): 2017.01.03.11:03:42 Progress: Adding address_span_extender_0 [altera_address_span_extender 16.0]
+Info (12250): 2017.01.03.11:03:43 Progress: Parameterizing module address_span_extender_0
+Info (12250): 2017.01.03.11:03:43 Progress: Adding camera_controller_0 [camera_controller 2.0]
+Info (12250): 2017.01.03.11:03:43 Progress: Parameterizing module camera_controller_0
+Info (12250): 2017.01.03.11:03:43 Progress: Adding clk_0 [clock_source 16.0]
+Info (12250): 2017.01.03.11:03:44 Progress: Parameterizing module clk_0
+Info (12250): 2017.01.03.11:03:44 Progress: Adding clock_bridge_0 [altera_clock_bridge 16.0]
+Info (12250): 2017.01.03.11:03:44 Progress: Parameterizing module clock_bridge_0
+Info (12250): 2017.01.03.11:03:44 Progress: Adding cmos_sensor_output_generator_0 [cmos_sensor_output_generator 15.1]
+Info (12250): 2017.01.03.11:03:44 Progress: Parameterizing module cmos_sensor_output_generator_0
+Info (12250): 2017.01.03.11:03:44 Progress: Adding hps_0 [altera_hps 16.0]
+Info (12250): 2017.01.03.11:03:45 Progress: Parameterizing module hps_0
+Info (12250): 2017.01.03.11:03:45 Progress: Adding jtag_uart_0 [altera_avalon_jtag_uart 16.0]
+Info (12250): 2017.01.03.11:03:45 Progress: Parameterizing module jtag_uart_0
+Info (12250): 2017.01.03.11:03:45 Progress: Adding nios2_gen2_0 [altera_nios2_gen2 16.0]
+Info (12250): 2017.01.03.11:03:45 Progress: Parameterizing module nios2_gen2_0
+Info (12250): 2017.01.03.11:03:45 Progress: Adding onchip_memory2_0 [altera_avalon_onchip_memory2 16.0]
+Info (12250): 2017.01.03.11:03:45 Progress: Parameterizing module onchip_memory2_0
+Info (12250): 2017.01.03.11:03:45 Progress: Adding pll_0 [altera_pll 16.0]
+Info (12250): 2017.01.03.11:03:46 Progress: Parameterizing module pll_0
+Info (12250): 2017.01.03.11:03:46 Progress: Building connections
+Info (12250): 2017.01.03.11:03:46 Progress: Parameterizing connections
+Info (12250): 2017.01.03.11:03:46 Progress: Validating
+Info (12250): 2017.01.03.11:03:57 Progress: Done reading input file
 Warning (12251): Soc_system.hps_0: Setting the slave port width of interface f2h_sdram0 to 32 results in bandwidth under-utilization.  Altera recommends you set the interface data width to 64-bit or greater.
 Info (12250): Soc_system.hps_0: HPS Main PLL counter settings: n = 0  m = 73
 Info (12250): Soc_system.hps_0: HPS peripherial PLL counter settings: n = 0  m = 39
@@ -9293,12 +9293,12 @@ Warning (12251): Hps_0: "Configuration/HPS-to-FPGA user 0 clock frequency" (desi
 Warning (12251): Hps_0: 1 or more output clock frequencies cannot be achieved precisely, consider revising desired output clock frequencies.
 Info (12250): Hps_0: "soc_system" instantiated altera_hps "hps_0"
 Info (12250): Jtag_uart_0: Starting RTL generation for module 'soc_system_jtag_uart_0'
-Info (12250): Jtag_uart_0:   Generation command is [exec D:/logiciels/altera_lite/16.0/quartus/bin64/perl/bin/perl.exe -I D:/logiciels/altera_lite/16.0/quartus/bin64/perl/lib -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin/europa -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin/perl_lib -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/sopc_builder_ip/common -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- D:/logiciels/altera_lite/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=soc_system_jtag_uart_0 --dir=C:/Users/Nicolas/AppData/Local/Temp/alt7168_7707005155257712737.dir/0004_jtag_uart_0_gen/ --quartus_dir=D:/logiciels/altera_lite/16.0/quartus --verilog --config=C:/Users/Nicolas/AppData/Local/Temp/alt7168_7707005155257712737.dir/0004_jtag_uart_0_gen//soc_system_jtag_uart_0_component_configuration.pl  --do_build_sim=0  ]
+Info (12250): Jtag_uart_0:   Generation command is [exec D:/logiciels/altera_lite/16.0/quartus/bin64/perl/bin/perl.exe -I D:/logiciels/altera_lite/16.0/quartus/bin64/perl/lib -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin/europa -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin/perl_lib -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/sopc_builder_ip/common -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- D:/logiciels/altera_lite/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=soc_system_jtag_uart_0 --dir=C:/Users/Nicolas/AppData/Local/Temp/alt7169_8579920614365397869.dir/0004_jtag_uart_0_gen/ --quartus_dir=D:/logiciels/altera_lite/16.0/quartus --verilog --config=C:/Users/Nicolas/AppData/Local/Temp/alt7169_8579920614365397869.dir/0004_jtag_uart_0_gen//soc_system_jtag_uart_0_component_configuration.pl  --do_build_sim=0  ]
 Info (12250): Jtag_uart_0: Done RTL generation for module 'soc_system_jtag_uart_0'
 Info (12250): Jtag_uart_0: "soc_system" instantiated altera_avalon_jtag_uart "jtag_uart_0"
 Info (12250): Nios2_gen2_0: "soc_system" instantiated altera_nios2_gen2 "nios2_gen2_0"
 Info (12250): Onchip_memory2_0: Starting RTL generation for module 'soc_system_onchip_memory2_0'
-Info (12250): Onchip_memory2_0:   Generation command is [exec D:/logiciels/altera_lite/16.0/quartus/bin64/perl/bin/perl.exe -I D:/logiciels/altera_lite/16.0/quartus/bin64/perl/lib -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin/europa -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin/perl_lib -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/sopc_builder_ip/common -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- D:/logiciels/altera_lite/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=soc_system_onchip_memory2_0 --dir=C:/Users/Nicolas/AppData/Local/Temp/alt7168_7707005155257712737.dir/0005_onchip_memory2_0_gen/ --quartus_dir=D:/logiciels/altera_lite/16.0/quartus --verilog --config=C:/Users/Nicolas/AppData/Local/Temp/alt7168_7707005155257712737.dir/0005_onchip_memory2_0_gen//soc_system_onchip_memory2_0_component_configuration.pl  --do_build_sim=0  ]
+Info (12250): Onchip_memory2_0:   Generation command is [exec D:/logiciels/altera_lite/16.0/quartus/bin64/perl/bin/perl.exe -I D:/logiciels/altera_lite/16.0/quartus/bin64/perl/lib -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin/europa -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin/perl_lib -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/sopc_builder_ip/common -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- D:/logiciels/altera_lite/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=soc_system_onchip_memory2_0 --dir=C:/Users/Nicolas/AppData/Local/Temp/alt7169_8579920614365397869.dir/0005_onchip_memory2_0_gen/ --quartus_dir=D:/logiciels/altera_lite/16.0/quartus --verilog --config=C:/Users/Nicolas/AppData/Local/Temp/alt7169_8579920614365397869.dir/0005_onchip_memory2_0_gen//soc_system_onchip_memory2_0_component_configuration.pl  --do_build_sim=0  ]
 Info (12250): Onchip_memory2_0: Done RTL generation for module 'soc_system_onchip_memory2_0'
 Info (12250): Onchip_memory2_0: "soc_system" instantiated altera_avalon_onchip_memory2 "onchip_memory2_0"
 Info (12250): Pll_0: "soc_system" instantiated altera_pll "pll_0"
@@ -9316,31 +9316,31 @@ Info (12250): Rst_controller: "soc_system" instantiated altera_reset_controller 
 Info (12250): Fpga_interfaces: "hps_0" instantiated altera_interface_generator "fpga_interfaces"
 Info (12250): Hps_io: "hps_0" instantiated altera_hps_io "hps_io"
 Info (12250): Cpu: Starting RTL generation for module 'soc_system_nios2_gen2_0_cpu'
-Info (12250): Cpu:   Generation command is [exec D:/Logiciels/altera_lite/16.0/quartus/bin64//eperlcmd.exe -I D:/Logiciels/altera_lite/16.0/quartus/bin64//perl/lib -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin/europa -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin/perl_lib -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/cpu_lib -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/nios_lib -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -- D:/logiciels/altera_lite/16.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/generate_rtl.epl --name=soc_system_nios2_gen2_0_cpu --dir=C:/Users/Nicolas/AppData/Local/Temp/alt7168_7707005155257712737.dir/0010_cpu_gen/ --quartus_bindir=D:/Logiciels/altera_lite/16.0/quartus/bin64/ --verilog --config=C:/Users/Nicolas/AppData/Local/Temp/alt7168_7707005155257712737.dir/0010_cpu_gen//soc_system_nios2_gen2_0_cpu_processor_configuration.pl  --do_build_sim=0  ]
-Info (12250): Cpu: # 2017.01.02 20:54:42 (*) Starting Nios II generation
-Info (12250): Cpu: # 2017.01.02 20:54:42 (*)   Checking for plaintext license.
-Info (12250): Cpu: # 2017.01.02 20:54:43 (*)   Couldn't query license setup in Quartus directory D:/Logiciels/altera_lite/16.0/quartus/bin64/
-Info (12250): Cpu: # 2017.01.02 20:54:43 (*)   Defaulting to contents of LM_LICENSE_FILE environment variable
-Info (12250): Cpu: # 2017.01.02 20:54:43 (*)   LM_LICENSE_FILE environment variable is empty
-Info (12250): Cpu: # 2017.01.02 20:54:43 (*)   Plaintext license not found.
-Info (12250): Cpu: # 2017.01.02 20:54:43 (*)   Checking for encrypted license (non-evaluation).
-Info (12250): Cpu: # 2017.01.02 20:54:43 (*)   Couldn't query license setup in Quartus directory D:/Logiciels/altera_lite/16.0/quartus/bin64/
-Info (12250): Cpu: # 2017.01.02 20:54:43 (*)   Defaulting to contents of LM_LICENSE_FILE environment variable
-Info (12250): Cpu: # 2017.01.02 20:54:43 (*)   LM_LICENSE_FILE environment variable is empty
-Info (12250): Cpu: # 2017.01.02 20:54:43 (*)   Encrypted license not found.  Defaulting to OCP evaluation license (produces a time-limited SOF)
-Info (12250): Cpu: # 2017.01.02 20:54:43 (*)   Elaborating CPU configuration settings
-Info (12250): Cpu: # 2017.01.02 20:54:43 (*)   Creating all objects for CPU
-Info (12250): Cpu: # 2017.01.02 20:54:43 (*)     Testbench
-Info (12250): Cpu: # 2017.01.02 20:54:43 (*)     Instruction decoding
-Info (12250): Cpu: # 2017.01.02 20:54:43 (*)       Instruction fields
-Info (12250): Cpu: # 2017.01.02 20:54:44 (*)       Instruction decodes
-Info (12250): Cpu: # 2017.01.02 20:54:44 (*)       Signals for RTL simulation waveforms
-Info (12250): Cpu: # 2017.01.02 20:54:44 (*)       Instruction controls
-Info (12250): Cpu: # 2017.01.02 20:54:44 (*)     Pipeline frontend
-Info (12250): Cpu: # 2017.01.02 20:54:45 (*)     Pipeline backend
-Info (12250): Cpu: # 2017.01.02 20:54:48 (*)   Generating RTL from CPU objects
-Info (12250): Cpu: # 2017.01.02 20:54:50 (*)   Creating encrypted RTL
-Info (12250): Cpu: # 2017.01.02 20:54:51 (*) Done Nios II generation
+Info (12250): Cpu:   Generation command is [exec D:/Logiciels/altera_lite/16.0/quartus/bin64//eperlcmd.exe -I D:/Logiciels/altera_lite/16.0/quartus/bin64//perl/lib -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin/europa -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin/perl_lib -I D:/logiciels/altera_lite/16.0/quartus/sopc_builder/bin -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/cpu_lib -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/nios_lib -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -I D:/logiciels/altera_lite/16.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -- D:/logiciels/altera_lite/16.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/generate_rtl.epl --name=soc_system_nios2_gen2_0_cpu --dir=C:/Users/Nicolas/AppData/Local/Temp/alt7169_8579920614365397869.dir/0010_cpu_gen/ --quartus_bindir=D:/Logiciels/altera_lite/16.0/quartus/bin64/ --verilog --config=C:/Users/Nicolas/AppData/Local/Temp/alt7169_8579920614365397869.dir/0010_cpu_gen//soc_system_nios2_gen2_0_cpu_processor_configuration.pl  --do_build_sim=0  ]
+Info (12250): Cpu: # 2017.01.03 11:04:24 (*) Starting Nios II generation
+Info (12250): Cpu: # 2017.01.03 11:04:24 (*)   Checking for plaintext license.
+Info (12250): Cpu: # 2017.01.03 11:04:25 (*)   Couldn't query license setup in Quartus directory D:/Logiciels/altera_lite/16.0/quartus/bin64/
+Info (12250): Cpu: # 2017.01.03 11:04:25 (*)   Defaulting to contents of LM_LICENSE_FILE environment variable
+Info (12250): Cpu: # 2017.01.03 11:04:25 (*)   LM_LICENSE_FILE environment variable is empty
+Info (12250): Cpu: # 2017.01.03 11:04:25 (*)   Plaintext license not found.
+Info (12250): Cpu: # 2017.01.03 11:04:25 (*)   Checking for encrypted license (non-evaluation).
+Info (12250): Cpu: # 2017.01.03 11:04:25 (*)   Couldn't query license setup in Quartus directory D:/Logiciels/altera_lite/16.0/quartus/bin64/
+Info (12250): Cpu: # 2017.01.03 11:04:25 (*)   Defaulting to contents of LM_LICENSE_FILE environment variable
+Info (12250): Cpu: # 2017.01.03 11:04:25 (*)   LM_LICENSE_FILE environment variable is empty
+Info (12250): Cpu: # 2017.01.03 11:04:25 (*)   Encrypted license not found.  Defaulting to OCP evaluation license (produces a time-limited SOF)
+Info (12250): Cpu: # 2017.01.03 11:04:25 (*)   Elaborating CPU configuration settings
+Info (12250): Cpu: # 2017.01.03 11:04:25 (*)   Creating all objects for CPU
+Info (12250): Cpu: # 2017.01.03 11:04:25 (*)     Testbench
+Info (12250): Cpu: # 2017.01.03 11:04:26 (*)     Instruction decoding
+Info (12250): Cpu: # 2017.01.03 11:04:26 (*)       Instruction fields
+Info (12250): Cpu: # 2017.01.03 11:04:26 (*)       Instruction decodes
+Info (12250): Cpu: # 2017.01.03 11:04:26 (*)       Signals for RTL simulation waveforms
+Info (12250): Cpu: # 2017.01.03 11:04:27 (*)       Instruction controls
+Info (12250): Cpu: # 2017.01.03 11:04:27 (*)     Pipeline frontend
+Info (12250): Cpu: # 2017.01.03 11:04:27 (*)     Pipeline backend
+Info (12250): Cpu: # 2017.01.03 11:04:30 (*)   Generating RTL from CPU objects
+Info (12250): Cpu: # 2017.01.03 11:04:32 (*)   Creating encrypted RTL
+Info (12250): Cpu: # 2017.01.03 11:04:33 (*) Done Nios II generation
 Info (12250): Cpu: Done RTL generation for module 'soc_system_nios2_gen2_0_cpu'
 Info (12250): Cpu: "nios2_gen2_0" instantiated altera_nios2_gen2_unit "cpu"
 Info (12250): Camera_controller_0_avalon_master_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "camera_controller_0_avalon_master_translator"
@@ -10105,7 +10105,7 @@ Info (12128): Elaborating entity "altera_reset_controller" for hierarchy "soc_sy
 Info (12128): Elaborating entity "altera_reset_controller" for hierarchy "soc_system:u0|altera_reset_controller:rst_controller_003" File: D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/quartus/db/ip/soc_system/soc_system.v Line: 735
 Warning (12020): Port "jdo" on the entity instantiation of "the_soc_system_nios2_gen2_0_cpu_nios2_oci_itrace" is connected to a signal of width 38. The formal width of the signal in the module is 16.  The extra bits will be ignored. File: D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/quartus/db/ip/soc_system/submodules/soc_system_nios2_gen2_0_cpu.v Line: 3196
 Info (11170): Start IP generation for the debug fabric within sld_hub.
-Info (11172): 2017.01.02.20:55:59 Progress: Loading sldb0ea1b78/alt_sld_fab_wrapper_hw.tcl
+Info (11172): 2017.01.03.11:05:52 Progress: Loading sldb0ea1b78/alt_sld_fab_wrapper_hw.tcl
 Info (11172): Alt_sld_fab.alt_sld_fab: SLD fabric agents which did not specify prefer_host were connected to JTAG
 Info (11172): Alt_sld_fab: Generating alt_sld_fab "alt_sld_fab" for QUARTUS_SYNTH
 Info (11172): Alt_sld_fab: "alt_sld_fab" instantiated alt_sld_fab "alt_sld_fab"
@@ -10406,9 +10406,9 @@ Info (21057): Implemented 19478 device resources after synthesis - the final res
     Info (21062): Implemented 4 DSP elements
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 308 warnings
     Info: Peak virtual memory: 1371 megabytes
-    Info: Processing ended: Mon Jan 02 20:57:07 2017
-    Info: Elapsed time: 00:03:25
-    Info: Total CPU time (on all processors): 00:05:43
+    Info: Processing ended: Tue Jan 03 11:07:06 2017
+    Info: Elapsed time: 00:03:42
+    Info: Total CPU time (on all processors): 00:05:28
 
 
 +------------------------------------------+
