@@ -8,4 +8,5 @@
 !/lab_4_project_template/hw/quartus/ES_mini_project_TRDB_D5M_LT24.qsf
 !/lab_4_project_template/hw/quartus/new_component_hw.tcl
 !/lab_4_project_template/hw/quartus/soc_system.qsys
+!/lab_4_project_template/hw/quartus/soc_system.BAK.qsys
 !/lab_4_project_template/hw/quartus/soc_system.sopcinfo

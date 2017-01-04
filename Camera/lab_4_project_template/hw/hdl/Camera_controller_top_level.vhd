@@ -19,8 +19,8 @@ ENTITY Top_Camera_Controller IS
 		TL_AS_AB_Address		: IN std_logic_vector (3 DOWNTO 0);		-- address bus
 		TL_AS_AB_ReadEnable		: IN std_logic;							-- read enabler
 		TL_AS_AB_WriteEnable	: IN std_logic;							-- write enabler
-		TL_AS_AB_ReadData		: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
-		TL_AS_AB_WriteData		: IN std_logic_vector (7 DOWNTO 0);		-- data bus (write)
+		TL_AS_AB_ReadData		: OUT std_logic_vector (31 DOWNTO 0);	-- data bus (read)
+		TL_AS_AB_WriteData		: IN std_logic_vector (31 DOWNTO 0);	-- data bus (write)
 		
 		TL_AM_AB_MemoryAddress	: OUT std_logic_vector (31 DOWNTO 0);	-- Address sent on the Avalon bus
 		TL_AM_AB_MemoryData		: OUT std_logic_vector (31 DOWNTO 0);	-- Datas sent on the Avalon bus
@@ -44,13 +44,16 @@ ARCHITECTURE bhv OF Top_Camera_Controller IS
 			AS_AB_Address		: IN std_logic_vector (3 DOWNTO 0);		-- address bus
 			AS_AB_ReadEnable	: IN std_logic;							-- read enabler
 			AS_AB_WriteEnable	: IN std_logic;							-- write enabler
-			AS_AB_ReadData		: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
-			AS_AB_WriteData		: IN std_logic_vector (7 DOWNTO 0);		-- data bus (write)
+			AS_AB_ReadData		: OUT std_logic_vector (31 DOWNTO 0);	-- data bus (read)
+			AS_AB_WriteData		: IN std_logic_vector (31 DOWNTO 0);	-- data bus (write)
 		
-			AS_AMCI_Start		: OUT std_logic;						-- Start information
+			AS_ALL_Start		: OUT std_logic;						-- Start information
+			
 			AS_AM_StartAddress	: OUT std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
 			AS_AM_Length		: OUT std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
-			AS_AM_Status		: IN std_logic							-- 1 when the image has been written to the memory
+			AS_AM_Status		: IN std_logic;							-- 1 when the image has been written to the memory
+			
+			AS_CI_Pending		: IN std_logic							-- Pending information
 		);
 	END COMPONENT;
 	
@@ -87,6 +90,7 @@ ARCHITECTURE bhv OF Top_Camera_Controller IS
 			CI_CA_LineValid		: IN std_logic;							-- 1 if the line is valid
 			
 			CI_AS_Start			: IN std_logic;							-- Start information
+			CI_AS_Pending		: OUT std_logic;						-- Pending information
 			
 			CI_FIFO_WriteEnable	: OUT std_logic;						-- 1 = write asked to the FIFO, 0 = no demand
 			CI_FIFO_WriteData	: OUT std_logic_vector (15 DOWNTO 0);	-- 16 bits pixel stored in the FIFO by the camera controller
@@ -111,8 +115,8 @@ ARCHITECTURE bhv OF Top_Camera_Controller IS
 	END COMPONENT;
 
 signal Sig_Reset		: std_logic;
-
 signal Sig_Start		: std_logic;
+
 signal Sig_StartAddress	: std_logic_vector (31 DOWNTO 0);
 signal Sig_Length		: std_logic_vector (31 DOWNTO 0);
 signal Sig_Status		: std_logic;
@@ -124,6 +128,7 @@ signal Sig_AM_UsedWords	: std_logic_vector (8 DOWNTO 0);
 signal Sig_WriteEnable	: std_logic;
 signal Sig_WriteData	: std_logic_vector	(15 DOWNTO 0);
 signal Sig_CI_UsedWords	: std_logic_vector (9 DOWNTO 0);
+signal Sig_Pending		: std_logic;
 
 BEGIN
 
@@ -138,10 +143,13 @@ BEGIN
 			AS_AB_ReadData		=> TL_AS_AB_ReadData,
 			AS_AB_WriteData		=> TL_AS_AB_WriteData,
 			
-			AS_AMCI_Start 		=> Sig_Start,
+			AS_ALL_Start 		=> Sig_Start,
+			
 			AS_AM_StartAddress	=> Sig_StartAddress,
 			AS_AM_Length 		=> Sig_Length,
-			AS_AM_Status		=> Sig_Status
+			AS_AM_Status		=> Sig_Status,
+			
+			AS_CI_Pending		=> Sig_Pending
 		);
 		
 	low_Avalon_Master : Avalon_master
@@ -176,6 +184,7 @@ BEGIN
 			CI_CA_LineValid		=> TL_CI_CA_LineValid,
 			
 			CI_AS_Start			=> Sig_Start,
+			CI_AS_Pending		=> Sig_Pending,
 		
 			CI_FIFO_WriteEnable	=> Sig_WriteEnable,
 			CI_FIFO_WriteData	=> Sig_WriteData,
@@ -183,9 +192,9 @@ BEGIN
 		);
 		
 ResetFIFO:
-Process(TL_nReset)
+Process(TL_nReset, Sig_Start)
 Begin
-	Sig_Reset <= not TL_nReset;
+	Sig_Reset <= not(TL_nReset AND Sig_Start);
 end process ResetFIFO;
 	
 	low_FIFO : FIFO

@@ -171,7 +171,7 @@ Begin
 	wait until rising_edge(AM_Clk_test);
 	AM_FIFO_UsedWords_test <= "000010000";
 	
-	-- Block the third transfer
+	-- Block the third transfer of the first burst
 	wait for 6*HalfPeriod;
 	wait until rising_edge(AM_Clk_test);
 	AM_AB_WaitRequest_test <= '1';
@@ -179,6 +179,23 @@ Begin
 	wait for 10*HalfPeriod;
 	wait until rising_edge(AM_Clk_test);
 	AM_AB_WaitRequest_test <= '0';
+	
+	-- Block the first transfer of the second burst
+	wait for 30*HalfPeriod;
+	wait until rising_edge(AM_Clk_test);
+	AM_AB_WaitRequest_test <= '1';
+	
+	wait for 10*HalfPeriod;
+	wait until rising_edge(AM_Clk_test);
+	AM_AB_WaitRequest_test <= '0';
+	
+	wait for 100000*HalfPeriod;
+	wait until rising_edge(AM_Clk_test);
+	AM_AS_Start_test <= '0';
+	
+	wait for 50*HalfPeriod;
+	wait until rising_edge(AM_Clk_test);
+	AM_AS_Start_test <= '1';
 
 	wait;
 end process test;

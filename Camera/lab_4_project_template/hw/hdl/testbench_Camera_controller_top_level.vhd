@@ -42,8 +42,8 @@ component Top_Camera_Controller is
 		TL_AS_AB_Address		: IN std_logic_vector (3 DOWNTO 0);		-- address bus
 		TL_AS_AB_ReadEnable		: IN std_logic;							-- read enabler
 		TL_AS_AB_WriteEnable	: IN std_logic;							-- write enabler
-		TL_AS_AB_ReadData		: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
-		TL_AS_AB_WriteData		: IN std_logic_vector (7 DOWNTO 0);		-- data bus (write)
+		TL_AS_AB_ReadData		: OUT std_logic_vector (31 DOWNTO 0);	-- data bus (read)
+		TL_AS_AB_WriteData		: IN std_logic_vector (31 DOWNTO 0);	-- data bus (write)
 		
 		TL_AM_AB_MemoryAddress	: OUT std_logic_vector (31 DOWNTO 0);	-- Address sent on the Avalon bus
 		TL_AM_AB_MemoryData		: OUT std_logic_vector (31 DOWNTO 0);	-- Datas sent on the Avalon bus
@@ -65,8 +65,8 @@ signal TL_PixClk_test				: std_logic := '0';
 signal TL_AS_AB_Address_test		: std_logic_vector (3 DOWNTO 0) := "0000";
 signal TL_AS_AB_ReadEnable_test		: std_logic := '0';
 signal TL_AS_AB_WriteEnable_test	: std_logic := '0';
-signal TL_AS_AB_ReadData_test		: std_logic_vector (7 DOWNTO 0);
-signal TL_AS_AB_WriteData_test		: std_logic_vector (7 DOWNTO 0) := X"00";
+signal TL_AS_AB_ReadData_test		: std_logic_vector (31 DOWNTO 0);
+signal TL_AS_AB_WriteData_test		: std_logic_vector (31 DOWNTO 0) := X"00000000";
 
 signal TL_AM_AB_MemoryAddress_test	: std_logic_vector (31 DOWNTO 0);
 signal TL_AM_AB_MemoryData_test		: std_logic_vector (31 DOWNTO 0);
@@ -79,7 +79,6 @@ signal TL_CI_CA_FrameValid_test		: std_logic := '0';
 signal TL_CI_CA_LineValid_test		: std_logic := '0';
 
 signal end_sim	: boolean := false;
-signal frame_finish : boolean := false;
 
 constant HalfPeriod  : TIME := 10 ns;  -- clk_FPGA = 50 MHz -> T_FPGA = 20ns -> T/2 = 10 ns
 constant HalfPeriod_cam  : TIME := 53.4 ns;  -- clk_CAM = 18.73 MHz -> T_CAM = 53.4 ns -> T/2 = 26.7 ns
@@ -148,7 +147,7 @@ Process
 	variable inc2 : std_logic_vector (11 DOWNTO 0) := "000000000000";
 
 Begin
-	loop_img: FOR img IN 1 TO 3 LOOP
+	loop_img: FOR img IN 1 TO 4 LOOP
 		loop_r: FOR row IN 1 TO 240 LOOP
 			wait until rising_edge(TL_PixClk_test);
 			TL_CI_CA_FrameValid_test <= '1';
@@ -233,8 +232,8 @@ Process
 		
 		wait until rising_edge(TL_MainClk_test);	-- then reset everything
 		TL_AS_AB_WriteEnable_test <= '0';
-		TL_AS_AB_Address_test <= "0000";
-		TL_AS_AB_WriteData_test <= "00000000";
+		TL_AS_AB_Address_test <= X"0";
+		TL_AS_AB_WriteData_test <= X"00000000";
 	end procedure write_register;
 
 	-- Procedure to read a register, input is (address)
@@ -246,7 +245,7 @@ Process
 		
 		wait until rising_edge(TL_MainClk_test);	-- then reset everything
 		TL_AS_AB_ReadEnable_test <= '0';
-		TL_AS_AB_Address_test <= "0000";
+		TL_AS_AB_Address_test <= X"0";
 	end procedure read_register;
 	
 Begin
@@ -254,53 +253,45 @@ Begin
 	toggle_reset;
 	
 	-- Writing start_adress = 0x10000000
-	write_register(X"1", X"00");
-	write_register(X"2", X"00");
-	write_register(X"3", X"00");
-	write_register(X"4", X"10");
+	write_register(X"2", X"10000000");
 	
 	-- Writing AS_AM_Length = 320*240*2 = 0x00025800
-	write_register(X"5", X"00");
-	write_register(X"6", X"58");
-	write_register(X"7", X"02");
-	write_register(X"8", X"00");
-	
-	-- wait for 1000*HalfPeriod_cam;
+	write_register(X"3", X"00025800");
 	
 	-- Writing AS_AMCI_Start information = 1
-	write_register(X"0", X"01");
+	write_register(X"0", X"00000001");
 	
-	read_register(X"9");
+	read_register(X"0");
+	read_register(X"1");
+	read_register(X"2");
+	read_register(X"3");
 	
-	-- wait for 1000*HalfPeriod;
+	wait for 620000*HalfPeriod_cam;
+	wait until rising_edge(TL_PixClk_test);
+	write_register(X"0", X"00000000");
 	
-	-- wait until rising_edge(TL_MainClk_test);
-	-- write_register(X"0", X"00");
+	wait for 50*HalfPeriod_cam;
+	wait until rising_edge(TL_PixClk_test);
+	write_register(X"0", X"00000001");
 	
-	-- wait for 1000*HalfPeriod;
+	wait for 620000*HalfPeriod_cam;
+	wait until rising_edge(TL_PixClk_test);
+	read_register(X"1");
 	
-	-- wait until rising_edge(TL_MainClk_test);
-	-- write_register(X"0", X"01");
+	wait for 100*HalfPeriod;
+	TL_AM_AB_WaitRequest_test <= '1';
+	wait for 200*HalfPeriod;
+	TL_AM_AB_WaitRequest_test <= '0';
+	
+	wait for 620000*HalfPeriod_cam;
+	wait until rising_edge(TL_PixClk_test);
+	read_register(X"1");
 	
 	wait;
 end process test;
 
 -- ReadStatus:
 -- Process
-
-	-- -- Procedure to write a register, inputs are (address, data_to_write)
-	-- Procedure write_register(addr_write: std_logic_vector; data: std_logic_vector) is
-	-- Begin
-		-- wait until rising_edge(TL_MainClk_test);	-- write between two consecutive rising edges of the clock
-		-- TL_AS_AB_WriteEnable_test <= '1';
-		-- TL_AS_AB_Address_test <= addr_write;
-		-- TL_AS_AB_WriteData_test <= data;
-		
-		-- wait until rising_edge(TL_MainClk_test);	-- then reset everything
-		-- TL_AS_AB_WriteEnable_test <= '0';
-		-- TL_AS_AB_Address_test <= "0000";
-		-- TL_AS_AB_WriteData_test <= "00000000";
-	-- end procedure write_register;
 
 	-- -- Procedure to read a register, input is (address)
 	-- Procedure read_register(addr_read: std_logic_vector) is
@@ -311,16 +302,14 @@ end process test;
 		
 		-- wait until rising_edge(TL_MainClk_test);	-- then reset everything
 		-- TL_AS_AB_ReadEnable_test <= '0';
-		-- TL_AS_AB_Address_test <= "0000";
+		-- TL_AS_AB_Address_test <= X"0";
 	-- end procedure read_register;
 
 -- Begin
 	-- if not end_sim then
-		-- if frame_finish then
-			-- read_register(X"9");
-		-- else
-			-- wait;
-		-- end if;
+		-- wait for 100000*HalfPeriod_cam;
+		-- wait until rising_edge(TL_PixClk_test);
+		-- read_register(X"1");
 	-- else
 		-- wait;
 	-- end if;

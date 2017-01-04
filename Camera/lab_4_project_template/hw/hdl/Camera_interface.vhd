@@ -26,6 +26,7 @@ ENTITY Camera_Interface IS
 		CI_CA_LineValid		: IN std_logic;							-- 1 if the line is valid
 		
 		CI_AS_Start			: IN std_logic;							-- Start information
+		CI_AS_Pending		: OUT std_logic;						-- Pending information
 		
 		CI_FIFO_WriteEnable	: OUT std_logic;						-- 1 = write asked to the FIFO, 0 = no demand
 		CI_FIFO_WriteData	: OUT std_logic_vector (15 DOWNTO 0);	-- 16 bits pixel stored in the FIFO by the camera controller
@@ -36,7 +37,7 @@ END Camera_Interface;
 ARCHITECTURE bhv OF Camera_Interface IS
 	signal	iRegStart			: std_logic;						-- internal register for the start information
 	signal	iRegPending			: std_logic;						-- internal register for the pending information
-	-- signal	iRegNewFrame		: std_logic;						-- internal register to know if a new frame is avalaible
+	signal	iRegNewFrame		: std_logic;						-- internal register to know if a new frame is avalaible
 	signal	iRegRow				: std_logic;						-- internal register to know on which row we are
 	signal	iRegColumn			: std_logic;						-- internal register to know on which column we are
 	signal	iRegFIFOWrite		: std_logic;						-- internal register to tell when CI_FIFO_WriteEnable is 1
@@ -56,6 +57,7 @@ Process(CI_nReset, CI_Clk)
 Begin
 	if CI_nReset = '0' then
 		iRegStart <= '0';
+		iRegPending <= '0';
 	elsif rising_edge(CI_Clk) then
 		iRegStart <= CI_AS_Start;
 		if CI_FIFO_UsedWords > "1111110000" then
@@ -66,20 +68,20 @@ Begin
 	end if;
 end process Acquisition;
 
--- -- Process to know when a new frame will be outputed
--- NewFrame:
--- Process(CI_nReset, CI_Clk)
--- Begin
-	-- if CI_nReset = '0' then
-		-- iRegNewFrame <= '0';
-	-- elsif rising_edge(CI_Clk) then
-		-- if (iRegStart = '0' OR iRegPending = '1') AND (CI_CA_FrameValid = '1' OR CI_CA_LineValid = '1') then
-			-- iRegNewFrame <= '0';
-		-- elsif CI_CA_FrameValid = '0' AND CI_CA_LineValid = '0' then
-			-- iRegNewFrame <= '1';
-		-- end if;
-	-- end if;
--- end process NewFrame;
+-- Process to know when a new frame will be outputed
+NewFrame:
+Process(CI_nReset, CI_Clk)
+Begin
+	if CI_nReset = '0' then
+		iRegNewFrame <= '0';
+	elsif rising_edge(CI_Clk) then
+		if iRegStart = '0' OR iRegPending = '1' then
+			iRegNewFrame <= '0';
+		elsif CI_CA_FrameValid = '0' AND CI_CA_LineValid = '0' then
+			iRegNewFrame <= '1';
+		end if;
+	end if;
+end process NewFrame;
 
 -- Process to know the column number and the row parity
 CountColumns:
@@ -90,7 +92,7 @@ Begin
 		iRegRow <= '0';
 		iRegColumn <= '0';
 	elsif rising_edge(CI_CA_PixClk) then	-- read the pixel on the falling edge of the CI_CA_PixClk
-		if CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStart = '1' then -- AND iRegNewFrame = '1' then
+		if CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStart = '1' AND iRegPending = '0' AND iRegNewFrame = '1' then
 			if iRegRow = '0' then	-- if we are on an even row
 				if (iRegColumnCounter = X"27F") then	-- if iRegColumnCounter = 639, reset it
 					iRegColumnCounter <= "000000000000";
@@ -112,8 +114,10 @@ Begin
 					end if;
 				end if;
 			end if;
-		elsif (iRegStart = '0' OR iRegPending = '1') AND (CI_CA_FrameValid = '1' OR CI_CA_LineValid = '1') then
+		elsif iRegStart = '0' OR iRegPending = '1' then
 			iRegColumnCounter <= "000000000000";
+			iRegRow <= '0';
+			iRegColumn <= '0';
 		end if;
 	end if;
 end process CountColumns;
@@ -139,7 +143,7 @@ Begin
 		iRegFIFOWrite <= '0';
 	elsif falling_edge(CI_CA_PixClk) then	-- read the pixel on the falling edge of the CI_CA_PixClk
 		iRegFIFOWrite <= '0';
-		if CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStart = '1' AND iRegPending = '0' then -- AND iRegNewFrame = '1' then
+		if CI_CA_FrameValid = '1' AND CI_CA_LineValid = '1' AND iRegStart = '1' AND iRegPending = '0' AND iRegNewFrame = '1' then
 			if iRegRow = '0' then	-- if we are on an even row
 				iRegRGB <= (others => '0');
 				iRegBlue <= (others => '0');
@@ -174,7 +178,7 @@ Begin
 					end if;
 				end if;
 			end if;
-		elsif (iRegStart = '0' OR iRegPending = '1') AND (CI_CA_FrameValid = '1' OR CI_CA_LineValid = '1') then
+		elsif iRegStart = '0' OR iRegPending = '1' then
 			iRegRGB <= (others => '0');
 			iRegMemory <= (others => "000000000000");
 			iRegBlue <= (others => '0');
@@ -188,15 +192,17 @@ TransferData:
 Process(CI_nReset, CI_CA_PixClk)
 Begin
 	if CI_nReset = '0' then
-		CI_FIFO_WriteData <= (others => 'Z');
+		CI_FIFO_WriteData <= (others => '0');
 		CI_FIFO_WriteEnable <= '0';
+		CI_AS_Pending <= '0';
 	elsif rising_edge(CI_CA_PixClk) then
-		if CI_FIFO_UsedWords <= "1111111011" AND iRegFIFOWrite = '1' then
+		CI_AS_Pending <= iRegPending;
+		if iRegPending = '0' AND iRegFIFOWrite = '1' then
 			CI_FIFO_WriteData <= iRegRGB;
 			CI_FIFO_WriteEnable <= '1';	-- we can write iRegRGB to the FIFO on the next rising edge of CI_CA_PixClk
 		else
 			CI_FIFO_WriteEnable <= '0';
-			CI_FIFO_WriteData <= (others => 'Z');
+			CI_FIFO_WriteData <= (others => '0');
 		end if;
 	end if;
 end process TransferData;

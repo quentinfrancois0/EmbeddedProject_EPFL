@@ -41,13 +41,16 @@ component Avalon_slave is
 		AS_AB_Address		: IN std_logic_vector (3 DOWNTO 0);		-- address bus
 		AS_AB_ReadEnable	: IN std_logic;							-- read enabler
 		AS_AB_WriteEnable	: IN std_logic;							-- write enabler
-		AS_AB_ReadData		: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
-		AS_AB_WriteData		: IN std_logic_vector (7 DOWNTO 0);		-- data bus (write)
+		AS_AB_ReadData		: OUT std_logic_vector (31 DOWNTO 0);	-- data bus (read)
+		AS_AB_WriteData		: IN std_logic_vector (31 DOWNTO 0);		-- data bus (write)
 		
-		AS_AMCI_Start		: OUT std_logic;						-- Start information
+		AS_ALL_Start		: OUT std_logic;						-- Start information
+		
 		AS_AM_StartAddress	: OUT std_logic_vector (31 DOWNTO 0); 	-- Start Adress in the memory
 		AS_AM_Length		: OUT std_logic_vector (31 DOWNTO 0);	-- Length of the stored datas
-		AS_AM_Status		: IN std_logic
+		AS_AM_Status		: IN std_logic;							-- 1 when the image has been written to the memory
+		
+		AS_CI_Pending		: IN std_logic							-- Pending information
 	);
 end component;
 
@@ -58,13 +61,16 @@ signal AS_Clk_test				: std_logic := '0';
 signal AS_AB_Address_test		: std_logic_vector (3 DOWNTO 0) := X"0";
 signal AS_AB_ReadEnable_test	: std_logic := '0';
 signal AS_AB_WriteEnable_test	: std_logic := '0';
-signal AS_AB_ReadData_test		: std_logic_vector (7 DOWNTO 0);
-signal AS_AB_WriteData_test		: std_logic_vector (7 DOWNTO 0) := X"00";
+signal AS_AB_ReadData_test		: std_logic_vector (31 DOWNTO 0);
+signal AS_AB_WriteData_test		: std_logic_vector (31 DOWNTO 0) := X"00000000";
 
-signal AS_AMCI_Start_test		: std_logic;
+signal AS_ALL_Start_test		: std_logic;
+
 signal AS_AM_StartAddress_test	: std_logic_vector (31 DOWNTO 0);
 signal AS_AM_Length_test		: std_logic_vector (31 DOWNTO 0);
 signal AS_AM_Status_test		: std_logic := '0';
+
+signal AS_CI_Pending_test		: std_logic := '0';
 
 signal end_sim	: boolean := false;
 constant HalfPeriod  : TIME := 10 ns;  -- clk_FPGA = 50 MHz -> T_FPGA = 20ns -> T/2 = 10 ns
@@ -81,10 +87,13 @@ DUT : Avalon_slave	-- Component to test as Device Under Test
 		AS_AB_ReadData 		=> AS_AB_ReadData_test,
 		AS_AB_WriteData 	=> AS_AB_WriteData_test,
 		
-		AS_AMCI_Start 		=> AS_AMCI_Start_test,
+		AS_ALL_Start 		=> AS_ALL_Start_test,
+		
 		AS_AM_StartAddress 	=> AS_AM_StartAddress_test,
 		AS_AM_Length 		=> AS_AM_Length_test,
-		AS_AM_Status 		=> AS_AM_Status_test
+		AS_AM_Status 		=> AS_AM_Status_test,
+		
+		AS_CI_Pending		=> AS_CI_Pending_test
 	);
 
 -- Process to generate the clock during the whole simulation
@@ -126,7 +135,7 @@ Process
 		wait until rising_edge(AS_Clk_test);	-- then reset everything
 		AS_AB_WriteEnable_test <= '0';
 		AS_AB_Address_test <= X"0";
-		AS_AB_WriteData_test <= X"00";
+		AS_AB_WriteData_test <= X"00000000";
 	end procedure write_register;
 
 	-- Procedure to read a register, input is (address)
@@ -134,8 +143,6 @@ Process
 	Begin
 		wait until rising_edge(AS_Clk_test);	-- set the read access, so the internal phantom read register will be set to 1 on the next rising edge of the clock
 		AS_AB_ReadEnable_test <= '1';
-		
-		wait until rising_edge(AS_Clk_test);	-- now the internal phantom read register will be set to 1, we can read the register
 		AS_AB_Address_test <= addr_read;
 		
 		wait until rising_edge(AS_Clk_test);	-- then reset everything
@@ -147,35 +154,26 @@ Begin
 	-- Toggling the reset
 	toggle_reset;
 	
+	-- Writing AS_ALL_Start information = 0
+	write_register(X"0", X"00000000");
+	
 	-- Writing start_adress = 0x10000000
-	write_register(X"1", X"00");
-	write_register(X"2", X"00");
-	write_register(X"3", X"00");
-	write_register(X"4", X"10");
+	write_register(X"2", X"10000000");
 	
 	-- Writing AS_AM_Length = 320*240*2 = 0x00025800
-	write_register(X"5", X"00");
-	write_register(X"6", X"2C");
-	write_register(X"7", X"01");
-	write_register(X"8", X"00");
+	write_register(X"3", X"00025800");
 	
-	-- Writing AS_AMCI_Start information = 1
-	write_register(X"0", X"01");
+	-- Writing AS_ALL_Start information = 1
+	write_register(X"0", X"00000001");
 	
-	-- Reading AS_AMCI_Start information
+	-- Reading AS_ALL_Start information
 	read_register(X"0");
 	
-	-- Reading the AS_AM_StartAddress(0x10100114)
-	read_register(X"1");
+	-- Reading the AS_AM_StartAddress
 	read_register(X"2");
+	
+	-- Reading the AS_AM_Length
 	read_register(X"3");
-	read_register(X"4");
-	
-	-- Reading the AS_AM_Length (320 = 0x20204020)
-	read_register(X"5");
-	read_register(X"6");
-	read_register(X"7");
-	read_register(X"8");
 	
 	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '1';
@@ -188,7 +186,7 @@ Begin
 	AS_AM_Status_test <= '0';
 	
 	-- Writing AS_AM_Status of buffers
-	write_register(X"9", "00000010");
+	write_register(X"1", X"00000002");
 	
 	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '1';
@@ -201,7 +199,7 @@ Begin
 	AS_AM_Status_test <= '0';
 	
 	-- Writing AS_AM_Status of buffers
-	write_register(X"9", "00000101");
+	write_register(X"1", X"00000005");
 	
 	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '1';
@@ -209,7 +207,7 @@ Begin
 	AS_AM_Status_test <= '0';
 	
 	-- Writing AS_AM_Status of buffers
-	write_register(X"9", "00000011");
+	write_register(X"1", X"00000003");
 	
 	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '1';
@@ -217,8 +215,15 @@ Begin
 	AS_AM_Status_test <= '0';
 	
 	-- Reading AS_AM_Status of buffers
-	read_register(X"9");
+	read_register(X"1");
 	
+	-- Receiving the pending information
+	wait until rising_edge(AS_Clk_test);
+	AS_CI_Pending_test <= '1';
+	wait until rising_edge(AS_Clk_test);
+	AS_CI_Pending_test <= '0';
+	
+	wait for 4*HalfPeriod;
 	wait until rising_edge(AS_Clk_test);
 	
 	-- Set end_sim to "true", so the clock generation stops

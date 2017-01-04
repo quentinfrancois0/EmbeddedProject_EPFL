@@ -44,6 +44,7 @@ component Camera_Interface is
 		CI_CA_LineValid		: IN std_logic;							-- 1 if the line is valid
 		
 		CI_AS_Start			: IN std_logic;							-- Start information
+		CI_AS_Pending		: OUT std_logic;						-- Pending information
 		
 		CI_FIFO_WriteEnable	: OUT std_logic;						-- 1 = write asked to the FIFO, 0 = no demand
 		CI_FIFO_WriteData	: OUT std_logic_vector (15 DOWNTO 0);	-- 16 bits pixel stored in the FIFO by the camera controller
@@ -61,6 +62,7 @@ signal CI_CA_FrameValid_test	: std_logic := '0';
 signal CI_CA_LineValid_test		: std_logic := '0';
 
 signal CI_AS_Start_test			: std_logic := '0';
+signal CI_AS_Pending_test		: std_logic;
 
 signal CI_FIFO_WriteEnable_test	: std_logic;
 signal CI_FIFO_WriteData_test	: std_logic_vector (15 DOWNTO 0);
@@ -83,6 +85,7 @@ DUT : Camera_Interface	-- Component to test as Device Under Test
 		CI_CA_LineValid 	=> CI_CA_LineValid_test,
 		
 		CI_AS_Start 		=> CI_AS_Start_test,
+		CI_AS_Pending		=> CI_AS_Pending_test,
 		
 		CI_FIFO_WriteEnable => CI_FIFO_WriteEnable_test,
 		CI_FIFO_WriteData 	=> CI_FIFO_WriteData_test,
@@ -212,15 +215,13 @@ Begin
 	wait until rising_edge(CI_Clk_test);
 	CI_AS_Start_test <= '1';
 	
-	wait for 1000*HalfPeriod;
-	
-	wait until rising_edge(CI_Clk_test);
+	wait for 620000*HalfPeriod_cam;
+	wait until rising_edge(CI_CA_PixClk_test);
 	-- CI_AS_Start_test <= '0';
 	CI_FIFO_UsedWords_test <= "1111111110";
 	
-	wait for 1000*HalfPeriod;
-	
-	wait until rising_edge(CI_Clk_test);
+	wait for 50*HalfPeriod_cam;
+	wait until rising_edge(CI_CA_PixClk_test);
 	-- CI_AS_Start_test <= '1';
 	CI_FIFO_UsedWords_test <= "0000111110";
 	

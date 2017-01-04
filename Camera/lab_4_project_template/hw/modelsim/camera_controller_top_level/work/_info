@@ -9,7 +9,7 @@ z2
 cModel Technology
 dD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/modelsim/FIFO
 Eavalon_master
-Z0 w1483383479
+Z0 w1483551164
 Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
 Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
@@ -22,9 +22,9 @@ VDnilNZ`]k1`Ca`gZ5VR<K0
 !s100 LUa^F]C3iTfV`4bVH7HLT0
 Z7 OV;C;10.4d;61
 32
-Z8 !s110 1483439560
+Z8 !s110 1483557298
 !i10b 1
-Z9 !s108 1483439560.000000
+Z9 !s108 1483557298.000000
 Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_master.vhd|
 Z11 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_master.vhd|
 !i113 1
@@ -37,8 +37,8 @@ R3
 DEx4 work 13 avalon_master 0 22 DnilNZ`]k1`Ca`gZ5VR<K0
 l70
 L59
-V9NWODz?5`HY?aA>9DPEVD1
-!s100 @VMB9@AARHEo7_mRX[m2L3
+VOzleFJbTf0US`<f:9d5bc1
+!s100 bPb`90c0W3kZMZW?LbbHN1
 R7
 32
 R8
@@ -50,7 +50,7 @@ R11
 R12
 R13
 Eavalon_slave
-Z14 w1483386331
+Z14 w1483551300
 R1
 R2
 R3
@@ -59,15 +59,15 @@ Z15 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_sl
 Z16 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_slave.vhd
 l0
 L35
-VNQB?0ZinP[Bc<TW057baS0
-!s100 OSc74I>hC@z=_`nONVW`U1
+Vl54dWS?9TmS32<oFEhc=T2
+!s100 GBcJARAX`972JM;jzgQG@3
 R7
 32
-R8
+Z17 !s110 1483557299
 !i10b 1
-R9
-Z17 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_slave.vhd|
-Z18 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_slave.vhd|
+Z18 !s108 1483557299.000000
+Z19 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_slave.vhd|
+Z20 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_slave.vhd|
 !i113 1
 R12
 R13
@@ -75,40 +75,40 @@ Abhv
 R1
 R2
 R3
-DEx4 work 12 avalon_slave 0 22 NQB?0ZinP[Bc<TW057baS0
-l65
-L53
-VY8?V?^YeWNQei3;4Ia9?o2
-!s100 UQQM0=VK2D3=Qe>4d6C1Z0
+DEx4 work 12 avalon_slave 0 22 l54dWS?9TmS32<oFEhc=T2
+l67
+L56
+VEzE7Nzblg>fSA7E5R7WTe2
+!s100 n612Izg`PQXb?4=`0MNbZ3
 R7
 32
-R8
-!i10b 1
-R9
 R17
+!i10b 1
 R18
+R19
+R20
 !i113 1
 R12
 R13
 Ecamera_interface
-Z19 w1483386646
+Z21 w1483551424
 R1
 R2
 R3
 R4
-Z20 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_interface.vhd
-Z21 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_interface.vhd
+Z22 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_interface.vhd
+Z23 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_interface.vhd
 l0
 L18
-VKL>_KgZP1=B26_<dObFDK1
-!s100 ;jZc:<bG7L8Ll;ZR?l?zG1
+VERi<W6iEfRUgCX<Y0bTR`3
+!s100 fiF@l0f^J0Vfa:[RNNjln1
 R7
 32
-R8
+R17
 !i10b 1
-R9
-Z22 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_interface.vhd|
-Z23 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_interface.vhd|
+R18
+Z24 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_interface.vhd|
+Z25 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_interface.vhd|
 !i113 1
 R12
 R13
@@ -116,39 +116,39 @@ Abhv
 R1
 R2
 R3
-Z24 DEx4 work 16 camera_interface 0 22 KL>_KgZP1=B26_<dObFDK1
-l51
-L36
-V>B=hohcfE@oRAB=A=iFLa1
-!s100 YO5g`8Y[XW^nhn[nX^J9E3
+Z26 DEx4 work 16 camera_interface 0 22 ERi<W6iEfRUgCX<Y0bTR`3
+l52
+L37
+Z27 V;92AedQW?5PgfmKFe[H5^3
+Z28 !s100 hNSFBAXWnD=CIban45OJO2
 R7
 32
-R8
+R17
 !i10b 1
-R9
-R22
-R23
+R18
+R24
+R25
 !i113 1
 R12
 R13
 Efifo
-Z25 w1483290499
+Z29 w1483290499
 R2
 R3
 R4
-Z26 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/FIFO.vhd
-Z27 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/FIFO.vhd
+Z30 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/FIFO.vhd
+Z31 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/FIFO.vhd
 l0
 L42
 V[OAK9fi0kK=<DYdU2N5OT0
 !s100 :4`K[0IXZ8f=8O37j?`hM1
 R7
 32
-R8
+Z32 !s110 1483557297
 !i10b 1
-Z28 !s108 1483439559.000000
-Z29 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/FIFO.vhd|
-Z30 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/FIFO.vhd|
+Z33 !s108 1483557297.000000
+Z34 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/FIFO.vhd|
+Z35 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/FIFO.vhd|
 !i113 1
 R12
 R13
@@ -162,33 +162,33 @@ V`=CME9ZmU7g?iJ`CNMYJV2
 !s100 J9z`S`Bo1Z4kC?d1N[X222
 R7
 32
-R8
+R32
 !i10b 1
-R28
-R29
-R30
+R33
+R34
+R35
 !i113 1
 R12
 R13
 Etestbench
-Z31 w1483385545
+Z36 w1483556802
 R1
 R2
 R3
 R4
-Z32 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_controller_top_level.vhd
-Z33 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_controller_top_level.vhd
+Z37 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_controller_top_level.vhd
+Z38 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_controller_top_level.vhd
 l0
 L30
 VQ1cgT7M>oj>C`oi8XlEW]1
 !s100 A;F`C<`FdHG<_[89Nz87W1
 R7
 32
-Z34 !s110 1483439559
+Z39 !s110 1483557296
 !i10b 1
-R28
-Z35 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_controller_top_level.vhd|
-Z36 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_controller_top_level.vhd|
+Z40 !s108 1483557296.000000
+Z41 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_controller_top_level.vhd|
+Z42 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Camera_controller_top_level.vhd|
 !i113 1
 R12
 R13
@@ -197,39 +197,39 @@ R1
 R2
 R3
 DEx4 work 9 testbench 0 22 Q1cgT7M>oj>C`oi8XlEW]1
-l87
+l86
 L34
-V]nnh^YNgj]J[_24`>``gY1
-!s100 a`;TU`TVF6G@CH@m<4YFj3
+VZUA`V6=fQBdUSDzY<XhUX0
+!s100 kf=6oACUUMOMdAkJ9W@<U1
 R7
 32
-R34
+R39
 !i10b 1
-R28
-R35
-R36
+R40
+R41
+R42
 !i113 1
 R12
 R13
 Etop_camera_controller
-R25
+Z43 w1483541669
 R1
 R2
 R3
 R4
-Z37 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_controller_top_level.vhd
-Z38 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_controller_top_level.vhd
+Z44 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_controller_top_level.vhd
+Z45 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_controller_top_level.vhd
 l0
 L13
-V8ODQ>g[EamcOS>>QB<Xk40
-!s100 `B>`_MF@=0n:[<YS3VLA31
+VT<o_Fi@nNVMDHNG9nbiDl3
+!s100 bfz6;:0B<n^kHbzgb]bV@2
 R7
 32
-R34
+R39
 !i10b 1
-R28
-Z39 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_controller_top_level.vhd|
-Z40 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_controller_top_level.vhd|
+R40
+Z46 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_controller_top_level.vhd|
+Z47 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Camera_controller_top_level.vhd|
 !i113 1
 R12
 R13
@@ -237,18 +237,18 @@ Abhv
 R1
 R2
 R3
-DEx4 work 21 top_camera_controller 0 22 8ODQ>g[EamcOS>>QB<Xk40
-l128
+DEx4 work 21 top_camera_controller 0 22 T<o_Fi@nNVMDHNG9nbiDl3
+l133
 L37
-V8KR[^W15COn>ATl4XZOg>2
-!s100 L1b^NjCo4EcXI?_3?naTf1
+V>bchWC0S<@GV9XJ_UM<7a3
+!s100 WV@[X@V7a4HamfjJgR0o22
 R7
 32
-R34
-!i10b 1
-R28
 R39
+!i10b 1
 R40
+R46
+R47
 !i113 1
 R12
 R13

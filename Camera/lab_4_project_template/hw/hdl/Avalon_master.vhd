@@ -71,7 +71,7 @@ BEGIN
 
 process(AM_nReset, AM_Clk)
 begin
-	if AM_nReset = '0' then
+	if AM_nReset = '0' OR AM_AS_Start = '0' then
 		iRegStateSM <= WAITDATA;
 		iRegCounterAddress <= (others => '0');
 		iRegBurstCount <= X"00";
@@ -91,9 +91,9 @@ begin
 	
 	AM_FIFO_ReadCheck <= '0';
 	AM_AB_WriteAccess <= '0';
-	AM_AB_MemoryAddress <= (others => 'Z');
-	AM_AB_MemoryData <= (others => 'Z');
-	AM_AB_BurstCount <= (others => 'Z');
+	AM_AB_MemoryAddress <= (others => '0');
+	AM_AB_MemoryData <= (others => '0');
+	AM_AB_BurstCount <= (others => '0');
 	AM_AS_Status <= '0';
 	
 	if unsigned(AM_FIFO_UsedWords) < BURSTCOUNT_LENGTH then

@@ -145,7 +145,7 @@ Begin
 		inc := "0000000000000000";
 		burstcount16 <= 0;
 		
-		loop_row_2: FOR c2 IN 1 TO 320 LOOP
+		loop_row_2a: FOR c2 IN 1 TO 228 LOOP
 		
 			wait for 2*HalfPeriod_CI;
 			
@@ -194,7 +194,60 @@ Begin
 			
 			inc := std_logic_vector(unsigned(inc) + 1);
 			
-		END LOOP loop_row_2;
+		END LOOP loop_row_2a;
+		
+		toggle_reset;
+		
+		loop_row_2b: FOR c2 IN 229 TO 320 LOOP
+		
+			wait for 2*HalfPeriod_CI;
+			
+			wait until falling_edge(FIFO_WriteClk_test);
+			FIFO_CI_WriteEnable_test <= '1';
+			wait until rising_edge(FIFO_WriteClk_test);
+			FIFO_CI_WriteData_test <= std_logic_vector(unsigned(RGB) + unsigned(inc));
+			wait until falling_edge(FIFO_WriteClk_test);
+			FIFO_CI_WriteEnable_test <= '0';
+			
+			burstcount16 <= burstcount16 + 1;
+			
+			if burstcount16 >= 8 then
+				wait until rising_edge(FIFO_ReadClk_test);
+				wait for 2*HalfPeriod_AM;
+				FIFO_AM_ReadCheck_test <= '1';
+				burstcount16 <= burstcount16 - 2;
+				wait until rising_edge(FIFO_ReadClk_test);
+				wait for 2*HalfPeriod_AM;
+				FIFO_AM_ReadCheck_test <= '0';
+				
+				wait until rising_edge(FIFO_ReadClk_test);
+				wait for 2*HalfPeriod_AM;
+				FIFO_AM_ReadCheck_test <= '1';
+				burstcount16 <= burstcount16 - 2;
+				wait until rising_edge(FIFO_ReadClk_test);
+				wait for 2*HalfPeriod_AM;
+				FIFO_AM_ReadCheck_test <= '0';
+				
+				wait until rising_edge(FIFO_ReadClk_test);
+				wait for 2*HalfPeriod_AM;
+				FIFO_AM_ReadCheck_test <= '1';
+				burstcount16 <= burstcount16 - 2;
+				wait until rising_edge(FIFO_ReadClk_test);
+				wait for 2*HalfPeriod_AM;
+				FIFO_AM_ReadCheck_test <= '0';
+				
+				wait until rising_edge(FIFO_ReadClk_test);
+				wait for 2*HalfPeriod_AM;
+				FIFO_AM_ReadCheck_test <= '1';
+				burstcount16 <= burstcount16 - 2;
+				wait until rising_edge(FIFO_ReadClk_test);
+				wait for 2*HalfPeriod_AM;
+				FIFO_AM_ReadCheck_test <= '0';
+			end if;
+			
+			inc := std_logic_vector(unsigned(inc) + 1);
+			
+		END LOOP loop_row_2b;
 		
 	END LOOP loop_r;
 	

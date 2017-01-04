@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="soc_system" kind="soc_system" version="1.0" fabric="QSYS">
  <!-- Format version 16.0 211 (Future versions may contain additional information.) -->
- <!-- 2017.01.03.11:04:00 -->
+ <!-- 2017.01.04.19:28:00 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1483437840</value>
+  <value>1483554480</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -1102,7 +1102,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="camera_controller_0"
    kind="camera_controller"
-   version="2.0"
+   version="2.3"
    path="camera_controller_0">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -1160,7 +1160,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="addressSpan">
     <type>java.math.BigInteger</type>
-    <value>16</value>
+    <value>64</value>
     <derived>true</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -1477,13 +1477,13 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>TL_AS_AB_ReadData</name>
     <direction>Output</direction>
-    <width>8</width>
+    <width>32</width>
     <role>readdata</role>
    </port>
    <port>
     <name>TL_AS_AB_WriteData</name>
     <direction>Input</direction>
-    <width>8</width>
+    <width>32</width>
     <role>writedata</role>
    </port>
   </interface>
@@ -76625,7 +76625,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="dataSlaveMapParam">
    <type>java.lang.String</type>
-   <value><![CDATA[<address-map><slave name='hps_0_bridges.f2h_sdram0_data' start='0x0' end='0x10000000' type='hps_bridge_avalon.f2h_sdram0_data' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x10000000' end='0x10000800' type='altera_nios2_gen2.debug_mem_slave' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x10000800' end='0x10000808' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='camera_controller_0.avalon_slave_0' start='0x10000810' end='0x10000820' type='camera_controller.avalon_slave_0' /><slave name='cmos_sensor_output_generator_0.avalon_slave' start='0x10000820' end='0x10000840' type='cmos_sensor_output_generator.avalon_slave' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10120000' type='altera_avalon_onchip_memory2.s1' /></address-map>]]></value>
+   <value><![CDATA[<address-map><slave name='hps_0_bridges.f2h_sdram0_data' start='0x0' end='0x10000000' type='hps_bridge_avalon.f2h_sdram0_data' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x10000000' end='0x10000800' type='altera_nios2_gen2.debug_mem_slave' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x10000800' end='0x10000808' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='cmos_sensor_output_generator_0.avalon_slave' start='0x10000820' end='0x10000840' type='cmos_sensor_output_generator.avalon_slave' /><slave name='camera_controller_0.avalon_slave_0' start='0x10000840' end='0x10000880' type='camera_controller.avalon_slave_0' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10120000' type='altera_avalon_onchip_memory2.s1' /></address-map>]]></value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -77318,8 +77318,8 @@ parameters are a RESULT of the module parameters. -->
     <moduleName>camera_controller_0</moduleName>
     <slaveName>avalon_slave_0</slaveName>
     <name>camera_controller_0.avalon_slave_0</name>
-    <baseAddress>268437520</baseAddress>
-    <span>16</span>
+    <baseAddress>268437568</baseAddress>
+    <span>64</span>
    </memoryBlock>
    <memoryBlock>
     <isBridge>false</isBridge>
@@ -91128,7 +91128,7 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <parameter name="baseAddress">
    <type>java.math.BigInteger</type>
-   <value>0x10000810</value>
+   <value>0x10000840</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -92454,7 +92454,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName>camera_controller</displayName>
-  <version>2.0</version>
+  <version>2.3</version>
  </plugin>
  <plugin>
   <instanceCount>6</instanceCount>
