@@ -41,7 +41,6 @@ int main()
 
 		// Read through address span expander
 		//uint16_t readdata = IORD_16DIRECT(HPS_0_BRIDGES_BASE, i);
-
 		//fprintf(test, "%" PRIu16 "\n", readdata);
 	}
 
@@ -75,52 +74,57 @@ int main()
 	IOWR_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x3, 0x00025800);
 
 	//READ THE REGISTERS
-	printf("%" PRIu32 "\n", IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x0));
-	printf("%" PRIu32 "\n", IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1));
-	printf("%" PRIu32 "\n", IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x2));
-	printf("%" PRIu32 "\n", IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x3));
+	uint32_t start = IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x0);
+	printf("Start = %" PRIu32 "\n", start);
+	uint32_t status = IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1);
+	printf("Status = %" PRIu32 "\n", status);
+	uint32_t startaddress = IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x2);
+	printf("StartAddress = %" PRIu32 "\n", startaddress);
+	uint32_t length = IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x3);
+	printf("Length = %" PRIu32 "\n", length);
 
 	//START EVERYTHING
 	cmos_sensor_output_generator_start(&cmos_sensor_output_generator);
 	IOWR_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x0, 0x00000001);
 
 	//WAIT FOR A WHILE
-	printf("%" PRIu32 "\n", IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1));
+	status = IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1);
+	printf("Status = %" PRIu32 "\n", status);
 
 	while(IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1) != 0x00000001) {}
 
-	printf("%" PRIu32 "\n", IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1));
+	status = IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1);
+	printf("Status = %" PRIu32 "\n", status);
 
 	while(IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1) != 0x00000003) {}
 
-	printf("%" PRIu32 "\n", IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1));
+	status = IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1);
+	printf("Status = %" PRIu32 "\n", status);
 
 	while(IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1) != 0x00000007) {}
 
-	printf("%" PRIu32 "\n", IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1));
+	status = IORD_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1);
+	printf("Status = %" PRIu32 "\n", status);
 
 	//STOP EVERYTHING
 	IOWR_32DIRECT(CAMERA_CONTROLLER_0_BASE, 0x0, 0x00000000);
 	cmos_sensor_output_generator_stop(&cmos_sensor_output_generator);
 
-	//printf("%" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9));
-
 	//READ THE IMAGE IN THE MEMORY
 	FILE* data;
 	data = fopen("/mnt/host/data.txt","w");
 
+	uint16_t readdata = 0;
 	for (uint32_t i = 0; i < ONE_FRAME; i += sizeof(uint16_t))
 	{
 		// Read through address span expander
-		uint16_t readdata = IORD_16DIRECT(HPS_0_BRIDGES_BASE, i);
-
+		readdata = IORD_16DIRECT(HPS_0_BRIDGES_BASE, i);
 		fprintf(data, "%" PRIu16 "\n", readdata);
 		//fprintf(data, "%" PRIu32 " : %" PRIu16 "\n", i, readdata);
 	}
 
 	fclose(data);
 
-	printf("FINI !!!");
-
+	printf("FINISH !!!");
 	return EXIT_SUCCESS;
 }

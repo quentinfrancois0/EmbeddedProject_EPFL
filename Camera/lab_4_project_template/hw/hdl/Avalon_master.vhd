@@ -69,7 +69,7 @@ ARCHITECTURE bhv OF Avalon_master IS
 
 BEGIN
 
-process(AM_nReset, AM_Clk)
+process(AM_nReset, AM_AS_Start, AM_Clk)
 begin
 	if AM_nReset = '0' OR AM_AS_Start = '0' then
 		iRegStateSM <= WAITDATA;

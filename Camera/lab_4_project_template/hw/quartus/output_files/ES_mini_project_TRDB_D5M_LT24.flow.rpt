@@ -1,5 +1,5 @@
 Flow report for ES_mini_project_TRDB_D5M_LT24
-Wed Jan 04 19:45:25 2017
+Fri Jan 06 16:39:19 2017
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -41,18 +41,18 @@ agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Wed Jan 04 19:43:52 2017       ;
+; Flow Status                     ; Successful - Fri Jan 06 16:37:55 2017       ;
 ; Quartus Prime Version           ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                   ; ES_mini_project_TRDB_D5M_LT24               ;
 ; Top-level Entity Name           ; DE0_Nano_SoC_TRDB_D5M_LT24_top_level        ;
 ; Family                          ; Cyclone V                                   ;
 ; Device                          ; 5CSEMA4U23C6                                ;
 ; Timing Models                   ; Final                                       ;
-; Logic utilization (in ALMs)     ; 7,719 / 15,880 ( 49 % )                     ;
-; Total registers                 ; 11562                                       ;
+; Logic utilization (in ALMs)     ; 7,743 / 15,880 ( 49 % )                     ;
+; Total registers                 ; 11619                                       ;
 ; Total pins                      ; 207 / 314 ( 66 % )                          ;
 ; Total virtual pins              ; 0                                           ;
-; Total block memory bits         ; 1,130,752 / 2,764,800 ( 41 % )              ;
+; Total block memory bits         ; 1,131,264 / 2,764,800 ( 41 % )              ;
 ; Total DSP Blocks                ; 4 / 84 ( 5 % )                              ;
 ; Total HSSI RX PCSs              ; 0                                           ;
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
@@ -68,7 +68,7 @@ agreement for further details.
 +-------------------+-------------------------------+
 ; Option            ; Setting                       ;
 +-------------------+-------------------------------+
-; Start date & time ; 01/04/2017 19:27:23           ;
+; Start date & time ; 01/06/2017 16:23:37           ;
 ; Main task         ; Compilation                   ;
 ; Revision Name     ; ES_mini_project_TRDB_D5M_LT24 ;
 +-------------------+-------------------------------+
@@ -79,7 +79,7 @@ agreement for further details.
 +---------------------------------------+-----------------------------------------------+-------------------------------+--------------------------------------+----------------------+
 ; Assignment Name                       ; Value                                         ; Default Value                 ; Entity Name                          ; Section Id           ;
 +---------------------------------------+-----------------------------------------------+-------------------------------+--------------------------------------+----------------------+
-; COMPILER_SIGNATURE_ID                 ; 1098258261821.148355444305828                 ; --                            ; --                                   ; --                   ;
+; COMPILER_SIGNATURE_ID                 ; 1098258261821.148371621707964                 ; --                            ; --                                   ; --                   ;
 ; ECO_REGENERATE_REPORT                 ; On                                            ; Off                           ; --                                   ; --                   ;
 ; EDA_INPUT_DATA_FORMAT                 ; Edif                                          ; --                            ; --                                   ; eda_design_synthesis ;
 ; ENABLE_SIGNALTAP                      ; On                                            ; --                            ; --                                   ; --                   ;
@@ -95,9 +95,7 @@ agreement for further details.
 ; SLD_NODE_CREATOR_ID                   ; 110                                           ; --                            ; --                                   ; auto_signaltap_0     ;
 ; SLD_NODE_ENTITY_NAME                  ; sld_signaltap                                 ; --                            ; --                                   ; auto_signaltap_0     ;
 ; SLD_NODE_PARAMETER_ASSIGNMENT         ; SLD_RAM_BLOCK_TYPE=AUTO                       ; --                            ; --                                   ; auto_signaltap_0     ;
-; SLD_NODE_PARAMETER_ASSIGNMENT         ; SLD_DATA_BITS=1                               ; --                            ; --                                   ; auto_signaltap_0     ;
 ; SLD_NODE_PARAMETER_ASSIGNMENT         ; SLD_TRIGGER_BITS=1                            ; --                            ; --                                   ; auto_signaltap_0     ;
-; SLD_NODE_PARAMETER_ASSIGNMENT         ; SLD_STORAGE_QUALIFIER_BITS=1                  ; --                            ; --                                   ; auto_signaltap_0     ;
 ; SLD_NODE_PARAMETER_ASSIGNMENT         ; SLD_NODE_INFO=805334528                       ; --                            ; --                                   ; auto_signaltap_0     ;
 ; SLD_NODE_PARAMETER_ASSIGNMENT         ; SLD_POWER_UP_TRIGGER=0                        ; --                            ; --                                   ; auto_signaltap_0     ;
 ; SLD_NODE_PARAMETER_ASSIGNMENT         ; SLD_INVERSION_MASK=000000000000000000000000   ; --                            ; --                                   ; auto_signaltap_0     ;
@@ -119,6 +117,8 @@ agreement for further details.
 ; SLD_NODE_PARAMETER_ASSIGNMENT         ; SLD_ADVANCED_TRIGGER_ENTITY=basic,1,          ; --                            ; --                                   ; auto_signaltap_0     ;
 ; SLD_NODE_PARAMETER_ASSIGNMENT         ; SLD_TRIGGER_LEVEL_PIPELINE=1                  ; --                            ; --                                   ; auto_signaltap_0     ;
 ; SLD_NODE_PARAMETER_ASSIGNMENT         ; SLD_ENABLE_ADVANCED_TRIGGER=0                 ; --                            ; --                                   ; auto_signaltap_0     ;
+; SLD_NODE_PARAMETER_ASSIGNMENT         ; SLD_DATA_BITS=5                               ; --                            ; --                                   ; auto_signaltap_0     ;
+; SLD_NODE_PARAMETER_ASSIGNMENT         ; SLD_STORAGE_QUALIFIER_BITS=5                  ; --                            ; --                                   ; auto_signaltap_0     ;
 ; TOP_LEVEL_ENTITY                      ; DE0_Nano_SoC_TRDB_D5M_LT24_top_level          ; ES_mini_project_TRDB_D5M_LT24 ; --                                   ; --                   ;
 ; USE_DLL_FREQUENCY_FOR_DQS_DELAY_CHAIN ; On                                            ; Off                           ; --                                   ; --                   ;
 ; USE_SIGNALTAP_FILE                    ; WaitRequest.stp                               ; --                            ; --                                   ; --                   ;
@@ -130,11 +130,11 @@ agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:03:10     ; 1.2                     ; 1412 MB             ; 00:05:52                           ;
-; Fitter                    ; 00:12:33     ; 1.2                     ; 3441 MB             ; 00:24:44                           ;
-; Assembler                 ; 00:00:22     ; 1.0                     ; 1090 MB             ; 00:00:18                           ;
-; TimeQuest Timing Analyzer ; 00:01:30     ; 2.1                     ; 1948 MB             ; 00:02:57                           ;
-; Total                     ; 00:17:35     ; --                      ; --                  ; 00:33:51                           ;
+; Analysis & Synthesis      ; 00:03:03     ; 1.2                     ; 1392 MB             ; 00:05:27                           ;
+; Fitter                    ; 00:10:31     ; 1.2                     ; 3447 MB             ; 00:20:44                           ;
+; Assembler                 ; 00:00:20     ; 1.0                     ; 1090 MB             ; 00:00:17                           ;
+; TimeQuest Timing Analyzer ; 00:01:21     ; 1.9                     ; 1946 MB             ; 00:02:25                           ;
+; Total                     ; 00:15:15     ; --                      ; --                  ; 00:28:53                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

@@ -122,13 +122,13 @@ end process WriteProcess;
 -- Process to read internal registers through Avalon bus interface
 -- Synchronous access on rising edge of the FPGA's clock with 1 wait
 ReadProcess:
-Process(AS_nReset, AS_Clk, AS_AB_ReadEnable, AS_AB_Address, iRegStart, iRegStartAddress, iRegLength, iRegStatus)
+Process(AS_nReset, AS_Clk)
 Begin
 	if AS_nReset = '0' then
 		AS_AB_ReadData <= (others => '0');
 		iRegRead <= '1';
 	elsif rising_edge(AS_Clk) then
-		if  AS_AB_ReadEnable = '1' AND iRegRead = '1' then
+		if AS_AB_ReadEnable = '1' AND iRegRead = '1' then
 			iRegRead <= '0';
 			case AS_AB_Address is
 				when X"0" =>

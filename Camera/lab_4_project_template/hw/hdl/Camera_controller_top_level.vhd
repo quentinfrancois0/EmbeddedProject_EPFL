@@ -192,7 +192,7 @@ BEGIN
 		);
 
 ResetFIFO:
-Process(TL_nReset, TL_MainClk)
+Process(TL_nReset, Sig_Start)
 Begin
 	Sig_Reset <= not(TL_nReset AND Sig_Start);
 end process ResetFIFO;
