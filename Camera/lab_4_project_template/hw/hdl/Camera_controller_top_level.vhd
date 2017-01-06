@@ -190,9 +190,9 @@ BEGIN
 			CI_FIFO_WriteData	=> Sig_WriteData,
 			CI_FIFO_UsedWords	=> Sig_CI_UsedWords
 		);
-		
+
 ResetFIFO:
-Process(TL_nReset, Sig_Start)
+Process(TL_nReset, TL_MainClk)
 Begin
 	Sig_Reset <= not(TL_nReset AND Sig_Start);
 end process ResetFIFO;

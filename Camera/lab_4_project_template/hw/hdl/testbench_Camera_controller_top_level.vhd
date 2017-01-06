@@ -243,6 +243,7 @@ Process
 		TL_AS_AB_ReadEnable_test <= '1';
 		TL_AS_AB_Address_test <= addr_read;
 		
+		wait until rising_edge(TL_MainClk_test);
 		wait until rising_edge(TL_MainClk_test);	-- then reset everything
 		TL_AS_AB_ReadEnable_test <= '0';
 		TL_AS_AB_Address_test <= X"0";
@@ -252,8 +253,11 @@ Begin
 	-- Toggling the reset
 	toggle_reset;
 	
-	-- Writing start_adress = 0x10000000
-	write_register(X"2", X"10000000");
+	-- Writing AS_AMCI_Start information = 0
+	write_register(X"0", X"00000000");
+	
+	-- Writing start_adress = 0x00100000
+	write_register(X"2", X"00100000");
 	
 	-- Writing AS_AM_Length = 320*240*2 = 0x00025800
 	write_register(X"3", X"00025800");
@@ -261,6 +265,11 @@ Begin
 	-- Writing AS_AMCI_Start information = 1
 	write_register(X"0", X"00000001");
 	
+	-- Let's try to write the Length and the Start address, but should not work
+	write_register(X"2", X"0000ffff");
+	write_register(X"3", X"0000ffff");
+	
+	-- Reading the registers
 	read_register(X"0");
 	read_register(X"1");
 	read_register(X"2");

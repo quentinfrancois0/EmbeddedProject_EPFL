@@ -145,6 +145,7 @@ Process
 		AS_AB_ReadEnable_test <= '1';
 		AS_AB_Address_test <= addr_read;
 		
+		wait until rising_edge(AS_Clk_test);
 		wait until rising_edge(AS_Clk_test);	-- then reset everything
 		AS_AB_ReadEnable_test <= '0';
 		AS_AB_Address_test <= X"0";

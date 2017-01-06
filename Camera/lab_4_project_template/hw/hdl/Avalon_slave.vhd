@@ -63,6 +63,7 @@ ARCHITECTURE bhv OF Avalon_slave IS
 	signal		iRegStatus			: std_logic_vector (7 DOWNTO 0);	-- internal register for the status of each buffer
 	signal		prevStatus			: std_logic;						-- previous state of AS_AM_Status
 	signal		nextBuffer			: std_logic_vector (1 DOWNTO 0);	-- next buffer to write
+	signal		iRegRead			: std_logic;						-- 1 wait for read
 
 BEGIN
 
@@ -121,23 +122,31 @@ end process WriteProcess;
 -- Process to read internal registers through Avalon bus interface
 -- Synchronous access on rising edge of the FPGA's clock with 1 wait
 ReadProcess:
-Process(AS_AB_ReadEnable, AS_AB_Address, iRegStart, iRegStartAddress, iRegLength, iRegStatus)
+Process(AS_nReset, AS_Clk, AS_AB_ReadEnable, AS_AB_Address, iRegStart, iRegStartAddress, iRegLength, iRegStatus)
 Begin
-	AS_AB_ReadData <= (others => '0');	-- reset the data bus (read) when not used
-	if AS_AB_ReadEnable = '1' then
-		case AS_AB_Address is
-			when X"0" =>
-				AS_AB_ReadData (7 DOWNTO 0)		<= iRegStart;
-				AS_AB_ReadData (31 DOWNTO 8)	<= X"000000";
-			when X"1" =>
-				AS_AB_ReadData (7 DOWNTO 0)		<= iRegStatus;
-				AS_AB_ReadData (31 DOWNTO 8)	<= X"000000";
-			when X"2" =>
-				AS_AB_ReadData 	<= iRegStartAddress;
-			when X"3" =>
-				AS_AB_ReadData 	<= iRegLength;
-			when others => null;
-		end case;
+	if AS_nReset = '0' then
+		AS_AB_ReadData <= (others => '0');
+		iRegRead <= '1';
+	elsif rising_edge(AS_Clk) then
+		if  AS_AB_ReadEnable = '1' AND iRegRead = '1' then
+			iRegRead <= '0';
+			case AS_AB_Address is
+				when X"0" =>
+					AS_AB_ReadData (7 DOWNTO 0)		<= iRegStart;
+					AS_AB_ReadData (31 DOWNTO 8)	<= X"000000";
+				when X"1" =>
+					AS_AB_ReadData (7 DOWNTO 0)		<= iRegStatus;
+					AS_AB_ReadData (31 DOWNTO 8)	<= X"000000";
+				when X"2" =>
+					AS_AB_ReadData 	<= iRegStartAddress;
+				when X"3" =>
+					AS_AB_ReadData 	<= iRegLength;
+				when others => null;
+			end case;
+		else
+			AS_AB_ReadData <= (others => '0');
+			iRegRead <= '1';
+		end if;
 	end if;
 end process ReadProcess;
 

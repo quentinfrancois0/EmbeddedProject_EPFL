@@ -9,7 +9,7 @@ z2
 cModel Technology
 dD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/modelsim/avalon_master
 Eavalon_slave
-Z0 w1483551300
+Z0 w1483701472
 Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
 Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
@@ -22,9 +22,9 @@ Vl54dWS?9TmS32<oFEhc=T2
 !s100 GBcJARAX`972JM;jzgQG@3
 Z7 OV;C;10.4d;61
 32
-Z8 !s110 1483551315
+Z8 !s110 1483701524
 !i10b 1
-Z9 !s108 1483551315.000000
+Z9 !s108 1483701524.000000
 Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_slave.vhd|
 Z11 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_slave.vhd|
 !i113 1
@@ -35,10 +35,10 @@ R1
 R2
 R3
 Z14 DEx4 work 12 avalon_slave 0 22 l54dWS?9TmS32<oFEhc=T2
-l67
+l68
 L56
-VEzE7Nzblg>fSA7E5R7WTe2
-!s100 n612Izg`PQXb?4=`0MNbZ3
+Vc`HBMI;F@c1N4gC2G17lQ3
+!s100 cUG5H?kGZIKDj[gkZon5P2
 R7
 32
 R8
@@ -50,7 +50,7 @@ R11
 R12
 R13
 Etestbench
-Z15 w1483540152
+Z15 w1483699014
 R1
 R2
 R3
@@ -65,9 +65,9 @@ R7
 32
 R8
 !i10b 1
-Z18 !s108 1483551314.000000
-Z19 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_slave.vhd|
-Z20 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_slave.vhd|
+R9
+Z18 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_slave.vhd|
+Z19 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_slave.vhd|
 !i113 1
 R12
 R13
@@ -78,15 +78,15 @@ R3
 DEx4 work 9 testbench 0 22 Q1cgT7M>oj>C`oi8XlEW]1
 l78
 L34
-Vj^DKo=CmVWBTS29VVz_YB0
-!s100 4SY;Qo9OgniPf^=2;o0I03
+V8^dXUAT?z^4ffKGVQ9z3Q3
+!s100 Ob[HDd^MBBCh^B=KQ<1eo3
 R7
 32
 R8
 !i10b 1
+R9
 R18
 R19
-R20
 !i113 1
 R12
 R13

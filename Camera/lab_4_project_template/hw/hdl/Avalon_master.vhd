@@ -64,7 +64,7 @@ ARCHITECTURE bhv OF Avalon_master IS
 	signal		iRegCounterAddress, next_iRegCounterAddress	: std_logic_vector (31 DOWNTO 0);	-- internal phantom register which points on the current adress in the memory
 	signal 		iRegBurstCount, next_iRegBurstCount 		: unsigned (7 DOWNTO 0);
 	
-	TYPE		SM 	IS (WAITDATA, BURST, BURSTCOUNT);
+	TYPE		SM 	IS (WAITDATA, BEGINTRANSFER, BURST);
 	signal		iRegStateSM, next_iRegStateSM				: SM;
 
 BEGIN
@@ -106,10 +106,10 @@ begin
 	
 		when WAITDATA =>
 			if iRegAlmostEmpty = '0' AND AM_AS_Start = '1' then
-				next_iRegStateSM <= BURSTCOUNT;
+				next_iRegStateSM <= BEGINTRANSFER;
 			end if;
 			
-		when BURSTCOUNT =>
+		when BEGINTRANSFER =>
 			AM_AB_BurstCount <= std_logic_vector(BURSTCOUNT_LENGTH);
 			AM_AB_MemoryAddress <= std_logic_vector(unsigned(AM_AS_StartAddress) + unsigned(iRegCounterAddress));
 			AM_AB_MemoryData <= AM_FIFO_ReadData;
@@ -122,7 +122,6 @@ begin
 			end if;
 			
 		when BURST =>
-			AM_AB_MemoryAddress <= std_logic_vector(unsigned(AM_AS_StartAddress) + unsigned(iRegCounterAddress));
 			AM_AB_MemoryData <= AM_FIFO_ReadData;
 			AM_AB_WriteAccess <= '1';
 			

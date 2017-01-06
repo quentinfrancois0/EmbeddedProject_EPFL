@@ -9,7 +9,7 @@ z2
 cModel Technology
 dD:/Logiciels/altera_lite/16.0
 Eavalon_master
-Z0 w1483551164
+Z0 w1483697048
 Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
 Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
@@ -22,9 +22,9 @@ VDnilNZ`]k1`Ca`gZ5VR<K0
 !s100 LUa^F]C3iTfV`4bVH7HLT0
 Z7 OV;C;10.4d;61
 32
-Z8 !s110 1483551224
+Z8 !s110 1483697084
 !i10b 1
-Z9 !s108 1483551224.000000
+Z9 !s108 1483697084.000000
 Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_master.vhd|
 Z11 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_master.vhd|
 !i113 1
@@ -37,8 +37,8 @@ R3
 Z14 DEx4 work 13 avalon_master 0 22 DnilNZ`]k1`Ca`gZ5VR<K0
 l70
 L59
-VOzleFJbTf0US`<f:9d5bc1
-!s100 bPb`90c0W3kZMZW?LbbHN1
+V8kERLkJlG6=HYI4]:8Fk[3
+!s100 <[ZDj^GdW:Q2;A<9OF[0l2
 R7
 32
 R8
@@ -65,9 +65,9 @@ R7
 32
 R8
 !i10b 1
-Z18 !s108 1483551223.000000
-Z19 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_master.vhd|
-Z20 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_master.vhd|
+R9
+Z18 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_master.vhd|
+Z19 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_master.vhd|
 !i113 1
 R12
 R13
@@ -84,9 +84,9 @@ R7
 32
 R8
 !i10b 1
+R9
 R18
 R19
-R20
 !i113 1
 R12
 R13
