@@ -66,8 +66,6 @@ int main()
 	//CAMERA CONTROLLER INITIALISATION
 	//Stop the camera controller
 	IOWR_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x0, 0x00);
-	//Reset the status register
-	IOWR_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9, 0x00);
 	//Start Address = 0x00000000
 	IOWR_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1, 0x00);
 	IOWR_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x2, 0x00);
@@ -78,6 +76,8 @@ int main()
 	IOWR_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x6, 0x58);
 	IOWR_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x7, 0x02);
 	IOWR_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x8, 0x00);
+	//Reset the status register
+	IOWR_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9, 0x00);
 
 	//READ THE REGISTERS
 	printf("Start = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x0));
@@ -93,21 +93,19 @@ int main()
 
 	//START EVERYTHING
 	cmos_sensor_output_generator_start(&cmos_sensor_output_generator);
+	usleep(5000); // Sleep a bit not to begin at the beginning of a frame
 	IOWR_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x0, 0x01);
 
 	//WAIT FOR THE ACQUISITION
 	printf("Status = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9));
 
 	while(IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9) != 0x00000001) {}
-
 	printf("Status = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9));
 
 	while(IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9) != 0x00000003) {}
-
 	printf("Status = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9));
 
 	while(IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9) != 0x00000007) {}
-
 	printf("Status = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9));
 
 	//STOP EVERYTHING
