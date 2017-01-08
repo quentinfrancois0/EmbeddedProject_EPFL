@@ -42,8 +42,8 @@ component Top_Camera_Controller is
 		TL_AS_AB_Address		: IN std_logic_vector (3 DOWNTO 0);		-- address bus
 		TL_AS_AB_ReadEnable		: IN std_logic;							-- read enabler
 		TL_AS_AB_WriteEnable	: IN std_logic;							-- write enabler
-		TL_AS_AB_ReadData		: OUT std_logic_vector (31 DOWNTO 0);	-- data bus (read)
-		TL_AS_AB_WriteData		: IN std_logic_vector (31 DOWNTO 0);	-- data bus (write)
+		TL_AS_AB_ReadData		: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
+		TL_AS_AB_WriteData		: IN std_logic_vector (7 DOWNTO 0);	-- data bus (write)
 		
 		TL_AM_AB_MemoryAddress	: OUT std_logic_vector (31 DOWNTO 0);	-- Address sent on the Avalon bus
 		TL_AM_AB_MemoryData		: OUT std_logic_vector (31 DOWNTO 0);	-- Datas sent on the Avalon bus
@@ -65,8 +65,8 @@ signal TL_PixClk_test				: std_logic := '0';
 signal TL_AS_AB_Address_test		: std_logic_vector (3 DOWNTO 0) := "0000";
 signal TL_AS_AB_ReadEnable_test		: std_logic := '0';
 signal TL_AS_AB_WriteEnable_test	: std_logic := '0';
-signal TL_AS_AB_ReadData_test		: std_logic_vector (31 DOWNTO 0);
-signal TL_AS_AB_WriteData_test		: std_logic_vector (31 DOWNTO 0) := X"00000000";
+signal TL_AS_AB_ReadData_test		: std_logic_vector (7 DOWNTO 0);
+signal TL_AS_AB_WriteData_test		: std_logic_vector (7 DOWNTO 0) := X"00";
 
 signal TL_AM_AB_MemoryAddress_test	: std_logic_vector (31 DOWNTO 0);
 signal TL_AM_AB_MemoryData_test		: std_logic_vector (31 DOWNTO 0);
@@ -233,7 +233,7 @@ Process
 		wait until rising_edge(TL_MainClk_test);	-- then reset everything
 		TL_AS_AB_WriteEnable_test <= '0';
 		TL_AS_AB_Address_test <= X"0";
-		TL_AS_AB_WriteData_test <= X"00000000";
+		TL_AS_AB_WriteData_test <= X"00";
 	end procedure write_register;
 
 	-- Procedure to read a register, input is (address)
@@ -253,35 +253,38 @@ Begin
 	-- Toggling the reset
 	toggle_reset;
 	
-	-- Writing AS_AMCI_Start information = 0
-	write_register(X"0", X"00000000");
-	
-	-- Writing start_adress = 0x00100000
-	write_register(X"2", X"00100000");
+	-- Writing start_adress = 0x10000000
+	write_register(X"1", X"00");
+	write_register(X"2", X"00");
+	write_register(X"3", X"00");
+	write_register(X"4", X"10");
 	
 	-- Writing AS_AM_Length = 320*240*2 = 0x00025800
-	write_register(X"3", X"00025800");
+	write_register(X"5", X"00");
+	write_register(X"6", X"58");
+	write_register(X"7", X"02");
+	write_register(X"8", X"00");
 	
 	-- Writing AS_AMCI_Start information = 1
-	write_register(X"0", X"00000001");
-	
-	-- Let's try to write the Length and the Start address, but should not work
-	write_register(X"2", X"0000ffff");
-	write_register(X"3", X"0000ffff");
+	write_register(X"0", X"01");
 	
 	-- Reading the registers
-	read_register(X"0");
 	read_register(X"1");
 	read_register(X"2");
 	read_register(X"3");
+	read_register(X"4");
+	read_register(X"5");
+	read_register(X"6");
+	read_register(X"7");
+	read_register(X"8");
 	
 	wait for 620000*HalfPeriod_cam;
 	wait until rising_edge(TL_PixClk_test);
-	write_register(X"0", X"00000000");
+	write_register(X"0", X"00");
 	
 	wait for 50*HalfPeriod_cam;
 	wait until rising_edge(TL_PixClk_test);
-	write_register(X"0", X"00000001");
+	write_register(X"0", X"01");
 	
 	wait for 620000*HalfPeriod_cam;
 	wait until rising_edge(TL_PixClk_test);

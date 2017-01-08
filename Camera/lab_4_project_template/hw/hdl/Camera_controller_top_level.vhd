@@ -19,8 +19,8 @@ ENTITY Top_Camera_Controller IS
 		TL_AS_AB_Address		: IN std_logic_vector (3 DOWNTO 0);		-- address bus
 		TL_AS_AB_ReadEnable		: IN std_logic;							-- read enabler
 		TL_AS_AB_WriteEnable	: IN std_logic;							-- write enabler
-		TL_AS_AB_ReadData		: OUT std_logic_vector (31 DOWNTO 0);	-- data bus (read)
-		TL_AS_AB_WriteData		: IN std_logic_vector (31 DOWNTO 0);	-- data bus (write)
+		TL_AS_AB_ReadData		: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
+		TL_AS_AB_WriteData		: IN std_logic_vector (7 DOWNTO 0);	-- data bus (write)
 		
 		TL_AM_AB_MemoryAddress	: OUT std_logic_vector (31 DOWNTO 0);	-- Address sent on the Avalon bus
 		TL_AM_AB_MemoryData		: OUT std_logic_vector (31 DOWNTO 0);	-- Datas sent on the Avalon bus
@@ -44,8 +44,8 @@ ARCHITECTURE bhv OF Top_Camera_Controller IS
 			AS_AB_Address		: IN std_logic_vector (3 DOWNTO 0);		-- address bus
 			AS_AB_ReadEnable	: IN std_logic;							-- read enabler
 			AS_AB_WriteEnable	: IN std_logic;							-- write enabler
-			AS_AB_ReadData		: OUT std_logic_vector (31 DOWNTO 0);	-- data bus (read)
-			AS_AB_WriteData		: IN std_logic_vector (31 DOWNTO 0);	-- data bus (write)
+			AS_AB_ReadData		: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
+			AS_AB_WriteData		: IN std_logic_vector (7 DOWNTO 0);	-- data bus (write)
 		
 			AS_ALL_Start		: OUT std_logic;						-- Start information
 			

@@ -40,8 +40,8 @@ ENTITY Avalon_slave IS
 		AS_AB_Address		: IN std_logic_vector (3 DOWNTO 0);		-- address bus
 		AS_AB_ReadEnable	: IN std_logic;							-- read enabler
 		AS_AB_WriteEnable	: IN std_logic;							-- write enabler
-		AS_AB_ReadData		: OUT std_logic_vector (31 DOWNTO 0);	-- data bus (read)
-		AS_AB_WriteData		: IN std_logic_vector (31 DOWNTO 0);	-- data bus (write)
+		AS_AB_ReadData		: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
+		AS_AB_WriteData		: IN std_logic_vector (7 DOWNTO 0);	-- data bus (write)
 		
 		AS_ALL_Start		: OUT std_logic;						-- Start information
 		
@@ -83,19 +83,29 @@ Begin
 	elsif rising_edge(AS_Clk) then
 		if AS_AB_WriteEnable = '1' then
 			case AS_AB_Address is
-				when X"0" =>
-					iRegStart	<= AS_AB_WriteData (7 DOWNTO 0);
-				when X"1" =>
-					iRegStatus	<= AS_AB_WriteData (7 DOWNTO 0);
-				when X"2" =>
-					if iRegStart(0) = '0' then
-						iRegStartAddress 	<= AS_AB_WriteData;
-						iRegBufferAddress	<= AS_AB_WriteData;
-					end if;
-				when X"3" =>
-					if iRegStart(0) = '0' then
-						iRegLength <= AS_AB_WriteData;
-					end if;
+				when X"0" => iRegStart	<= AS_AB_WriteData;
+				when X"1" => 
+						iRegStartAddress (7 DOWNTO 0)	<= AS_AB_WriteData;
+						iRegBufferAddress (7 DOWNTO 0)	<= AS_AB_WriteData;
+				when X"2" => 
+						iRegStartAddress (15 DOWNTO 8)	<= AS_AB_WriteData;
+						iRegBufferAddress (15 DOWNTO 8)	<= AS_AB_WriteData;
+				when X"3" => 
+						iRegStartAddress (23 DOWNTO 16)	<= AS_AB_WriteData;
+						iRegBufferAddress (23 DOWNTO 16)<= AS_AB_WriteData;
+				when X"4" => 
+						iRegStartAddress (31 DOWNTO 24)	<= AS_AB_WriteData;
+						iRegBufferAddress (31 DOWNTO 24)<= AS_AB_WriteData;
+				when X"5" => 
+						iRegLength (7 DOWNTO 0)			<= AS_AB_WriteData;
+				when X"6" => 
+						iRegLength (15 DOWNTO 8)		<= AS_AB_WriteData;
+				when X"7" => 
+						iRegLength (23 DOWNTO 16)		<= AS_AB_WriteData;
+				when X"8" => 
+						iRegLength (31 DOWNTO 24)		<= AS_AB_WriteData;
+				when X"9" =>
+					iRegStatus	<= AS_AB_WriteData;
 				when others => null;
 			end case;
 		elsif AS_AM_Status = '1' AND prevStatus = '0' then
@@ -122,31 +132,23 @@ end process WriteProcess;
 -- Process to read internal registers through Avalon bus interface
 -- Synchronous access on rising edge of the FPGA's clock with 1 wait
 ReadProcess:
-Process(AS_nReset, AS_Clk)
+Process(AS_AB_ReadEnable, AS_AB_Address, iRegStart, iRegStartAddress, iRegLength, iRegStatus)
 Begin
-	if AS_nReset = '0' then
-		AS_AB_ReadData <= (others => '0');
-		iRegRead <= '1';
-	elsif rising_edge(AS_Clk) then
-		if AS_AB_ReadEnable = '1' AND iRegRead = '1' then
-			iRegRead <= '0';
-			case AS_AB_Address is
-				when X"0" =>
-					AS_AB_ReadData (7 DOWNTO 0)		<= iRegStart;
-					AS_AB_ReadData (31 DOWNTO 8)	<= X"000000";
-				when X"1" =>
-					AS_AB_ReadData (7 DOWNTO 0)		<= iRegStatus;
-					AS_AB_ReadData (31 DOWNTO 8)	<= X"000000";
-				when X"2" =>
-					AS_AB_ReadData 	<= iRegStartAddress;
-				when X"3" =>
-					AS_AB_ReadData 	<= iRegLength;
-				when others => null;
-			end case;
-		else
-			AS_AB_ReadData <= (others => '0');
-			iRegRead <= '1';
-		end if;
+	AS_AB_ReadData <= (others => '0');	-- reset the data bus (read) when not used
+	if AS_AB_ReadEnable = '1' then
+		case AS_AB_Address is
+			when X"0" => AS_AB_ReadData 	<= iRegStart;
+			when X"1" => AS_AB_ReadData 	<= iRegStartAddress (7 DOWNTO 0);
+			when X"2" => AS_AB_ReadData 	<= iRegStartAddress (15 DOWNTO 8);
+			when X"3" => AS_AB_ReadData 	<= iRegStartAddress (23 DOWNTO 16);
+			when X"4" => AS_AB_ReadData 	<= iRegStartAddress (31 DOWNTO 24);
+			when X"5" => AS_AB_ReadData 	<= iRegLength (7 DOWNTO 0);
+			when X"6" => AS_AB_ReadData 	<= iRegLength (15 DOWNTO 8);
+			when X"7" => AS_AB_ReadData 	<= iRegLength (23 DOWNTO 16);
+			when X"8" => AS_AB_ReadData 	<= iRegLength (31 DOWNTO 24);
+			when X"9" => AS_AB_ReadData 	<= iRegStatus;
+			when others => null;
+		end case;
 	end if;
 end process ReadProcess;
 

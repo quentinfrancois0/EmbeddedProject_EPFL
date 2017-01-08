@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'soc_system'
  * SOPC Builder design path: D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/quartus/soc_system.sopcinfo
  *
- * Generated: Fri Jan 06 16:44:46 CET 2017
+ * Generated: Sun Jan 08 16:25:50 CET 2017
  */
 
 /*

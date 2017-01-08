@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'soc_system'
  * SOPC Builder design path: D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/quartus/soc_system.sopcinfo
  *
- * Generated: Fri Jan 06 16:44:46 CET 2017
+ * Generated: Sun Jan 08 17:21:59 CET 2017
  */
 
 /*
@@ -199,11 +199,11 @@
  */
 
 #define ALT_MODULE_CLASS_camera_controller_0 camera_controller
-#define CAMERA_CONTROLLER_0_BASE 0x10000840
+#define CAMERA_CONTROLLER_0_BASE 0x10000810
 #define CAMERA_CONTROLLER_0_IRQ -1
 #define CAMERA_CONTROLLER_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define CAMERA_CONTROLLER_0_NAME "/dev/camera_controller_0"
-#define CAMERA_CONTROLLER_0_SPAN 64
+#define CAMERA_CONTROLLER_0_SPAN 16
 #define CAMERA_CONTROLLER_0_TYPE "camera_controller"
 
 
