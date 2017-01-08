@@ -9,10 +9,10 @@ Program Header:
     LOAD off    0x00001000 vaddr 0x10100000 paddr 0x10100000 align 2**12
          filesz 0x00000020 memsz 0x00000020 flags r-x
     LOAD off    0x00001020 vaddr 0x10100020 paddr 0x10100020 align 2**12
-         filesz 0x00011d40 memsz 0x00011d40 flags r-x
-    LOAD off    0x00012d60 vaddr 0x10111d60 paddr 0x101138bc align 2**12
+         filesz 0x00011d48 memsz 0x00011d48 flags r-x
+    LOAD off    0x00012d68 vaddr 0x10111d68 paddr 0x101138c4 align 2**12
          filesz 0x00001b5c memsz 0x00001b5c flags rw-
-    LOAD off    0x00015418 vaddr 0x10115418 paddr 0x10115418 align 2**12
+    LOAD off    0x00015420 vaddr 0x10115420 paddr 0x10115420 align 2**12
          filesz 0x00000000 memsz 0x00000160 flags rw-
 
 Sections:
@@ -23,64 +23,64 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   2 .text         000116b4  10100244  10100244  00001244  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  3 .rodata       00000468  101118f8  101118f8  000128f8  2**2
+  3 .rodata       00000470  101118f8  101118f8  000128f8  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  4 .rwdata       00001b5c  10111d60  101138bc  00012d60  2**2
+  4 .rwdata       00001b5c  10111d68  101138c4  00012d68  2**2
                   CONTENTS, ALLOC, LOAD, DATA, SMALL_DATA
-  5 .bss          00000160  10115418  10115418  00015418  2**2
+  5 .bss          00000160  10115420  10115420  00015420  2**2
                   ALLOC, SMALL_DATA
-  6 .onchip_memory2_0 00000000  10115578  10115578  000148bc  2**0
+  6 .onchip_memory2_0 00000000  10115580  10115580  000148c4  2**0
                   CONTENTS
-  7 .comment      00000023  00000000  00000000  000148bc  2**0
+  7 .comment      00000023  00000000  00000000  000148c4  2**0
                   CONTENTS, READONLY
-  8 .debug_aranges 00001060  00000000  00000000  000148e0  2**3
+  8 .debug_aranges 00001060  00000000  00000000  000148e8  2**3
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_info   00029b11  00000000  00000000  00015940  2**0
+  9 .debug_info   00029b11  00000000  00000000  00015948  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_abbrev 0000a642  00000000  00000000  0003f451  2**0
+ 10 .debug_abbrev 0000a642  00000000  00000000  0003f459  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_line   0000cf44  00000000  00000000  00049a93  2**0
+ 11 .debug_line   0000cf42  00000000  00000000  00049a9b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_frame  00002810  00000000  00000000  000569d8  2**2
+ 12 .debug_frame  00002810  00000000  00000000  000569e0  2**2
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_str    00003edb  00000000  00000000  000591e8  2**0
+ 13 .debug_str    00003edb  00000000  00000000  000591f0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_loc    000185ed  00000000  00000000  0005d0c3  2**0
+ 14 .debug_loc    000185ed  00000000  00000000  0005d0cb  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_alt_sim_info 00000060  00000000  00000000  000756b0  2**2
+ 15 .debug_alt_sim_info 00000060  00000000  00000000  000756b8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_ranges 000019a0  00000000  00000000  00075710  2**3
+ 16 .debug_ranges 000019a0  00000000  00000000  00075718  2**3
                   CONTENTS, READONLY, DEBUGGING
- 17 .thread_model 00000003  00000000  00000000  0007a972  2**0
+ 17 .thread_model 00000003  00000000  00000000  0007a97a  2**0
                   CONTENTS, READONLY
- 18 .cpu          0000000c  00000000  00000000  0007a975  2**0
+ 18 .cpu          0000000c  00000000  00000000  0007a97d  2**0
                   CONTENTS, READONLY
- 19 .qsys         00000001  00000000  00000000  0007a981  2**0
+ 19 .qsys         00000001  00000000  00000000  0007a989  2**0
                   CONTENTS, READONLY
- 20 .simulation_enabled 00000001  00000000  00000000  0007a982  2**0
+ 20 .simulation_enabled 00000001  00000000  00000000  0007a98a  2**0
                   CONTENTS, READONLY
- 21 .stderr_dev   0000000b  00000000  00000000  0007a983  2**0
+ 21 .stderr_dev   0000000b  00000000  00000000  0007a98b  2**0
                   CONTENTS, READONLY
- 22 .stdin_dev    0000000b  00000000  00000000  0007a98e  2**0
+ 22 .stdin_dev    0000000b  00000000  00000000  0007a996  2**0
                   CONTENTS, READONLY
- 23 .stdout_dev   0000000b  00000000  00000000  0007a999  2**0
+ 23 .stdout_dev   0000000b  00000000  00000000  0007a9a1  2**0
                   CONTENTS, READONLY
- 24 .sopc_system_name 0000000a  00000000  00000000  0007a9a4  2**0
+ 24 .sopc_system_name 0000000a  00000000  00000000  0007a9ac  2**0
                   CONTENTS, READONLY
- 25 .quartus_project_dir 00000045  00000000  00000000  0007a9ae  2**0
+ 25 .quartus_project_dir 00000045  00000000  00000000  0007a9b6  2**0
                   CONTENTS, READONLY
- 26 .jdi          000049d7  00000000  00000000  0007a9f3  2**0
+ 26 .jdi          000049d7  00000000  00000000  0007a9fb  2**0
                   CONTENTS, READONLY
- 27 .sopcinfo     0029abc9  00000000  00000000  0007f3ca  2**0
+ 27 .sopcinfo     002b16be  00000000  00000000  0007f3d2  2**0
                   CONTENTS, READONLY
 SYMBOL TABLE:
 10100000 l    d  .entry	00000000 .entry
 10100020 l    d  .exceptions	00000000 .exceptions
 10100244 l    d  .text	00000000 .text
 101118f8 l    d  .rodata	00000000 .rodata
-10111d60 l    d  .rwdata	00000000 .rwdata
-10115418 l    d  .bss	00000000 .bss
-10115578 l    d  .onchip_memory2_0	00000000 .onchip_memory2_0
+10111d68 l    d  .rwdata	00000000 .rwdata
+10115420 l    d  .bss	00000000 .bss
+10115580 l    d  .onchip_memory2_0	00000000 .onchip_memory2_0
 00000000 l    d  .comment	00000000 .comment
 00000000 l    d  .debug_aranges	00000000 .debug_aranges
 00000000 l    d  .debug_info	00000000 .debug_info
@@ -131,7 +131,7 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 fstatr.c
 00000000 l    df *ABS*	00000000 fwalk.c
 00000000 l    df *ABS*	00000000 impure.c
-10111d60 l     O .rwdata	00000424 impure_data
+10111d68 l     O .rwdata	00000424 impure_data
 00000000 l    df *ABS*	00000000 int_errno.c
 00000000 l    df *ABS*	00000000 makebuf.c
 00000000 l    df *ABS*	00000000 mallocr.c
@@ -145,9 +145,9 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 stdio.c
 00000000 l    df *ABS*	00000000 strlen.c
 00000000 l    df *ABS*	00000000 vfprintf.c
-10111a9e l     O .rodata	00000010 zeroes.4404
+10111aa6 l     O .rodata	00000010 zeroes.4404
 10106054 l     F .text	000000bc __sbprintf
-10111aae l     O .rodata	00000010 blanks.4403
+10111ab6 l     O .rodata	00000010 blanks.4403
 00000000 l    df *ABS*	00000000 writer.c
 00000000 l    df *ABS*	00000000 wsetup.c
 00000000 l    df *ABS*	00000000 closer.c
@@ -157,23 +157,23 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 fvwrite.c
 00000000 l    df *ABS*	00000000 isattyr.c
 00000000 l    df *ABS*	00000000 locale.c
-101125ac l     O .rwdata	00000020 lc_ctype_charset
-1011258c l     O .rwdata	00000020 lc_message_charset
-101125cc l     O .rwdata	00000038 lconv
+101125b4 l     O .rwdata	00000020 lc_ctype_charset
+10112594 l     O .rwdata	00000020 lc_message_charset
+101125d4 l     O .rwdata	00000038 lconv
 00000000 l    df *ABS*	00000000 lseekr.c
 00000000 l    df *ABS*	00000000 memchr.c
 00000000 l    df *ABS*	00000000 memcpy.c
 00000000 l    df *ABS*	00000000 memmove.c
 00000000 l    df *ABS*	00000000 mprec.c
-10111adc l     O .rodata	0000000c p05.2768
+10111ae4 l     O .rodata	0000000c p05.2768
 00000000 l    df *ABS*	00000000 readr.c
 00000000 l    df *ABS*	00000000 mallocr.c
 00000000 l    df *ABS*	00000000 s_fpclassify.c
 00000000 l    df *ABS*	00000000 strcmp.c
 00000000 l    df *ABS*	00000000 vfprintf.c
 10109d30 l     F .text	000000fc __sprint_r.part.0
-10111c10 l     O .rodata	00000010 blanks.4348
-10111c00 l     O .rodata	00000010 zeroes.4349
+10111c18 l     O .rodata	00000010 blanks.4348
+10111c08 l     O .rodata	00000010 zeroes.4349
 1010b2bc l     F .text	000000bc __sbprintf
 00000000 l    df *ABS*	00000000 mallocr.c
 00000000 l    df *ABS*	00000000 fputwc.c
@@ -216,14 +216,14 @@ SYMBOL TABLE:
 1010f324 l     F .text	00000050 alt_get_errno
 00000000 l    df *ABS*	00000000 alt_release_fd.c
 00000000 l    df *ABS*	00000000 alt_sbrk.c
-10113864 l     O .rwdata	00000004 heap_end
+1011386c l     O .rwdata	00000004 heap_end
 00000000 l    df *ABS*	00000000 alt_usleep.c
 00000000 l    df *ABS*	00000000 alt_write.c
 1010f5b4 l     F .text	00000050 alt_get_errno
 00000000 l    df *ABS*	00000000 alt_sys_init.c
 1010f6fc l     F .text	00000038 alt_dev_reg
-101127ac l     O .rwdata	00001060 jtag_uart_0
-1011380c l     O .rwdata	00000028 altera_hostfs
+101127b4 l     O .rwdata	00001060 jtag_uart_0
+10113814 l     O .rwdata	00000028 altera_hostfs
 00000000 l    df *ABS*	00000000 altera_avalon_jtag_uart_fd.c
 00000000 l    df *ABS*	00000000 altera_avalon_jtag_uart_init.c
 1010f9ec l     F .text	0000020c altera_avalon_jtag_uart_irq
@@ -232,12 +232,12 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 altera_avalon_jtag_uart_read.c
 00000000 l    df *ABS*	00000000 altera_avalon_jtag_uart_write.c
 00000000 l    df *ABS*	00000000 altera_hostfs.c
-10113868 l     O .rwdata	00000009 hcinfo.2538
-10113874 l     O .rwdata	0000000a hcinfo.2551
-10113880 l     O .rwdata	00000009 hcinfo.2560
-1011388c l     O .rwdata	0000000a hcinfo.2573
-10113898 l     O .rwdata	0000000a hcinfo.2586
-101138a4 l     O .rwdata	0000000a hcinfo.2612
+10113870 l     O .rwdata	00000009 hcinfo.2538
+1011387c l     O .rwdata	0000000a hcinfo.2551
+10113888 l     O .rwdata	00000009 hcinfo.2560
+10113894 l     O .rwdata	0000000a hcinfo.2573
+101138a0 l     O .rwdata	0000000a hcinfo.2586
+101138ac l     O .rwdata	0000000a hcinfo.2612
 00000000 l    df *ABS*	00000000 alt_alarm_start.c
 00000000 l    df *ABS*	00000000 alt_busy_sleep.c
 00000000 l    df *ABS*	00000000 alt_dcache_flush_all.c
@@ -264,19 +264,19 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 __atexit.c
 00000000 l    df *ABS*	00000000 __call_atexit.c
 00000000 l    df *ABS*	00000000 alt_exit.c
-1011544c g     O .bss	00000004 alt_instruction_exception_handler
+10115454 g     O .bss	00000004 alt_instruction_exception_handler
 101094a4 g     F .text	00000074 _mprec_log10
 10109590 g     F .text	0000008c __any_on
 10108108 g     F .text	00000054 _isatty_r
-10111ae8 g     O .rodata	00000028 __mprec_tinytens
+10111af0 g     O .rodata	00000028 __mprec_tinytens
 1010efec g     F .text	0000007c alt_main
 10103954 g     F .text	000000c0 _puts_r
-10115478 g     O .bss	00000100 alt_irq
+10115480 g     O .bss	00000100 alt_irq
 10108238 g     F .text	00000060 _lseek_r
-101138bc g       *ABS*	00000000 __flash_rwdata_start
+101138c4 g       *ABS*	00000000 __flash_rwdata_start
 10107ba0 g     F .text	000000ac __sflags
 1010d5c8 g     F .text	00000088 .hidden __eqdf2
-10115578 g       *ABS*	00000000 __alt_heap_start
+10115580 g       *ABS*	00000000 __alt_heap_start
 10103918 g     F .text	0000003c printf
 1010b79c g     F .text	0000009c _wcrtomb_r
 10103d44 g     F .text	0000005c __sseek
@@ -295,12 +295,12 @@ SYMBOL TABLE:
 10100000 g     F .entry	0000001c __reset
 10100020 g       *ABS*	00000000 __flash_exceptions_start
 10102bb4 g     F .text	0000005c _fstat_r
-10115418 g     O .bss	00000004 errno
+10115420 g     O .bss	00000004 errno
 10103cc0 g     F .text	00000008 __seofread
-10115438 g     O .bss	00000004 alt_argv
-1011b834 g       *ABS*	00000000 _gp
+10115440 g     O .bss	00000004 alt_argv
+1011b83c g       *ABS*	00000000 _gp
 1010f584 g     F .text	00000030 usleep
-1011262c g     O .rwdata	00000180 alt_fd_list
+10112634 g     O .rwdata	00000180 alt_fd_list
 10110470 g     F .text	00000068 alt_hostfs_seek
 10110b50 g     F .text	00000090 alt_find_dev
 1010837c g     F .text	00000148 memcpy
@@ -322,33 +322,33 @@ SYMBOL TABLE:
 101009cc g     F .text	00000108 cmos_sensor_output_generator_configure
 101019a0 g     F .text	00000064 .hidden __udivsi3
 1010ed38 g     F .text	000000a4 isatty
-10111b38 g     O .rodata	000000c8 __mprec_tens
+10111b40 g     O .rodata	000000c8 __mprec_tens
 101081d8 g     F .text	0000000c __locale_charset
 10111438 g     F .text	00000090 alt_icache_flush
-10115424 g     O .bss	00000004 __malloc_top_pad
-10113844 g     O .rwdata	00000004 __mb_cur_max
+1011542c g     O .bss	00000004 __malloc_top_pad
+1011384c g     O .rwdata	00000004 __mb_cur_max
 10108208 g     F .text	0000000c _localeconv_r
 10108a2c g     F .text	0000003c __i2b
 10107c4c g     F .text	000004bc __sfvwrite_r
 10103c18 g     F .text	00000054 _sbrk_r
 10110398 g     F .text	0000006c alt_hostfs_read
 1010961c g     F .text	00000060 _read_r
-1011385c g     O .rwdata	00000004 alt_max_fd
+10113864 g     O .rwdata	00000004 alt_max_fd
 10101a5c g     F .text	000000f0 _fclose_r
 10101dd8 g     F .text	00000030 fflush
-10115420 g     O .bss	00000004 __malloc_max_sbrked_mem
+10115428 g     O .bss	00000004 __malloc_max_sbrked_mem
 1010c434 g     F .text	000008ac .hidden __adddf3
 101091a8 g     F .text	0000010c __b2d
 1010befc g     F .text	00000538 .hidden __umoddi3
 1010ef18 g     F .text	000000d4 lseek
-10113834 g     O .rwdata	00000004 _global_impure_ptr
+1011383c g     O .rwdata	00000004 _global_impure_ptr
 1010967c g     F .text	00000564 _realloc_r
-10115578 g       *ABS*	00000000 __bss_end
+10115580 g       *ABS*	00000000 __bss_end
 10111040 g     F .text	000000f0 alt_iic_isr_register
 1011130c g     F .text	00000108 alt_tick
 1010b984 g     F .text	00000578 .hidden __udivdi3
 1010b5a0 g     F .text	00000024 _fputwc_r
-10111b10 g     O .rodata	00000028 __mprec_bigtens
+10111b18 g     O .rodata	00000028 __mprec_bigtens
 10108810 g     F .text	00000104 __s2b
 1010e990 g     F .text	000000a8 .hidden __floatunsidf
 10108ee8 g     F .text	00000060 __mcmp
@@ -356,28 +356,28 @@ SYMBOL TABLE:
 10110ff4 g     F .text	0000004c alt_ic_irq_enabled
 10111270 g     F .text	0000009c alt_alarm_stop
 10100b0c g     F .text	00000038 cmos_sensor_output_generator_stop
-10115440 g     O .bss	00000004 alt_irq_active
+10115448 g     O .bss	00000004 alt_irq_active
 10102754 g     F .text	00000444 _fseeko_r
 10110354 g     F .text	00000044 alt_hostfs_close
 101000fc g     F .exceptions	000000d4 alt_irq_handler
-10112604 g     O .rwdata	00000028 alt_dev_null
+1011260c g     O .rwdata	00000028 alt_dev_null
 10110954 g     F .text	00000048 alt_dcache_flush_all
 10108914 g     F .text	00000068 __hi0bits
 1010e834 g     F .text	00000080 .hidden __fixdfsi
 10100ad4 g     F .text	00000038 cmos_sensor_output_generator_start
-101138bc g       *ABS*	00000000 __ram_rwdata_end
-10113854 g     O .rwdata	00000008 alt_dev_list
+101138c4 g       *ABS*	00000000 __ram_rwdata_end
+1011385c g     O .rwdata	00000008 alt_dev_list
 1010f604 g     F .text	000000f8 write
-10111d60 g       *ABS*	00000000 __ram_rodata_end
+10111d68 g       *ABS*	00000000 __ram_rodata_end
 1010ec38 g     F .text	000000b0 fstat
 101022dc g     F .text	00000024 fprintf
 101011e8 g     F .text	0000002c i2c_inst
 1010d72c g     F .text	000000f4 .hidden __ledf2
 10108c60 g     F .text	00000140 __pow5mult
 10109e44 g     F .text	0000145c ___vfiprintf_internal_r
-10115430 g     O .bss	00000004 __nlocale_changed
+10115438 g     O .bss	00000004 __nlocale_changed
 10101a04 g     F .text	00000058 .hidden __umodsi3
-10115578 g       *ABS*	00000000 end
+10115580 g       *ABS*	00000000 end
 10102b98 g     F .text	0000001c fseeko
 10102738 g     F .text	0000001c fseek
 1010f924 g     F .text	000000c8 altera_avalon_jtag_uart_init
@@ -393,12 +393,12 @@ SYMBOL TABLE:
 101008d8 g     F .text	00000078 cmos_sensor_output_generator_inst
 101081e4 g     F .text	00000010 __locale_mb_cur_max
 10111744 g     F .text	00000180 __call_exitprocs
-1011542c g     O .bss	00000004 __mlocale_changed
-1011383c g     O .rwdata	00000004 __malloc_sbrk_base
+10115434 g     O .bss	00000004 __mlocale_changed
+10113844 g     O .rwdata	00000004 __malloc_sbrk_base
 10100244 g     F .text	0000004c _start
-10115444 g     O .bss	00000004 _alt_tick_rate
+1011544c g     O .bss	00000004 _alt_tick_rate
 10108da0 g     F .text	00000148 __lshift
-10115448 g     O .bss	00000004 _alt_nticks
+10115450 g     O .bss	00000004 _alt_nticks
 1010f374 g     F .text	000000fc read
 1010f76c g     F .text	00000054 alt_sys_init
 10103888 g     F .text	00000060 _open_r
@@ -406,9 +406,9 @@ SYMBOL TABLE:
 1011162c g     F .text	00000118 __register_exitproc
 10108a68 g     F .text	000001f8 __multiply
 1010fca0 g     F .text	00000068 altera_avalon_jtag_uart_close
-10111d60 g       *ABS*	00000000 __ram_rwdata_start
+10111d68 g       *ABS*	00000000 __ram_rwdata_start
 101118f8 g       *ABS*	00000000 __ram_rodata_start
-10115450 g     O .bss	00000028 __malloc_current_mallinfo
+10115458 g     O .bss	00000028 __malloc_current_mallinfo
 101092b4 g     F .text	0000014c __d2b
 1010f7c0 g     F .text	00000060 altera_avalon_jtag_uart_read_fd
 10110d78 g     F .text	000000b4 alt_get_fd
@@ -416,13 +416,13 @@ SYMBOL TABLE:
 101062c4 g     F .text	00000054 _close_r
 101115b0 g     F .text	0000007c memcmp
 1010f880 g     F .text	00000050 altera_avalon_jtag_uart_close_fd
-10115578 g       *ABS*	00000000 __alt_stack_base
+10115580 g       *ABS*	00000000 __alt_stack_base
 1010f8d0 g     F .text	00000054 altera_avalon_jtag_uart_ioctl_fd
 10106170 g     F .text	00000154 __swsetup_r
 1010cce0 g     F .text	000008e8 .hidden __divdf3
 10102028 g     F .text	00000118 __sfp
 10109518 g     F .text	00000078 __copybits
-10112184 g     O .rwdata	00000408 __malloc_av_
+1011218c g     O .rwdata	00000408 __malloc_av_
 10102174 g     F .text	00000004 __sinit_lock_release
 1010d820 g     F .text	00000718 .hidden __muldf3
 10103c6c g     F .text	00000054 __sread
@@ -434,11 +434,11 @@ SYMBOL TABLE:
 10101d7c g     F .text	0000005c _fflush_r
 1010b378 g     F .text	000000c4 _calloc_r
 1010229c g     F .text	00000018 fopen
-10115418 g       *ABS*	00000000 __bss_start
+10115420 g       *ABS*	00000000 __bss_start
 10103760 g     F .text	00000128 memset
 10100b44 g     F .text	00000558 main
-1011543c g     O .bss	00000004 alt_envp
-1011541c g     O .bss	00000004 __malloc_max_total_mem
+10115444 g     O .bss	00000004 alt_envp
+10115424 g     O .bss	00000004 __malloc_max_total_mem
 1010f820 g     F .text	00000060 altera_avalon_jtag_uart_write_fd
 10101424 g     F .text	00000148 i2c_read
 1010b784 g     F .text	00000018 __swbuf
@@ -448,7 +448,7 @@ SYMBOL TABLE:
 10106518 g     F .text	00001688 _dtoa_r
 10102f54 g     F .text	0000080c _malloc_r
 1010b8f8 g     F .text	00000030 __ascii_wctomb
-10113860 g     O .rwdata	00000004 alt_errno
+10113868 g     O .rwdata	00000004 alt_errno
 10102c10 g     F .text	000000c4 _fwalk
 101018a8 g     F .text	00000084 .hidden __divsi3
 10102300 g     F .text	00000124 _malloc_trim_r
@@ -459,13 +459,13 @@ SYMBOL TABLE:
 1010d5c8 g     F .text	00000088 .hidden __nedf2
 1010f734 g     F .text	00000038 alt_irq_init
 1010f470 g     F .text	00000064 alt_release_fd
-10111c20 g     O .rodata	00000100 .hidden __clz_tab
-10115428 g     O .bss	00000004 _PathLocale
+10111c28 g     O .rodata	00000100 .hidden __clz_tab
+10115430 g     O .bss	00000004 _PathLocale
 10111564 g     F .text	00000014 atexit
 10106110 g     F .text	00000060 _write_r
 10108214 g     F .text	00000018 setlocale
-10113838 g     O .rwdata	00000004 _impure_ptr
-10115434 g     O .bss	00000004 alt_argc
+10113840 g     O .rwdata	00000004 _impure_ptr
+1011543c g     O .bss	00000004 alt_argc
 10101b60 g     F .text	0000021c __sflush_r
 10110af0 g     F .text	00000060 _do_dtors
 10108200 g     F .text	00000008 __locale_cjk_lang
@@ -475,20 +475,20 @@ SYMBOL TABLE:
 10100020 g       .exceptions	00000000 alt_irq_entry
 10109144 g     F .text	00000064 __ulp
 10102190 g     F .text	00000018 __fp_unlock_all
-1011384c g     O .rwdata	00000008 alt_fs_list
+10113854 g     O .rwdata	00000008 alt_fs_list
 10110404 g     F .text	0000006c alt_hostfs_write
 10100020 g       *ABS*	00000000 __ram_exceptions_start
 1010822c g     F .text	0000000c localeconv
 10110e60 g     F .text	00000050 alt_ic_isr_register
-101138bc g       *ABS*	00000000 _edata
-10115578 g       *ABS*	00000000 _end
+101138c4 g       *ABS*	00000000 _edata
+10115580 g       *ABS*	00000000 _end
 1010b43c g     F .text	00000164 __fputwc
 10100244 g       *ABS*	00000000 __ram_exceptions_end
 10100950 g     F .text	0000007c cmos_sensor_output_generator_init
 1010fd08 g     F .text	000000f0 altera_avalon_jtag_uart_ioctl
 10110f50 g     F .text	000000a4 alt_ic_irq_disable
 10103cc8 g     F .text	0000007c __swrite
-10113840 g     O .rwdata	00000004 __malloc_trim_threshold
+10113848 g     O .rwdata	00000004 __malloc_trim_threshold
 101081f4 g     F .text	0000000c __locale_msgcharset
 10111578 g     F .text	00000038 exit
 10102cd4 g     F .text	000000c4 _fwalk_reent
@@ -505,16 +505,16 @@ SYMBOL TABLE:
 10103da8 g     F .text	00000098 strlen
 1010f1cc g     F .text	00000158 open
 1010d650 g     F .text	000000dc .hidden __gedf2
-10113848 g     O .rwdata	00000004 __wctomb
+10113850 g     O .rwdata	00000004 __wctomb
 10109e2c g     F .text	00000018 __sprint_r
 10110e2c g     F .text	00000034 alt_icache_flush_all
-101138b0 g     O .rwdata	00000004 alt_priority_mask
+101138b8 g     O .rwdata	00000004 alt_priority_mask
 10110eb0 g     F .text	000000a0 alt_ic_irq_enable
 10106038 g     F .text	0000001c __vfprintf_internal
 1010b928 g     F .text	0000005c _wctomb_r
 1010df38 g     F .text	000008fc .hidden __subdf3
 1010897c g     F .text	000000b0 __lo0bits
-101138b4 g     O .rwdata	00000008 alt_alarm_list
+101138bc g     O .rwdata	00000008 alt_alarm_list
 10110a90 g     F .text	00000060 _do_ctors
 1010b838 g     F .text	000000c0 wcrtomb
 1010eaec g     F .text	000000d0 close
@@ -808,13 +808,13 @@ static ALT_INLINE alt_u32 ALT_ALWAYS_INLINE alt_irq_pending (void)
 #ifdef ALT_ENHANCED_INTERRUPT_API_PRESENT
         alt_irq[i].handler(alt_irq[i].context); 
 1010013c:	00840474 	movhi	r2,4113
-10100140:	10951e04 	addi	r2,r2,21624
+10100140:	10952004 	addi	r2,r2,21632
 10100144:	e0fffd17 	ldw	r3,-12(fp)
 10100148:	180690fa 	slli	r3,r3,3
 1010014c:	10c5883a 	add	r2,r2,r3
 10100150:	10c00017 	ldw	r3,0(r2)
 10100154:	00840474 	movhi	r2,4113
-10100158:	10951e04 	addi	r2,r2,21624
+10100158:	10952004 	addi	r2,r2,21632
 1010015c:	e13ffd17 	ldw	r4,-12(fp)
 10100160:	200890fa 	slli	r4,r4,3
 10100164:	1105883a 	add	r2,r2,r4
@@ -980,7 +980,7 @@ Disassembly of section .text:
     movhi gp, %hi(_gp)
 1010025c:	06840474 	movhi	gp,4113
     ori gp, gp, %lo(_gp)
-10100260:	d6ae0d14 	ori	gp,gp,47156
+10100260:	d6ae0f14 	ori	gp,gp,47164
  */
 #ifndef ALT_SIM_OPTIMIZE
     /* Log that the BSS is about to be cleared. */
@@ -989,12 +989,12 @@ Disassembly of section .text:
     movhi r2, %hi(__bss_start)
 10100264:	00840474 	movhi	r2,4113
     ori r2, r2, %lo(__bss_start)
-10100268:	10950614 	ori	r2,r2,21528
+10100268:	10950814 	ori	r2,r2,21536
 
     movhi r3, %hi(__bss_end)
 1010026c:	00c40474 	movhi	r3,4113
     ori r3, r3, %lo(__bss_end)
-10100270:	18d55e14 	ori	r3,r3,21880
+10100270:	18d56014 	ori	r3,r3,21888
 
     beq r2, r3, 1f
 10100274:	10c00326 	beq	r2,r3,10100284 <_start+0x40>
@@ -2028,90 +2028,87 @@ int main()
 10100cb4:	01040474 	movhi	r4,4113
 10100cb8:	21064304 	addi	r4,r4,6412
 10100cbc:	01039180 	call	10103918 <printf>
-	printf("Status = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9));
+	printf("StartAddress_1 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1));
 10100cc0:	00840034 	movhi	r2,4096
-10100cc4:	10820644 	addi	r2,r2,2073
+10100cc4:	10820444 	addi	r2,r2,2065
 10100cc8:	10800023 	ldbuio	r2,0(r2)
 10100ccc:	10803fcc 	andi	r2,r2,255
 10100cd0:	100b883a 	mov	r5,r2
 10100cd4:	01040474 	movhi	r4,4113
 10100cd8:	21064604 	addi	r4,r4,6424
 10100cdc:	01039180 	call	10103918 <printf>
-	printf("StartAddress_1 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x1));
+	printf("StartAddress_2 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x2));
 10100ce0:	00840034 	movhi	r2,4096
-10100ce4:	10820444 	addi	r2,r2,2065
+10100ce4:	10820484 	addi	r2,r2,2066
 10100ce8:	10800023 	ldbuio	r2,0(r2)
 10100cec:	10803fcc 	andi	r2,r2,255
 10100cf0:	100b883a 	mov	r5,r2
 10100cf4:	01040474 	movhi	r4,4113
-10100cf8:	21064a04 	addi	r4,r4,6440
+10100cf8:	21064c04 	addi	r4,r4,6448
 10100cfc:	01039180 	call	10103918 <printf>
-	printf("StartAddress_2 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x2));
+	printf("StartAddress_3 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x3));
 10100d00:	00840034 	movhi	r2,4096
-10100d04:	10820484 	addi	r2,r2,2066
+10100d04:	108204c4 	addi	r2,r2,2067
 10100d08:	10800023 	ldbuio	r2,0(r2)
 10100d0c:	10803fcc 	andi	r2,r2,255
 10100d10:	100b883a 	mov	r5,r2
 10100d14:	01040474 	movhi	r4,4113
-10100d18:	21065004 	addi	r4,r4,6464
+10100d18:	21065204 	addi	r4,r4,6472
 10100d1c:	01039180 	call	10103918 <printf>
-	printf("StartAddress_3 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x3));
+	printf("StartAddress_4 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x4));
 10100d20:	00840034 	movhi	r2,4096
-10100d24:	108204c4 	addi	r2,r2,2067
+10100d24:	10820504 	addi	r2,r2,2068
 10100d28:	10800023 	ldbuio	r2,0(r2)
 10100d2c:	10803fcc 	andi	r2,r2,255
 10100d30:	100b883a 	mov	r5,r2
 10100d34:	01040474 	movhi	r4,4113
-10100d38:	21065604 	addi	r4,r4,6488
+10100d38:	21065804 	addi	r4,r4,6496
 10100d3c:	01039180 	call	10103918 <printf>
-	printf("StartAddress_4 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x4));
+	printf("Length_1 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x5));
 10100d40:	00840034 	movhi	r2,4096
-10100d44:	10820504 	addi	r2,r2,2068
+10100d44:	10820544 	addi	r2,r2,2069
 10100d48:	10800023 	ldbuio	r2,0(r2)
 10100d4c:	10803fcc 	andi	r2,r2,255
 10100d50:	100b883a 	mov	r5,r2
 10100d54:	01040474 	movhi	r4,4113
-10100d58:	21065c04 	addi	r4,r4,6512
+10100d58:	21065e04 	addi	r4,r4,6520
 10100d5c:	01039180 	call	10103918 <printf>
-	printf("Length_1 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x5));
+	printf("Length_2 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x6));
 10100d60:	00840034 	movhi	r2,4096
-10100d64:	10820544 	addi	r2,r2,2069
+10100d64:	10820584 	addi	r2,r2,2070
 10100d68:	10800023 	ldbuio	r2,0(r2)
 10100d6c:	10803fcc 	andi	r2,r2,255
 10100d70:	100b883a 	mov	r5,r2
 10100d74:	01040474 	movhi	r4,4113
 10100d78:	21066204 	addi	r4,r4,6536
 10100d7c:	01039180 	call	10103918 <printf>
-	printf("Length_2 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x6));
+	printf("Length_3 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x7));
 10100d80:	00840034 	movhi	r2,4096
-10100d84:	10820584 	addi	r2,r2,2070
+10100d84:	108205c4 	addi	r2,r2,2071
 10100d88:	10800023 	ldbuio	r2,0(r2)
 10100d8c:	10803fcc 	andi	r2,r2,255
 10100d90:	100b883a 	mov	r5,r2
 10100d94:	01040474 	movhi	r4,4113
 10100d98:	21066604 	addi	r4,r4,6552
 10100d9c:	01039180 	call	10103918 <printf>
-	printf("Length_3 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x7));
+	printf("Length_4 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x8));
 10100da0:	00840034 	movhi	r2,4096
-10100da4:	108205c4 	addi	r2,r2,2071
+10100da4:	10820604 	addi	r2,r2,2072
 10100da8:	10800023 	ldbuio	r2,0(r2)
 10100dac:	10803fcc 	andi	r2,r2,255
 10100db0:	100b883a 	mov	r5,r2
 10100db4:	01040474 	movhi	r4,4113
 10100db8:	21066a04 	addi	r4,r4,6568
 10100dbc:	01039180 	call	10103918 <printf>
-	printf("Length_4 = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x8));
+	printf("Status = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9));
 10100dc0:	00840034 	movhi	r2,4096
-10100dc4:	10820604 	addi	r2,r2,2072
+10100dc4:	10820644 	addi	r2,r2,2073
 10100dc8:	10800023 	ldbuio	r2,0(r2)
 10100dcc:	10803fcc 	andi	r2,r2,255
 10100dd0:	100b883a 	mov	r5,r2
 10100dd4:	01040474 	movhi	r4,4113
 10100dd8:	21066e04 	addi	r4,r4,6584
 10100ddc:	01039180 	call	10103918 <printf>
-	printf("Length = %" PRIu32 "\n", length);
-	*/
-
 
 	//START EVERYTHING
 	cmos_sensor_output_generator_start(&cmos_sensor_output_generator);
@@ -2124,7 +2121,7 @@ int main()
 10100df4:	10820404 	addi	r2,r2,2064
 10100df8:	10c00025 	stbio	r3,0(r2)
 
-	//WAIT FOR A WHILE
+	//WAIT FOR THE ACQUISITION
 	printf("Status = %" PRIu8 "\n", IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9));
 10100dfc:	00840034 	movhi	r2,4096
 10100e00:	10820644 	addi	r2,r2,2073
@@ -2132,7 +2129,7 @@ int main()
 10100e08:	10803fcc 	andi	r2,r2,255
 10100e0c:	100b883a 	mov	r5,r2
 10100e10:	01040474 	movhi	r4,4113
-10100e14:	21064604 	addi	r4,r4,6424
+10100e14:	21066e04 	addi	r4,r4,6584
 10100e18:	01039180 	call	10103918 <printf>
 
 	while(IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9) != 0x00000001) {}
@@ -2151,7 +2148,7 @@ int main()
 10100e44:	10803fcc 	andi	r2,r2,255
 10100e48:	100b883a 	mov	r5,r2
 10100e4c:	01040474 	movhi	r4,4113
-10100e50:	21064604 	addi	r4,r4,6424
+10100e50:	21066e04 	addi	r4,r4,6584
 10100e54:	01039180 	call	10103918 <printf>
 
 	while(IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9) != 0x00000003) {}
@@ -2170,7 +2167,7 @@ int main()
 10100e80:	10803fcc 	andi	r2,r2,255
 10100e84:	100b883a 	mov	r5,r2
 10100e88:	01040474 	movhi	r4,4113
-10100e8c:	21064604 	addi	r4,r4,6424
+10100e8c:	21066e04 	addi	r4,r4,6584
 10100e90:	01039180 	call	10103918 <printf>
 
 	while(IORD_8DIRECT(CAMERA_CONTROLLER_0_BASE, 0x9) != 0x00000007) {}
@@ -2189,7 +2186,7 @@ int main()
 10100ebc:	10803fcc 	andi	r2,r2,255
 10100ec0:	100b883a 	mov	r5,r2
 10100ec4:	01040474 	movhi	r4,4113
-10100ec8:	21064604 	addi	r4,r4,6424
+10100ec8:	21066e04 	addi	r4,r4,6584
 10100ecc:	01039180 	call	10103918 <printf>
 
 	//STOP EVERYTHING
@@ -2203,7 +2200,7 @@ int main()
 10100ee4:	1009883a 	mov	r4,r2
 10100ee8:	0100b0c0 	call	10100b0c <cmos_sensor_output_generator_stop>
 
-	//READ THE IMAGE IN THE MEMORY
+	//READ THE FRAMES IN THE MEMORY
 	FILE* data;
 	data = fopen("/mnt/host/data.txt","w");
 10100eec:	01440474 	movhi	r5,4113
@@ -2232,7 +2229,7 @@ int main()
 10100f2c:	29467804 	addi	r5,r5,6624
 10100f30:	e13ff817 	ldw	r4,-32(fp)
 10100f34:	01022dc0 	call	101022dc <fprintf>
-	//READ THE IMAGE IN THE MEMORY
+	//READ THE FRAMES IN THE MEMORY
 	FILE* data;
 	data = fopen("/mnt/host/data.txt","w");
 
@@ -2372,7 +2369,7 @@ int main()
 10101070:	21068d04 	addi	r4,r4,6708
 10101074:	0103a140 	call	10103a14 <puts>
 
-	printf("FINISH !!!");
+	printf("FRAMES COMPUTED !!!");
 10101078:	01040474 	movhi	r4,4113
 1010107c:	21069204 	addi	r4,r4,6728
 10101080:	01039180 	call	10103918 <printf>
@@ -3360,7 +3357,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 
 10101b4c <fclose>:
 10101b4c:	00840474 	movhi	r2,4113
-10101b50:	108e0e04 	addi	r2,r2,14392
+10101b50:	108e1004 	addi	r2,r2,14400
 10101b54:	200b883a 	mov	r5,r4
 10101b58:	11000017 	ldw	r4,0(r2)
 10101b5c:	0101a5c1 	jmpi	10101a5c <_fclose_r>
@@ -3530,12 +3527,12 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10101dd8 <fflush>:
 10101dd8:	20000526 	beq	r4,zero,10101df0 <fflush+0x18>
 10101ddc:	00840474 	movhi	r2,4113
-10101de0:	108e0e04 	addi	r2,r2,14392
+10101de0:	108e1004 	addi	r2,r2,14400
 10101de4:	200b883a 	mov	r5,r4
 10101de8:	11000017 	ldw	r4,0(r2)
 10101dec:	0101d7c1 	jmpi	10101d7c <_fflush_r>
 10101df0:	00840474 	movhi	r2,4113
-10101df4:	108e0d04 	addi	r2,r2,14388
+10101df4:	108e0f04 	addi	r2,r2,14396
 10101df8:	11000017 	ldw	r4,0(r2)
 10101dfc:	01440434 	movhi	r5,4112
 10101e00:	29475f04 	addi	r5,r5,7548
@@ -3691,7 +3688,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10102028:	defffb04 	addi	sp,sp,-20
 1010202c:	dc000015 	stw	r16,0(sp)
 10102030:	04040474 	movhi	r16,4113
-10102034:	840e0d04 	addi	r16,r16,14388
+10102034:	840e0f04 	addi	r16,r16,14396
 10102038:	dcc00315 	stw	r19,12(sp)
 1010203c:	2027883a 	mov	r19,r4
 10102040:	81000017 	ldw	r4,0(r16)
@@ -3761,7 +3758,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 
 10102140 <_cleanup>:
 10102140:	00840474 	movhi	r2,4113
-10102144:	108e0d04 	addi	r2,r2,14388
+10102144:	108e0f04 	addi	r2,r2,14396
 10102148:	11000017 	ldw	r4,0(r2)
 1010214c:	01440434 	movhi	r5,4112
 10102150:	29469704 	addi	r5,r5,6748
@@ -3787,7 +3784,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 
 10102178 <__fp_lock_all>:
 10102178:	00840474 	movhi	r2,4113
-1010217c:	108e0e04 	addi	r2,r2,14392
+1010217c:	108e1004 	addi	r2,r2,14400
 10102180:	11000017 	ldw	r4,0(r2)
 10102184:	01440434 	movhi	r5,4112
 10102188:	2947ee04 	addi	r5,r5,8120
@@ -3795,7 +3792,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 
 10102190 <__fp_unlock_all>:
 10102190:	00840474 	movhi	r2,4113
-10102194:	108e0e04 	addi	r2,r2,14392
+10102194:	108e1004 	addi	r2,r2,14400
 10102198:	11000017 	ldw	r4,0(r2)
 1010219c:	01440434 	movhi	r5,4112
 101021a0:	29478204 	addi	r5,r5,7688
@@ -3866,7 +3863,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 
 1010229c <fopen>:
 1010229c:	00840474 	movhi	r2,4113
-101022a0:	108e0e04 	addi	r2,r2,14392
+101022a0:	108e1004 	addi	r2,r2,14400
 101022a4:	280d883a 	mov	r6,r5
 101022a8:	200b883a 	mov	r5,r4
 101022ac:	11000017 	ldw	r4,0(r2)
@@ -3904,7 +3901,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10102314:	dc000015 	stw	r16,0(sp)
 10102318:	dfc00415 	stw	ra,16(sp)
 1010231c:	2821883a 	mov	r16,r5
-10102320:	9cc86104 	addi	r19,r19,8580
+10102320:	9cc86304 	addi	r19,r19,8588
 10102324:	2025883a 	mov	r18,r4
 10102328:	010f0680 	call	1010f068 <__malloc_lock>
 1010232c:	98800217 	ldw	r2,8(r19)
@@ -3940,7 +3937,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101023a4:	00ffffc4 	movi	r3,-1
 101023a8:	10c00d26 	beq	r2,r3,101023e0 <_malloc_trim_r+0xe0>
 101023ac:	00c40474 	movhi	r3,4113
-101023b0:	18d51404 	addi	r3,r3,21584
+101023b0:	18d51604 	addi	r3,r3,21592
 101023b4:	18800017 	ldw	r2,0(r3)
 101023b8:	99000217 	ldw	r4,8(r19)
 101023bc:	8c23c83a 	sub	r17,r17,r16
@@ -3960,13 +3957,13 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101023f4:	1107c83a 	sub	r3,r2,r4
 101023f8:	28ffdd0e 	bge	r5,r3,10102370 <__alt_data_end+0xfffe2370>
 101023fc:	01440474 	movhi	r5,4113
-10102400:	294e0f04 	addi	r5,r5,14396
+10102400:	294e1104 	addi	r5,r5,14404
 10102404:	29400017 	ldw	r5,0(r5)
 10102408:	18c00054 	ori	r3,r3,1
 1010240c:	20c00115 	stw	r3,4(r4)
 10102410:	00c40474 	movhi	r3,4113
 10102414:	1145c83a 	sub	r2,r2,r5
-10102418:	18d51404 	addi	r3,r3,21584
+10102418:	18d51604 	addi	r3,r3,21592
 1010241c:	18800015 	stw	r2,0(r3)
 10102420:	003fd306 	br	10102370 <__alt_data_end+0xfffe2370>
 
@@ -3984,7 +3981,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010244c:	01040474 	movhi	r4,4113
 10102450:	81bffe04 	addi	r6,r16,-8
 10102454:	3884703a 	and	r2,r7,r2
-10102458:	21086104 	addi	r4,r4,8580
+10102458:	21086304 	addi	r4,r4,8588
 1010245c:	308b883a 	add	r5,r6,r2
 10102460:	2a400117 	ldw	r9,4(r5)
 10102464:	22000217 	ldw	r8,8(r4)
@@ -4051,7 +4048,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10102558:	20c00017 	ldw	r3,0(r4)
 1010255c:	01c40474 	movhi	r7,4113
 10102560:	213ffe04 	addi	r4,r4,-8
-10102564:	39c86104 	addi	r7,r7,8580
+10102564:	39c86304 	addi	r7,r7,8588
 10102568:	20c04426 	beq	r4,r3,1010267c <_free_r+0x258>
 1010256c:	01ffff04 	movi	r7,-4
 10102570:	19400117 	ldw	r5,4(r3)
@@ -4068,7 +4065,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010259c:	29c00217 	ldw	r7,8(r5)
 101025a0:	10c5883a 	add	r2,r2,r3
 101025a4:	00c40474 	movhi	r3,4113
-101025a8:	18c86304 	addi	r3,r3,8588
+101025a8:	18c86504 	addi	r3,r3,8596
 101025ac:	38c03b26 	beq	r7,r3,1010269c <_free_r+0x278>
 101025b0:	2a000317 	ldw	r8,12(r5)
 101025b4:	11400054 	ori	r5,r2,1
@@ -4091,12 +4088,12 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101025f8:	10c00054 	ori	r3,r2,1
 101025fc:	30c00115 	stw	r3,4(r6)
 10102600:	00c40474 	movhi	r3,4113
-10102604:	18ce1004 	addi	r3,r3,14400
+10102604:	18ce1204 	addi	r3,r3,14408
 10102608:	18c00017 	ldw	r3,0(r3)
 1010260c:	21800215 	stw	r6,8(r4)
 10102610:	10ffc036 	bltu	r2,r3,10102514 <__alt_data_end+0xfffe2514>
 10102614:	00840474 	movhi	r2,4113
-10102618:	10950904 	addi	r2,r2,21540
+10102618:	10950b04 	addi	r2,r2,21548
 1010261c:	11400017 	ldw	r5,0(r2)
 10102620:	8809883a 	mov	r4,r17
 10102624:	01023000 	call	10102300 <_malloc_trim_r>
@@ -4173,7 +4170,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 
 10102738 <fseek>:
 10102738:	00840474 	movhi	r2,4113
-1010273c:	108e0e04 	addi	r2,r2,14392
+1010273c:	108e1004 	addi	r2,r2,14400
 10102740:	300f883a 	mov	r7,r6
 10102744:	280d883a 	mov	r6,r5
 10102748:	200b883a 	mov	r5,r4
@@ -4457,7 +4454,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 
 10102b98 <fseeko>:
 10102b98:	00840474 	movhi	r2,4113
-10102b9c:	108e0e04 	addi	r2,r2,14392
+10102b9c:	108e1004 	addi	r2,r2,14400
 10102ba0:	300f883a 	mov	r7,r6
 10102ba4:	280d883a 	mov	r6,r5
 10102ba8:	200b883a 	mov	r5,r4
@@ -4470,7 +4467,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10102bbc:	dc000015 	stw	r16,0(sp)
 10102bc0:	04040474 	movhi	r16,4113
 10102bc4:	dc400115 	stw	r17,4(sp)
-10102bc8:	84150604 	addi	r16,r16,21528
+10102bc8:	84150804 	addi	r16,r16,21536
 10102bcc:	2023883a 	mov	r17,r4
 10102bd0:	300b883a 	mov	r5,r6
 10102bd4:	1009883a 	mov	r4,r2
@@ -4737,7 +4734,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10102fc8:	4209883a 	add	r4,r8,r8
 10102fcc:	04c40474 	movhi	r19,4113
 10102fd0:	2109883a 	add	r4,r4,r4
-10102fd4:	9cc86104 	addi	r19,r19,8580
+10102fd4:	9cc86304 	addi	r19,r19,8588
 10102fd8:	2109883a 	add	r4,r4,r4
 10102fdc:	9909883a 	add	r4,r19,r4
 10102fe0:	24000117 	ldw	r16,4(r4)
@@ -4759,7 +4756,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10103020:	3809883a 	mov	r4,r7
 10103024:	01840474 	movhi	r6,4113
 10103028:	9c000417 	ldw	r16,16(r19)
-1010302c:	31886104 	addi	r6,r6,8580
+1010302c:	31886304 	addi	r6,r6,8588
 10103030:	32000204 	addi	r8,r6,8
 10103034:	82013426 	beq	r16,r8,10103508 <_malloc_r+0x5b4>
 10103038:	80c00117 	ldw	r3,4(r16)
@@ -4854,7 +4851,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010319c:	01000084 	movi	r4,2
 101031a0:	04c40474 	movhi	r19,4113
 101031a4:	1085883a 	add	r2,r2,r2
-101031a8:	9cc86104 	addi	r19,r19,8580
+101031a8:	9cc86304 	addi	r19,r19,8588
 101031ac:	1085883a 	add	r2,r2,r2
 101031b0:	9885883a 	add	r2,r19,r2
 101031b4:	14000117 	ldw	r16,4(r2)
@@ -4916,8 +4913,8 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10103294:	18805d16 	blt	r3,r2,1010340c <_malloc_r+0x4b8>
 10103298:	05c40474 	movhi	r23,4113
 1010329c:	00840474 	movhi	r2,4113
-101032a0:	10950904 	addi	r2,r2,21540
-101032a4:	bdce0f04 	addi	r23,r23,14396
+101032a0:	10950b04 	addi	r2,r2,21548
+101032a4:	bdce1104 	addi	r23,r23,14404
 101032a8:	15400017 	ldw	r21,0(r2)
 101032ac:	b8c00017 	ldw	r3,0(r23)
 101032b0:	00bfffc4 	movi	r2,-1
@@ -4937,7 +4934,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101032e8:	a080e826 	beq	r20,r2,1010368c <_malloc_r+0x738>
 101032ec:	a180a636 	bltu	r20,r6,10103588 <_malloc_r+0x634>
 101032f0:	07040474 	movhi	fp,4113
-101032f4:	e7151404 	addi	fp,fp,21584
+101032f4:	e7151604 	addi	fp,fp,21592
 101032f8:	e0800017 	ldw	r2,0(fp)
 101032fc:	a887883a 	add	r3,r21,r2
 10103300:	e0c00015 	stw	r3,0(fp)
@@ -4986,12 +4983,12 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101033ac:	21400215 	stw	r5,8(r4)
 101033b0:	3080cd36 	bltu	r6,r2,101036e8 <_malloc_r+0x794>
 101033b4:	00840474 	movhi	r2,4113
-101033b8:	10950804 	addi	r2,r2,21536
+101033b8:	10950a04 	addi	r2,r2,21544
 101033bc:	11000017 	ldw	r4,0(r2)
 101033c0:	20c0012e 	bgeu	r4,r3,101033c8 <_malloc_r+0x474>
 101033c4:	10c00015 	stw	r3,0(r2)
 101033c8:	00840474 	movhi	r2,4113
-101033cc:	10950704 	addi	r2,r2,21532
+101033cc:	10950904 	addi	r2,r2,21540
 101033d0:	11000017 	ldw	r4,0(r2)
 101033d4:	9c000217 	ldw	r16,8(r19)
 101033d8:	20c0012e 	bgeu	r4,r3,101033e0 <_malloc_r+0x48c>
@@ -5040,7 +5037,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10103484:	28800017 	ldw	r2,0(r5)
 10103488:	01840474 	movhi	r6,4113
 1010348c:	297ffe04 	addi	r5,r5,-8
-10103490:	31886104 	addi	r6,r6,8580
+10103490:	31886304 	addi	r6,r6,8588
 10103494:	28806526 	beq	r5,r2,1010362c <_malloc_r+0x6d8>
 10103498:	01bfff04 	movi	r6,-4
 1010349c:	10c00117 	ldw	r3,4(r2)
@@ -5104,7 +5101,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10103584:	003fbc06 	br	10103478 <__alt_data_end+0xfffe3478>
 10103588:	84ff5926 	beq	r16,r19,101032f0 <__alt_data_end+0xfffe32f0>
 1010358c:	00840474 	movhi	r2,4113
-10103590:	10886104 	addi	r2,r2,8580
+10103590:	10886304 	addi	r2,r2,8588
 10103594:	14000217 	ldw	r16,8(r2)
 10103598:	00bfff04 	movi	r2,-4
 1010359c:	80c00117 	ldw	r3,4(r16)
@@ -5184,7 +5181,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101036c4:	01c01f84 	movi	r7,126
 101036c8:	003e4006 	br	10102fcc <__alt_data_end+0xfffe2fcc>
 101036cc:	00840474 	movhi	r2,4113
-101036d0:	108e0f04 	addi	r2,r2,14396
+101036d0:	108e1104 	addi	r2,r2,14404
 101036d4:	15000015 	stw	r20,0(r2)
 101036d8:	003f1106 	br	10103320 <__alt_data_end+0xfffe3320>
 101036dc:	00800044 	movi	r2,1
@@ -5194,7 +5191,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101036ec:	9009883a 	mov	r4,r18
 101036f0:	01024240 	call	10102424 <_free_r>
 101036f4:	00840474 	movhi	r2,4113
-101036f8:	10951404 	addi	r2,r2,21584
+101036f8:	10951604 	addi	r2,r2,21592
 101036fc:	10c00017 	ldw	r3,0(r2)
 10103700:	003f2c06 	br	101033b4 <__alt_data_end+0xfffe33b4>
 10103704:	00c05504 	movi	r3,340
@@ -5304,7 +5301,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10103894:	04040474 	movhi	r16,4113
 10103898:	dc400115 	stw	r17,4(sp)
 1010389c:	300b883a 	mov	r5,r6
-101038a0:	84150604 	addi	r16,r16,21528
+101038a0:	84150804 	addi	r16,r16,21536
 101038a4:	2023883a 	mov	r17,r4
 101038a8:	380d883a 	mov	r6,r7
 101038ac:	1009883a 	mov	r4,r2
@@ -5344,7 +5341,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10103924:	d9800215 	stw	r6,8(sp)
 10103928:	d9c00315 	stw	r7,12(sp)
 1010392c:	00840474 	movhi	r2,4113
-10103930:	108e0e04 	addi	r2,r2,14392
+10103930:	108e1004 	addi	r2,r2,14400
 10103934:	10800017 	ldw	r2,0(r2)
 10103938:	200b883a 	mov	r5,r4
 1010393c:	d9800104 	addi	r6,sp,4
@@ -5366,7 +5363,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10103974:	10c00044 	addi	r3,r2,1
 10103978:	d8800115 	stw	r2,4(sp)
 1010397c:	00840474 	movhi	r2,4113
-10103980:	10869604 	addi	r2,r2,6744
+10103980:	10869804 	addi	r2,r2,6752
 10103984:	d8800215 	stw	r2,8(sp)
 10103988:	00800044 	movi	r2,1
 1010398c:	d8800315 	stw	r2,12(sp)
@@ -5406,7 +5403,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 
 10103a14 <puts>:
 10103a14:	00840474 	movhi	r2,4113
-10103a18:	108e0e04 	addi	r2,r2,14392
+10103a18:	108e1004 	addi	r2,r2,14400
 10103a1c:	200b883a 	mov	r5,r4
 10103a20:	11000017 	ldw	r4,0(r2)
 10103a24:	01039541 	jmpi	10103954 <_puts_r>
@@ -5494,7 +5491,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10103b5c:	01021580 	call	10102158 <__sinit>
 10103b60:	003fc206 	br	10103a6c <__alt_data_end+0xfffe3a6c>
 10103b64:	00840474 	movhi	r2,4113
-10103b68:	108e0d04 	addi	r2,r2,14388
+10103b68:	108e0f04 	addi	r2,r2,14396
 10103b6c:	11000017 	ldw	r4,0(r2)
 10103b70:	01440434 	movhi	r5,4112
 10103b74:	00800044 	movi	r2,1
@@ -5544,7 +5541,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10103c1c:	dc000015 	stw	r16,0(sp)
 10103c20:	04040474 	movhi	r16,4113
 10103c24:	dc400115 	stw	r17,4(sp)
-10103c28:	84150604 	addi	r16,r16,21528
+10103c28:	84150804 	addi	r16,r16,21536
 10103c2c:	2023883a 	mov	r17,r4
 10103c30:	2809883a 	mov	r4,r5
 10103c34:	dfc00215 	stw	ra,8(sp)
@@ -5736,7 +5733,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10103ee4:	d8c00404 	addi	r3,sp,16
 10103ee8:	05040474 	movhi	r20,4113
 10103eec:	d9001e04 	addi	r4,sp,120
-10103ef0:	a506a784 	addi	r20,r20,6814
+10103ef0:	a506a984 	addi	r20,r20,6822
 10103ef4:	d8c01e15 	stw	r3,120(sp)
 10103ef8:	d8002015 	stw	zero,128(sp)
 10103efc:	d8001f15 	stw	zero,124(sp)
@@ -5912,7 +5909,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101041a4:	94800094 	ori	r18,r18,2
 101041a8:	9802871e 	bne	r19,zero,10104bc8 <___vfprintf_internal_r+0xd88>
 101041ac:	00840474 	movhi	r2,4113
-101041b0:	1086a004 	addi	r2,r2,6784
+101041b0:	1086a204 	addi	r2,r2,6792
 101041b4:	d8803915 	stw	r2,228(sp)
 101041b8:	04401e04 	movi	r17,120
 101041bc:	d8802917 	ldw	r2,164(sp)
@@ -6089,7 +6086,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10104468:	008011c4 	movi	r2,71
 1010446c:	1445330e 	bge	r2,r17,1010593c <___vfprintf_internal_r+0x1afc>
 10104470:	04040474 	movhi	r16,4113
-10104474:	84069804 	addi	r16,r16,6752
+10104474:	84069a04 	addi	r16,r16,6760
 10104478:	00c000c4 	movi	r3,3
 1010447c:	00bfdfc4 	movi	r2,-129
 10104480:	d8c02a15 	stw	r3,168(sp)
@@ -6178,7 +6175,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101045cc:	d8801f17 	ldw	r2,124(sp)
 101045d0:	4cc50d0e 	bge	r9,r19,10105a08 <___vfprintf_internal_r+0x1bc8>
 101045d4:	01440474 	movhi	r5,4113
-101045d8:	2946ab84 	addi	r5,r5,6830
+101045d8:	2946ad84 	addi	r5,r5,6838
 101045dc:	dc403b15 	stw	r17,236(sp)
 101045e0:	d9403515 	stw	r5,212(sp)
 101045e4:	9823883a 	mov	r17,r19
@@ -6194,7 +6191,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010460c:	01040474 	movhi	r4,4113
 10104610:	18c00404 	addi	r3,r3,16
 10104614:	10800044 	addi	r2,r2,1
-10104618:	2106ab84 	addi	r4,r4,6830
+10104618:	2106ad84 	addi	r4,r4,6838
 1010461c:	41000015 	stw	r4,0(r8)
 10104620:	45800115 	stw	r22,4(r8)
 10104624:	d8c02015 	stw	r3,128(sp)
@@ -6263,7 +6260,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10104720:	d8801f17 	ldw	r2,124(sp)
 10104724:	e584140e 	bge	fp,r22,10105778 <___vfprintf_internal_r+0x1938>
 10104728:	01440474 	movhi	r5,4113
-1010472c:	2946a784 	addi	r5,r5,6814
+1010472c:	2946a984 	addi	r5,r5,6822
 10104730:	dc402915 	stw	r17,164(sp)
 10104734:	d9402b15 	stw	r5,172(sp)
 10104738:	b023883a 	mov	r17,r22
@@ -6331,7 +6328,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10104830:	d8801f17 	ldw	r2,124(sp)
 10104834:	8c04a20e 	bge	r17,r16,10105ac0 <___vfprintf_internal_r+0x1c80>
 10104838:	01440474 	movhi	r5,4113
-1010483c:	2946ab84 	addi	r5,r5,6830
+1010483c:	2946ad84 	addi	r5,r5,6838
 10104840:	d9403515 	stw	r5,212(sp)
 10104844:	048001c4 	movi	r18,7
 10104848:	dcc02c17 	ldw	r19,176(sp)
@@ -6342,7 +6339,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010485c:	01040474 	movhi	r4,4113
 10104860:	18c00404 	addi	r3,r3,16
 10104864:	10800044 	addi	r2,r2,1
-10104868:	2106ab84 	addi	r4,r4,6830
+10104868:	2106ad84 	addi	r4,r4,6838
 1010486c:	41000015 	stw	r4,0(r8)
 10104870:	44400115 	stw	r17,4(r8)
 10104874:	d8c02015 	stw	r3,128(sp)
@@ -6414,7 +6411,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010497c:	18c03fcc 	andi	r3,r3,255
 10104980:	18059d1e 	bne	r3,zero,10105ff8 <___vfprintf_internal_r+0x21b8>
 10104984:	01440474 	movhi	r5,4113
-10104988:	29469b04 	addi	r5,r5,6764
+10104988:	29469d04 	addi	r5,r5,6772
 1010498c:	d9403915 	stw	r5,228(sp)
 10104990:	9080080c 	andi	r2,r18,32
 10104994:	10005226 	beq	r2,zero,10104ae0 <___vfprintf_internal_r+0xca0>
@@ -6496,7 +6493,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10104ac4:	18c03fcc 	andi	r3,r3,255
 10104ac8:	1805551e 	bne	r3,zero,10106020 <___vfprintf_internal_r+0x21e0>
 10104acc:	01440474 	movhi	r5,4113
-10104ad0:	2946a004 	addi	r5,r5,6784
+10104ad0:	2946a204 	addi	r5,r5,6792
 10104ad4:	d9403915 	stw	r5,228(sp)
 10104ad8:	9080080c 	andi	r2,r18,32
 10104adc:	103fae1e 	bne	r2,zero,10104998 <__alt_data_end+0xfffe4998>
@@ -6559,7 +6556,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10104bc0:	0039883a 	mov	fp,zero
 10104bc4:	003e7206 	br	10104590 <__alt_data_end+0xfffe4590>
 10104bc8:	01040474 	movhi	r4,4113
-10104bcc:	2106a004 	addi	r4,r4,6784
+10104bcc:	2106a204 	addi	r4,r4,6792
 10104bd0:	0039883a 	mov	fp,zero
 10104bd4:	d9003915 	stw	r4,228(sp)
 10104bd8:	04401e04 	movi	r17,120
@@ -6573,7 +6570,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10104bf8:	d8002785 	stb	zero,158(sp)
 10104bfc:	003fec06 	br	10104bb0 <__alt_data_end+0xfffe4bb0>
 10104c00:	01440474 	movhi	r5,4113
-10104c04:	2946a004 	addi	r5,r5,6784
+10104c04:	2946a204 	addi	r5,r5,6792
 10104c08:	d9403915 	stw	r5,228(sp)
 10104c0c:	d8c02d15 	stw	r3,180(sp)
 10104c10:	1025883a 	mov	r18,r2
@@ -6604,7 +6601,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10104c74:	1000f71e 	bne	r2,zero,10105054 <___vfprintf_internal_r+0x1214>
 10104c78:	d8801f17 	ldw	r2,124(sp)
 10104c7c:	01040474 	movhi	r4,4113
-10104c80:	2106a704 	addi	r4,r4,6812
+10104c80:	2106a904 	addi	r4,r4,6820
 10104c84:	18c00044 	addi	r3,r3,1
 10104c88:	10800044 	addi	r2,r2,1
 10104c8c:	41000015 	stw	r4,0(r8)
@@ -6640,7 +6637,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10104d04:	d8801f17 	ldw	r2,124(sp)
 10104d08:	8c00880e 	bge	r17,r16,10104f2c <___vfprintf_internal_r+0x10ec>
 10104d0c:	01440474 	movhi	r5,4113
-10104d10:	2946a784 	addi	r5,r5,6814
+10104d10:	2946a984 	addi	r5,r5,6822
 10104d14:	d9402b15 	stw	r5,172(sp)
 10104d18:	058001c4 	movi	r22,7
 10104d1c:	dcc02c17 	ldw	r19,176(sp)
@@ -6672,7 +6669,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10104d84:	d8801f17 	ldw	r2,124(sp)
 10104d88:	e5838f0e 	bge	fp,r22,10105bc8 <___vfprintf_internal_r+0x1d88>
 10104d8c:	01440474 	movhi	r5,4113
-10104d90:	2946a784 	addi	r5,r5,6814
+10104d90:	2946a984 	addi	r5,r5,6822
 10104d94:	dc403015 	stw	r17,192(sp)
 10104d98:	d9402b15 	stw	r5,172(sp)
 10104d9c:	b023883a 	mov	r17,r22
@@ -6776,7 +6773,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10104f24:	b2000204 	addi	r8,r22,8
 10104f28:	003e3a06 	br	10104814 <__alt_data_end+0xfffe4814>
 10104f2c:	01040474 	movhi	r4,4113
-10104f30:	2106a784 	addi	r4,r4,6814
+10104f30:	2106a984 	addi	r4,r4,6822
 10104f34:	d9002b15 	stw	r4,172(sp)
 10104f38:	d9002b17 	ldw	r4,172(sp)
 10104f3c:	1c07883a 	add	r3,r3,r16
@@ -6874,7 +6871,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101050ac:	d8801f17 	ldw	r2,124(sp)
 101050b0:	b4419d0e 	bge	r22,r17,10105728 <___vfprintf_internal_r+0x18e8>
 101050b4:	01040474 	movhi	r4,4113
-101050b8:	2106a784 	addi	r4,r4,6814
+101050b8:	2106a984 	addi	r4,r4,6822
 101050bc:	d9002b15 	stw	r4,172(sp)
 101050c0:	070001c4 	movi	fp,7
 101050c4:	dcc02c17 	ldw	r19,176(sp)
@@ -6945,7 +6942,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101051c8:	07000404 	movi	fp,16
 101051cc:	e400810e 	bge	fp,r16,101053d4 <___vfprintf_internal_r+0x1594>
 101051d0:	01440474 	movhi	r5,4113
-101051d4:	2946a784 	addi	r5,r5,6814
+101051d4:	2946a984 	addi	r5,r5,6822
 101051d8:	d9402b15 	stw	r5,172(sp)
 101051dc:	01c001c4 	movi	r7,7
 101051e0:	dcc02c17 	ldw	r19,176(sp)
@@ -7037,7 +7034,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10105338:	d8801f17 	ldw	r2,124(sp)
 1010533c:	8c3efb0e 	bge	r17,r16,10104f2c <__alt_data_end+0xfffe4f2c>
 10105340:	01440474 	movhi	r5,4113
-10105344:	2946a784 	addi	r5,r5,6814
+10105344:	2946a984 	addi	r5,r5,6822
 10105348:	d9402b15 	stw	r5,172(sp)
 1010534c:	058001c4 	movi	r22,7
 10105350:	dcc02c17 	ldw	r19,176(sp)
@@ -7074,7 +7071,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101053cc:	45800204 	addi	r22,r8,8
 101053d0:	003eca06 	br	10104efc <__alt_data_end+0xfffe4efc>
 101053d4:	01040474 	movhi	r4,4113
-101053d8:	2106a784 	addi	r4,r4,6814
+101053d8:	2106a984 	addi	r4,r4,6822
 101053dc:	d9002b15 	stw	r4,172(sp)
 101053e0:	d8802b17 	ldw	r2,172(sp)
 101053e4:	1c07883a 	add	r3,r3,r16
@@ -7287,7 +7284,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10105720:	0005883a 	mov	r2,zero
 10105724:	003d4006 	br	10104c28 <__alt_data_end+0xfffe4c28>
 10105728:	01440474 	movhi	r5,4113
-1010572c:	2946a784 	addi	r5,r5,6814
+1010572c:	2946a984 	addi	r5,r5,6822
 10105730:	d9402b15 	stw	r5,172(sp)
 10105734:	d9402b17 	ldw	r5,172(sp)
 10105738:	1c47883a 	add	r3,r3,r17
@@ -7307,7 +7304,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10105770:	90a4703a 	and	r18,r18,r2
 10105774:	003a9106 	br	101041bc <__alt_data_end+0xfffe41bc>
 10105778:	01040474 	movhi	r4,4113
-1010577c:	2106a784 	addi	r4,r4,6814
+1010577c:	2106a984 	addi	r4,r4,6822
 10105780:	d9002b15 	stw	r4,172(sp)
 10105784:	003c0c06 	br	101047b8 <__alt_data_end+0xfffe47b8>
 10105788:	d9002c17 	ldw	r4,176(sp)
@@ -7323,7 +7320,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101057b0:	01000044 	movi	r4,1
 101057b4:	18c00044 	addi	r3,r3,1
 101057b8:	10800044 	addi	r2,r2,1
-101057bc:	2946a704 	addi	r5,r5,6812
+101057bc:	2946a904 	addi	r5,r5,6820
 101057c0:	41000115 	stw	r4,4(r8)
 101057c4:	41400015 	stw	r5,0(r8)
 101057c8:	d8c02015 	stw	r3,128(sp)
@@ -7353,7 +7350,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10105828:	05800404 	movi	r22,16
 1010582c:	b440860e 	bge	r22,r17,10105a48 <___vfprintf_internal_r+0x1c08>
 10105830:	01440474 	movhi	r5,4113
-10105834:	2946a784 	addi	r5,r5,6814
+10105834:	2946a984 	addi	r5,r5,6822
 10105838:	d9402b15 	stw	r5,172(sp)
 1010583c:	070001c4 	movi	fp,7
 10105840:	dcc02c17 	ldw	r19,176(sp)
@@ -7382,7 +7379,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010589c:	008011c4 	movi	r2,71
 101058a0:	1440b816 	blt	r2,r17,10105b84 <___vfprintf_internal_r+0x1d44>
 101058a4:	04040474 	movhi	r16,4113
-101058a8:	84069904 	addi	r16,r16,6756
+101058a8:	84069b04 	addi	r16,r16,6764
 101058ac:	00c000c4 	movi	r3,3
 101058b0:	00bfdfc4 	movi	r2,-129
 101058b4:	d8c02a15 	stw	r3,168(sp)
@@ -7420,7 +7417,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10105934:	203dc10e 	bge	r4,zero,1010503c <__alt_data_end+0xfffe503c>
 10105938:	003f7506 	br	10105710 <__alt_data_end+0xfffe5710>
 1010593c:	04040474 	movhi	r16,4113
-10105940:	84069704 	addi	r16,r16,6748
+10105940:	84069904 	addi	r16,r16,6756
 10105944:	003acc06 	br	10104478 <__alt_data_end+0xfffe4478>
 10105948:	d9002c17 	ldw	r4,176(sp)
 1010594c:	d9801e04 	addi	r6,sp,120
@@ -7471,7 +7468,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10105a00:	28c7883a 	add	r3,r5,r3
 10105a04:	003b7d06 	br	101047fc <__alt_data_end+0xfffe47fc>
 10105a08:	01040474 	movhi	r4,4113
-10105a0c:	2106ab84 	addi	r4,r4,6830
+10105a0c:	2106ad84 	addi	r4,r4,6838
 10105a10:	d9003515 	stw	r4,212(sp)
 10105a14:	003b1406 	br	10104668 <__alt_data_end+0xfffe4668>
 10105a18:	013fffc4 	movi	r4,-1
@@ -7487,7 +7484,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10105a40:	da000404 	addi	r8,sp,16
 10105a44:	003d9406 	br	10105098 <__alt_data_end+0xfffe5098>
 10105a48:	01040474 	movhi	r4,4113
-10105a4c:	2106a784 	addi	r4,r4,6814
+10105a4c:	2106a984 	addi	r4,r4,6822
 10105a50:	d9002b15 	stw	r4,172(sp)
 10105a54:	d9002b17 	ldw	r4,172(sp)
 10105a58:	1c47883a 	add	r3,r3,r17
@@ -7517,7 +7514,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10105ab8:	10fbcb26 	beq	r2,r3,101049e8 <__alt_data_end+0xfffe49e8>
 10105abc:	003a8f06 	br	101044fc <__alt_data_end+0xfffe44fc>
 10105ac0:	01040474 	movhi	r4,4113
-10105ac4:	2106ab84 	addi	r4,r4,6830
+10105ac4:	2106ad84 	addi	r4,r4,6838
 10105ac8:	d9003515 	stw	r4,212(sp)
 10105acc:	003b7606 	br	101048a8 <__alt_data_end+0xfffe48a8>
 10105ad0:	d8802917 	ldw	r2,164(sp)
@@ -7531,7 +7528,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10105af0:	dcc02d15 	stw	r19,180(sp)
 10105af4:	d8002915 	stw	zero,164(sp)
 10105af8:	d8003215 	stw	zero,200(sp)
-10105afc:	8406a504 	addi	r16,r16,6804
+10105afc:	8406a704 	addi	r16,r16,6812
 10105b00:	0039883a 	mov	fp,zero
 10105b04:	003aa206 	br	10104590 <__alt_data_end+0xfffe4590>
 10105b08:	0021883a 	mov	r16,zero
@@ -7566,7 +7563,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10105b7c:	07000b44 	movi	fp,45
 10105b80:	003a8006 	br	10104584 <__alt_data_end+0xfffe4584>
 10105b84:	04040474 	movhi	r16,4113
-10105b88:	84069a04 	addi	r16,r16,6760
+10105b88:	84069c04 	addi	r16,r16,6768
 10105b8c:	003f4706 	br	101058ac <__alt_data_end+0xfffe58ac>
 10105b90:	d8c02d17 	ldw	r3,180(sp)
 10105b94:	d9002f17 	ldw	r4,188(sp)
@@ -7583,7 +7580,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10105bc0:	dd803215 	stw	r22,200(sp)
 10105bc4:	003e8906 	br	101055ec <__alt_data_end+0xfffe55ec>
 10105bc8:	01040474 	movhi	r4,4113
-10105bcc:	2106a784 	addi	r4,r4,6814
+10105bcc:	2106a984 	addi	r4,r4,6822
 10105bd0:	d9002b15 	stw	r4,172(sp)
 10105bd4:	003c9106 	br	10104e1c <__alt_data_end+0xfffe4e1c>
 10105bd8:	e005883a 	mov	r2,fp
@@ -7869,7 +7866,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 
 10106038 <__vfprintf_internal>:
 10106038:	00840474 	movhi	r2,4113
-1010603c:	108e0e04 	addi	r2,r2,14392
+1010603c:	108e1004 	addi	r2,r2,14400
 10106040:	300f883a 	mov	r7,r6
 10106044:	280d883a 	mov	r6,r5
 10106048:	200b883a 	mov	r5,r4
@@ -7932,7 +7929,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010611c:	04040474 	movhi	r16,4113
 10106120:	dc400115 	stw	r17,4(sp)
 10106124:	300b883a 	mov	r5,r6
-10106128:	84150604 	addi	r16,r16,21528
+10106128:	84150804 	addi	r16,r16,21536
 1010612c:	2023883a 	mov	r17,r4
 10106130:	380d883a 	mov	r6,r7
 10106134:	1009883a 	mov	r4,r2
@@ -7954,7 +7951,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10106170 <__swsetup_r>:
 10106170:	00840474 	movhi	r2,4113
 10106174:	defffd04 	addi	sp,sp,-12
-10106178:	108e0e04 	addi	r2,r2,14392
+10106178:	108e1004 	addi	r2,r2,14400
 1010617c:	dc400115 	stw	r17,4(sp)
 10106180:	2023883a 	mov	r17,r4
 10106184:	11000017 	ldw	r4,0(r2)
@@ -8043,7 +8040,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101062c8:	dc000015 	stw	r16,0(sp)
 101062cc:	04040474 	movhi	r16,4113
 101062d0:	dc400115 	stw	r17,4(sp)
-101062d4:	84150604 	addi	r16,r16,21528
+101062d4:	84150804 	addi	r16,r16,21536
 101062d8:	2023883a 	mov	r17,r4
 101062dc:	2809883a 	mov	r4,r5
 101062e0:	dfc00215 	stw	ra,8(sp)
@@ -8237,7 +8234,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101065c0:	10019e26 	beq	r2,zero,10106c3c <_dtoa_r+0x724>
 101065c4:	d8c02517 	ldw	r3,148(sp)
 101065c8:	00840474 	movhi	r2,4113
-101065cc:	1086a744 	addi	r2,r2,6813
+101065cc:	1086a944 	addi	r2,r2,6821
 101065d0:	18800015 	stw	r2,0(r3)
 101065d4:	10bfffc4 	addi	r2,r2,-1
 101065d8:	dfc02117 	ldw	ra,132(sp)
@@ -8257,7 +8254,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10106610:	18800015 	stw	r2,0(r3)
 10106614:	90017726 	beq	r18,zero,10106bf4 <_dtoa_r+0x6dc>
 10106618:	00840474 	movhi	r2,4113
-1010661c:	1086b304 	addi	r2,r2,6860
+1010661c:	1086b504 	addi	r2,r2,6868
 10106620:	d9002517 	ldw	r4,148(sp)
 10106624:	203fec26 	beq	r4,zero,101065d8 <__alt_data_end+0xfffe65d8>
 10106628:	10c000c7 	ldb	r3,3(r2)
@@ -8352,7 +8349,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010678c:	10c27536 	bltu	r2,r3,10107164 <_dtoa_r+0xc4c>
 10106790:	180490fa 	slli	r2,r3,3
 10106794:	00c40474 	movhi	r3,4113
-10106798:	18c6ce04 	addi	r3,r3,6968
+10106798:	18c6d004 	addi	r3,r3,6976
 1010679c:	1885883a 	add	r2,r3,r2
 101067a0:	11000017 	ldw	r4,0(r2)
 101067a4:	11400117 	ldw	r5,4(r2)
@@ -8425,14 +8422,14 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101068b0:	100490fa 	slli	r2,r2,3
 101068b4:	382bd13a 	srai	r21,r7,4
 101068b8:	00c40474 	movhi	r3,4113
-101068bc:	18c6ce04 	addi	r3,r3,6968
+101068bc:	18c6d004 	addi	r3,r3,6976
 101068c0:	1885883a 	add	r2,r3,r2
 101068c4:	a8c0040c 	andi	r3,r21,16
 101068c8:	12400017 	ldw	r9,0(r2)
 101068cc:	12000117 	ldw	r8,4(r2)
 101068d0:	18037926 	beq	r3,zero,101076b8 <_dtoa_r+0x11a0>
 101068d4:	00840474 	movhi	r2,4113
-101068d8:	1086c404 	addi	r2,r2,6928
+101068d8:	1086c604 	addi	r2,r2,6936
 101068dc:	11800817 	ldw	r6,32(r2)
 101068e0:	11c00917 	ldw	r7,36(r2)
 101068e4:	9009883a 	mov	r4,r18
@@ -8448,7 +8445,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010690c:	1829883a 	mov	r20,r3
 10106910:	a8001126 	beq	r21,zero,10106958 <_dtoa_r+0x440>
 10106914:	05c40474 	movhi	r23,4113
-10106918:	bdc6c404 	addi	r23,r23,6928
+10106918:	bdc6c604 	addi	r23,r23,6936
 1010691c:	4805883a 	mov	r2,r9
 10106920:	4007883a 	mov	r3,r8
 10106924:	a980004c 	andi	r6,r21,1
@@ -8504,7 +8501,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101069ec:	60bfffc4 	addi	r2,r12,-1
 101069f0:	100490fa 	slli	r2,r2,3
 101069f4:	00c40474 	movhi	r3,4113
-101069f8:	18c6ce04 	addi	r3,r3,6968
+101069f8:	18c6d004 	addi	r3,r3,6976
 101069fc:	1885883a 	add	r2,r3,r2
 10106a00:	11800017 	ldw	r6,0(r2)
 10106a04:	11c00117 	ldw	r7,4(r2)
@@ -8636,7 +8633,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10106bfc:	88a2703a 	and	r17,r17,r2
 10106c00:	883e851e 	bne	r17,zero,10106618 <__alt_data_end+0xfffe6618>
 10106c04:	00840474 	movhi	r2,4113
-10106c08:	1086b004 	addi	r2,r2,6848
+10106c08:	1086b204 	addi	r2,r2,6856
 10106c0c:	003e8406 	br	10106620 <__alt_data_end+0xfffe6620>
 10106c10:	10c00204 	addi	r3,r2,8
 10106c14:	003e8706 	br	10106634 <__alt_data_end+0xfffe6634>
@@ -8650,7 +8647,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10106c34:	d8001115 	stw	zero,68(sp)
 10106c38:	003ea506 	br	101066d0 <__alt_data_end+0xfffe66d0>
 10106c3c:	00840474 	movhi	r2,4113
-10106c40:	1086a704 	addi	r2,r2,6812
+10106c40:	1086a904 	addi	r2,r2,6820
 10106c44:	003e6406 	br	101065d8 <__alt_data_end+0xfffe65d8>
 10106c48:	e0001115 	stw	zero,68(fp)
 10106c4c:	000b883a 	mov	r5,zero
@@ -8673,7 +8670,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10106c90:	200490fa 	slli	r2,r4,3
 10106c94:	00c40474 	movhi	r3,4113
 10106c98:	d9802217 	ldw	r6,136(sp)
-10106c9c:	18c6ce04 	addi	r3,r3,6968
+10106c9c:	18c6d004 	addi	r3,r3,6976
 10106ca0:	1885883a 	add	r2,r3,r2
 10106ca4:	14000017 	ldw	r16,0(r2)
 10106ca8:	14400117 	ldw	r17,4(r2)
@@ -9349,7 +9346,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10107720:	888003cc 	andi	r2,r17,15
 10107724:	100490fa 	slli	r2,r2,3
 10107728:	00c40474 	movhi	r3,4113
-1010772c:	18c6ce04 	addi	r3,r3,6968
+1010772c:	18c6d004 	addi	r3,r3,6976
 10107730:	1885883a 	add	r2,r3,r2
 10107734:	11800017 	ldw	r6,0(r2)
 10107738:	11c00117 	ldw	r7,4(r2)
@@ -9361,7 +9358,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10107750:	d8c01015 	stw	r3,64(sp)
 10107754:	8800e826 	beq	r17,zero,10107af8 <_dtoa_r+0x15e0>
 10107758:	05040474 	movhi	r20,4113
-1010775c:	a506c404 	addi	r20,r20,6928
+1010775c:	a506c604 	addi	r20,r20,6936
 10107760:	04000084 	movi	r16,2
 10107764:	8980004c 	andi	r6,r17,1
 10107768:	1009883a 	mov	r4,r2
@@ -9415,7 +9412,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10107828:	61bfffc4 	addi	r6,r12,-1
 1010782c:	300490fa 	slli	r2,r6,3
 10107830:	00c40474 	movhi	r3,4113
-10107834:	18c6ce04 	addi	r3,r3,6968
+10107834:	18c6d004 	addi	r3,r3,6976
 10107838:	1885883a 	add	r2,r3,r2
 1010783c:	11000017 	ldw	r4,0(r2)
 10107840:	11400117 	ldw	r5,4(r2)
@@ -9990,7 +9987,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010810c:	dc000015 	stw	r16,0(sp)
 10108110:	04040474 	movhi	r16,4113
 10108114:	dc400115 	stw	r17,4(sp)
-10108118:	84150604 	addi	r16,r16,21528
+10108118:	84150804 	addi	r16,r16,21536
 1010811c:	2023883a 	mov	r17,r4
 10108120:	2809883a 	mov	r4,r5
 10108124:	dfc00215 	stw	ra,8(sp)
@@ -10012,7 +10009,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010815c:	30001b26 	beq	r6,zero,101081cc <_setlocale_r+0x70>
 10108160:	01440474 	movhi	r5,4113
 10108164:	defffe04 	addi	sp,sp,-8
-10108168:	2946b404 	addi	r5,r5,6864
+10108168:	2946b604 	addi	r5,r5,6872
 1010816c:	3009883a 	mov	r4,r6
 10108170:	dc000015 	stw	r16,0(sp)
 10108174:	dfc00115 	stw	ra,4(sp)
@@ -10020,41 +10017,41 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010817c:	0109c540 	call	10109c54 <strcmp>
 10108180:	1000061e 	bne	r2,zero,1010819c <_setlocale_r+0x40>
 10108184:	00840474 	movhi	r2,4113
-10108188:	10869504 	addi	r2,r2,6740
+10108188:	10869704 	addi	r2,r2,6748
 1010818c:	dfc00117 	ldw	ra,4(sp)
 10108190:	dc000017 	ldw	r16,0(sp)
 10108194:	dec00204 	addi	sp,sp,8
 10108198:	f800283a 	ret
 1010819c:	01440474 	movhi	r5,4113
-101081a0:	29469504 	addi	r5,r5,6740
+101081a0:	29469704 	addi	r5,r5,6748
 101081a4:	8009883a 	mov	r4,r16
 101081a8:	0109c540 	call	10109c54 <strcmp>
 101081ac:	103ff526 	beq	r2,zero,10108184 <__alt_data_end+0xfffe8184>
 101081b0:	01440474 	movhi	r5,4113
-101081b4:	29469f04 	addi	r5,r5,6780
+101081b4:	2946a104 	addi	r5,r5,6788
 101081b8:	8009883a 	mov	r4,r16
 101081bc:	0109c540 	call	10109c54 <strcmp>
 101081c0:	103ff026 	beq	r2,zero,10108184 <__alt_data_end+0xfffe8184>
 101081c4:	0005883a 	mov	r2,zero
 101081c8:	003ff006 	br	1010818c <__alt_data_end+0xfffe818c>
 101081cc:	00840474 	movhi	r2,4113
-101081d0:	10869504 	addi	r2,r2,6740
+101081d0:	10869704 	addi	r2,r2,6748
 101081d4:	f800283a 	ret
 
 101081d8 <__locale_charset>:
 101081d8:	00840474 	movhi	r2,4113
-101081dc:	10896b04 	addi	r2,r2,9644
+101081dc:	10896d04 	addi	r2,r2,9652
 101081e0:	f800283a 	ret
 
 101081e4 <__locale_mb_cur_max>:
 101081e4:	00840474 	movhi	r2,4113
-101081e8:	108e1104 	addi	r2,r2,14404
+101081e8:	108e1304 	addi	r2,r2,14412
 101081ec:	10800017 	ldw	r2,0(r2)
 101081f0:	f800283a 	ret
 
 101081f4 <__locale_msgcharset>:
 101081f4:	00840474 	movhi	r2,4113
-101081f8:	10896304 	addi	r2,r2,9612
+101081f8:	10896504 	addi	r2,r2,9620
 101081fc:	f800283a 	ret
 
 10108200 <__locale_cjk_lang>:
@@ -10063,12 +10060,12 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 
 10108208 <_localeconv_r>:
 10108208:	00840474 	movhi	r2,4113
-1010820c:	10897304 	addi	r2,r2,9676
+1010820c:	10897504 	addi	r2,r2,9684
 10108210:	f800283a 	ret
 
 10108214 <setlocale>:
 10108214:	00840474 	movhi	r2,4113
-10108218:	108e0e04 	addi	r2,r2,14392
+10108218:	108e1004 	addi	r2,r2,14400
 1010821c:	280d883a 	mov	r6,r5
 10108220:	200b883a 	mov	r5,r4
 10108224:	11000017 	ldw	r4,0(r2)
@@ -10076,7 +10073,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 
 1010822c <localeconv>:
 1010822c:	00840474 	movhi	r2,4113
-10108230:	10897304 	addi	r2,r2,9676
+10108230:	10897504 	addi	r2,r2,9684
 10108234:	f800283a 	ret
 
 10108238 <_lseek_r>:
@@ -10086,7 +10083,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10108244:	04040474 	movhi	r16,4113
 10108248:	dc400115 	stw	r17,4(sp)
 1010824c:	300b883a 	mov	r5,r6
-10108250:	84150604 	addi	r16,r16,21528
+10108250:	84150804 	addi	r16,r16,21536
 10108254:	2023883a 	mov	r17,r4
 10108258:	380d883a 	mov	r6,r7
 1010825c:	1009883a 	mov	r4,r2
@@ -10815,7 +10812,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10108d48:	10bfffc4 	addi	r2,r2,-1
 10108d4c:	1085883a 	add	r2,r2,r2
 10108d50:	00c40474 	movhi	r3,4113
-10108d54:	18c6b704 	addi	r3,r3,6876
+10108d54:	18c6b904 	addi	r3,r3,6884
 10108d58:	1085883a 	add	r2,r2,r2
 10108d5c:	1885883a 	add	r2,r3,r2
 10108d60:	11800017 	ldw	r6,0(r2)
@@ -11320,7 +11317,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101094ec:	f800283a 	ret
 101094f0:	202090fa 	slli	r16,r4,3
 101094f4:	00840474 	movhi	r2,4113
-101094f8:	1086ce04 	addi	r2,r2,6968
+101094f8:	1086d004 	addi	r2,r2,6976
 101094fc:	1421883a 	add	r16,r2,r16
 10109500:	80800017 	ldw	r2,0(r16)
 10109504:	80c00117 	ldw	r3,4(r16)
@@ -11405,7 +11402,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10109628:	04040474 	movhi	r16,4113
 1010962c:	dc400115 	stw	r17,4(sp)
 10109630:	300b883a 	mov	r5,r6
-10109634:	84150604 	addi	r16,r16,21528
+10109634:	84150804 	addi	r16,r16,21536
 10109638:	2023883a 	mov	r17,r4
 1010963c:	380d883a 	mov	r6,r7
 10109640:	1009883a 	mov	r4,r2
@@ -11455,7 +11452,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 101096e8:	b4405636 	bltu	r22,r17,10109844 <_realloc_r+0x1c8>
 101096ec:	8080300e 	bge	r16,r2,101097b0 <_realloc_r+0x134>
 101096f0:	07040474 	movhi	fp,4113
-101096f4:	e7086104 	addi	fp,fp,8580
+101096f4:	e7086304 	addi	fp,fp,8588
 101096f8:	e2000217 	ldw	r8,8(fp)
 101096fc:	ac09883a 	add	r4,r21,r16
 10109700:	22006126 	beq	r4,r8,10109888 <_realloc_r+0x20c>
@@ -11975,8 +11972,8 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 10109ee0:	05c40474 	movhi	r23,4113
 10109ee4:	da801f15 	stw	r10,124(sp)
 10109ee8:	1295c83a 	sub	r10,r2,r10
-10109eec:	b5870404 	addi	r22,r22,7184
-10109ef0:	bdc70004 	addi	r23,r23,7168
+10109eec:	b5870604 	addi	r22,r22,7192
+10109ef0:	bdc70204 	addi	r23,r23,7176
 10109ef4:	dec01a15 	stw	sp,104(sp)
 10109ef8:	d8001c15 	stw	zero,112(sp)
 10109efc:	d8001b15 	stw	zero,108(sp)
@@ -12182,7 +12179,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010a21c:	5d000094 	ori	r20,r11,2
 1010a220:	90032b1e 	bne	r18,zero,1010aed0 <___vfiprintf_internal_r+0x108c>
 1010a224:	00840474 	movhi	r2,4113
-1010a228:	1086a004 	addi	r2,r2,6784
+1010a228:	1086a204 	addi	r2,r2,6792
 1010a22c:	d8802615 	stw	r2,152(sp)
 1010a230:	0039883a 	mov	fp,zero
 1010a234:	48017b1e 	bne	r9,zero,1010a824 <___vfiprintf_internal_r+0x9e0>
@@ -12208,7 +12205,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010a284:	d8801c17 	ldw	r2,112(sp)
 1010a288:	38c3ad0e 	bge	r7,r3,1010b140 <___vfiprintf_internal_r+0x12fc>
 1010a28c:	02840474 	movhi	r10,4113
-1010a290:	52870404 	addi	r10,r10,7184
+1010a290:	52870604 	addi	r10,r10,7192
 1010a294:	dc002915 	stw	r16,164(sp)
 1010a298:	d9801b17 	ldw	r6,108(sp)
 1010a29c:	da802415 	stw	r10,144(sp)
@@ -12272,7 +12269,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010a384:	01c00404 	movi	r7,16
 1010a388:	3f03890e 	bge	r7,fp,1010b1b0 <___vfiprintf_internal_r+0x136c>
 1010a38c:	00c40474 	movhi	r3,4113
-1010a390:	18c70004 	addi	r3,r3,7168
+1010a390:	18c70204 	addi	r3,r3,7176
 1010a394:	d8c02415 	stw	r3,144(sp)
 1010a398:	8007883a 	mov	r3,r16
 1010a39c:	034001c4 	movi	r13,7
@@ -12401,7 +12398,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010a588:	21003fcc 	andi	r4,r4,255
 1010a58c:	2003421e 	bne	r4,zero,1010b298 <___vfiprintf_internal_r+0x1454>
 1010a590:	00840474 	movhi	r2,4113
-1010a594:	1086a004 	addi	r2,r2,6784
+1010a594:	1086a204 	addi	r2,r2,6792
 1010a598:	d8802615 	stw	r2,152(sp)
 1010a59c:	a080080c 	andi	r2,r20,32
 1010a5a0:	1000aa26 	beq	r2,zero,1010a84c <___vfiprintf_internal_r+0xa08>
@@ -12571,7 +12568,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010a830:	21003fcc 	andi	r4,r4,255
 1010a834:	2002811e 	bne	r4,zero,1010b23c <___vfiprintf_internal_r+0x13f8>
 1010a838:	00840474 	movhi	r2,4113
-1010a83c:	10869b04 	addi	r2,r2,6764
+1010a83c:	10869d04 	addi	r2,r2,6772
 1010a840:	d8802615 	stw	r2,152(sp)
 1010a844:	a080080c 	andi	r2,r20,32
 1010a848:	103f561e 	bne	r2,zero,1010a5a4 <__alt_data_end+0xfffea5a4>
@@ -12707,7 +12704,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010aa50:	01c00404 	movi	r7,16
 1010aa54:	3f01900e 	bge	r7,fp,1010b098 <___vfiprintf_internal_r+0x1254>
 1010aa58:	00c40474 	movhi	r3,4113
-1010aa5c:	18c70004 	addi	r3,r3,7168
+1010aa5c:	18c70204 	addi	r3,r3,7176
 1010aa60:	d8c02415 	stw	r3,144(sp)
 1010aa64:	034001c4 	movi	r13,7
 1010aa68:	00000506 	br	1010aa80 <___vfiprintf_internal_r+0xc3c>
@@ -12756,7 +12753,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010ab14:	003fd806 	br	1010aa78 <__alt_data_end+0xfffeaa78>
 1010ab18:	d9401b17 	ldw	r5,108(sp)
 1010ab1c:	00c40474 	movhi	r3,4113
-1010ab20:	18c70404 	addi	r3,r3,7184
+1010ab20:	18c70604 	addi	r3,r3,7192
 1010ab24:	d8c02415 	stw	r3,144(sp)
 1010ab28:	29400044 	addi	r5,r5,1
 1010ab2c:	d8c02417 	ldw	r3,144(sp)
@@ -12807,7 +12804,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010abe0:	01c00404 	movi	r7,16
 1010abe4:	3cffcc0e 	bge	r7,r19,1010ab18 <__alt_data_end+0xfffeab18>
 1010abe8:	02840474 	movhi	r10,4113
-1010abec:	52870404 	addi	r10,r10,7184
+1010abec:	52870604 	addi	r10,r10,7192
 1010abf0:	d9001b17 	ldw	r4,108(sp)
 1010abf4:	da802415 	stw	r10,144(sp)
 1010abf8:	382b883a 	mov	r21,r7
@@ -12956,7 +12953,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010ae34:	21000044 	addi	r4,r4,1
 1010ae38:	003d8006 	br	1010a43c <__alt_data_end+0xfffea43c>
 1010ae3c:	01040474 	movhi	r4,4113
-1010ae40:	2106a004 	addi	r4,r4,6784
+1010ae40:	2106a204 	addi	r4,r4,6792
 1010ae44:	d9002615 	stw	r4,152(sp)
 1010ae48:	d8c02215 	stw	r3,136(sp)
 1010ae4c:	1029883a 	mov	r20,r2
@@ -12993,7 +12990,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010aec8:	8025883a 	mov	r18,r16
 1010aecc:	003c2e06 	br	10109f88 <__alt_data_end+0xfffe9f88>
 1010aed0:	00840474 	movhi	r2,4113
-1010aed4:	1086a004 	addi	r2,r2,6784
+1010aed4:	1086a204 	addi	r2,r2,6792
 1010aed8:	0039883a 	mov	fp,zero
 1010aedc:	d8802615 	stw	r2,152(sp)
 1010aee0:	003f9006 	br	1010ad24 <__alt_data_end+0xfffead24>
@@ -13107,7 +13104,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010b090:	0039883a 	mov	fp,zero
 1010b094:	003ddb06 	br	1010a804 <__alt_data_end+0xfffea804>
 1010b098:	02840474 	movhi	r10,4113
-1010b09c:	52870004 	addi	r10,r10,7168
+1010b09c:	52870204 	addi	r10,r10,7176
 1010b0a0:	da802415 	stw	r10,144(sp)
 1010b0a4:	003e8306 	br	1010aab4 <__alt_data_end+0xfffeaab4>
 1010b0a8:	d8801c17 	ldw	r2,112(sp)
@@ -13150,7 +13147,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010b13c:	003e4206 	br	1010aa48 <__alt_data_end+0xfffeaa48>
 1010b140:	d9401b17 	ldw	r5,108(sp)
 1010b144:	01040474 	movhi	r4,4113
-1010b148:	21070404 	addi	r4,r4,7184
+1010b148:	21070604 	addi	r4,r4,7192
 1010b14c:	d9002415 	stw	r4,144(sp)
 1010b150:	29400044 	addi	r5,r5,1
 1010b154:	003c6d06 	br	1010a30c <__alt_data_end+0xfffea30c>
@@ -13174,10 +13171,10 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010b19c:	48001516 	blt	r9,zero,1010b1f4 <___vfiprintf_internal_r+0x13b0>
 1010b1a0:	05440474 	movhi	r21,4113
 1010b1a4:	d8c02215 	stw	r3,136(sp)
-1010b1a8:	ad46a504 	addi	r21,r21,6804
+1010b1a8:	ad46a704 	addi	r21,r21,6812
 1010b1ac:	003d1406 	br	1010a600 <__alt_data_end+0xfffea600>
 1010b1b0:	02840474 	movhi	r10,4113
-1010b1b4:	52870004 	addi	r10,r10,7168
+1010b1b4:	52870204 	addi	r10,r10,7176
 1010b1b8:	da802415 	stw	r10,144(sp)
 1010b1bc:	200d883a 	mov	r6,r4
 1010b1c0:	003c9106 	br	1010a408 <__alt_data_end+0xfffea408>
@@ -13239,7 +13236,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 
 1010b2a0 <__vfiprintf_internal>:
 1010b2a0:	00840474 	movhi	r2,4113
-1010b2a4:	108e0e04 	addi	r2,r2,14392
+1010b2a4:	108e1004 	addi	r2,r2,14400
 1010b2a8:	300f883a 	mov	r7,r6
 1010b2ac:	280d883a 	mov	r6,r5
 1010b2b0:	200b883a 	mov	r5,r4
@@ -13451,7 +13448,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010b5c4 <fputwc>:
 1010b5c4:	00840474 	movhi	r2,4113
 1010b5c8:	defffc04 	addi	sp,sp,-16
-1010b5cc:	108e0e04 	addi	r2,r2,14392
+1010b5cc:	108e1004 	addi	r2,r2,14400
 1010b5d0:	dc000115 	stw	r16,4(sp)
 1010b5d4:	14000017 	ldw	r16,0(r2)
 1010b5d8:	dc400215 	stw	r17,8(sp)
@@ -13566,7 +13563,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 
 1010b784 <__swbuf>:
 1010b784:	00840474 	movhi	r2,4113
-1010b788:	108e0e04 	addi	r2,r2,14392
+1010b788:	108e1004 	addi	r2,r2,14400
 1010b78c:	280d883a 	mov	r6,r5
 1010b790:	200b883a 	mov	r5,r4
 1010b794:	11000017 	ldw	r4,0(r2)
@@ -13578,7 +13575,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010b7a4:	dc800815 	stw	r18,32(sp)
 1010b7a8:	dc400715 	stw	r17,28(sp)
 1010b7ac:	dc000615 	stw	r16,24(sp)
-1010b7b0:	108e1204 	addi	r2,r2,14408
+1010b7b0:	108e1404 	addi	r2,r2,14416
 1010b7b4:	dfc00915 	stw	ra,36(sp)
 1010b7b8:	2021883a 	mov	r16,r4
 1010b7bc:	3823883a 	mov	r17,r7
@@ -13618,7 +13615,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010b83c:	00840474 	movhi	r2,4113
 1010b840:	dc800615 	stw	r18,24(sp)
 1010b844:	dc400515 	stw	r17,20(sp)
-1010b848:	108e0e04 	addi	r2,r2,14392
+1010b848:	108e1004 	addi	r2,r2,14400
 1010b84c:	dfc00915 	stw	ra,36(sp)
 1010b850:	dd000815 	stw	r20,32(sp)
 1010b854:	dcc00715 	stw	r19,28(sp)
@@ -13627,7 +13624,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010b860:	14400017 	ldw	r17,0(r2)
 1010b864:	20001926 	beq	r4,zero,1010b8cc <wcrtomb+0x94>
 1010b868:	00840474 	movhi	r2,4113
-1010b86c:	108e1204 	addi	r2,r2,14408
+1010b86c:	108e1404 	addi	r2,r2,14416
 1010b870:	15000017 	ldw	r20,0(r2)
 1010b874:	2021883a 	mov	r16,r4
 1010b878:	2827883a 	mov	r19,r5
@@ -13652,7 +13649,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010b8c4:	dec00a04 	addi	sp,sp,40
 1010b8c8:	f800283a 	ret
 1010b8cc:	00840474 	movhi	r2,4113
-1010b8d0:	108e1204 	addi	r2,r2,14408
+1010b8d0:	108e1404 	addi	r2,r2,14416
 1010b8d4:	14000017 	ldw	r16,0(r2)
 1010b8d8:	01081d80 	call	101081d8 <__locale_charset>
 1010b8dc:	100f883a 	mov	r7,r2
@@ -13680,7 +13677,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010b928 <_wctomb_r>:
 1010b928:	00840474 	movhi	r2,4113
 1010b92c:	defff904 	addi	sp,sp,-28
-1010b930:	108e1204 	addi	r2,r2,14408
+1010b930:	108e1404 	addi	r2,r2,14416
 1010b934:	dfc00615 	stw	ra,24(sp)
 1010b938:	dc400515 	stw	r17,20(sp)
 1010b93c:	dc000415 	stw	r16,16(sp)
@@ -13728,7 +13725,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010b9dc:	100490fa 	slli	r2,r2,3
 1010b9e0:	3086d83a 	srl	r3,r6,r2
 1010b9e4:	01040474 	movhi	r4,4113
-1010b9e8:	21070804 	addi	r4,r4,7200
+1010b9e8:	21070a04 	addi	r4,r4,7208
 1010b9ec:	20c7883a 	add	r3,r4,r3
 1010b9f0:	18c00003 	ldbu	r3,0(r3)
 1010b9f4:	1885883a 	add	r2,r3,r2
@@ -13791,7 +13788,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010bad8:	00800404 	movi	r2,16
 1010badc:	3886d83a 	srl	r3,r7,r2
 1010bae0:	01040474 	movhi	r4,4113
-1010bae4:	21070804 	addi	r4,r4,7200
+1010bae4:	21070a04 	addi	r4,r4,7208
 1010bae8:	20c7883a 	add	r3,r4,r3
 1010baec:	18c00003 	ldbu	r3,0(r3)
 1010baf0:	05400804 	movi	r21,32
@@ -13815,7 +13812,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010bb38:	00800404 	movi	r2,16
 1010bb3c:	8886d83a 	srl	r3,r17,r2
 1010bb40:	01040474 	movhi	r4,4113
-1010bb44:	21070804 	addi	r4,r4,7200
+1010bb44:	21070a04 	addi	r4,r4,7208
 1010bb48:	20c7883a 	add	r3,r4,r3
 1010bb4c:	18c00003 	ldbu	r3,0(r3)
 1010bb50:	1885883a 	add	r2,r3,r2
@@ -14080,7 +14077,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010bf54:	200890fa 	slli	r4,r4,3
 1010bf58:	3104d83a 	srl	r2,r6,r4
 1010bf5c:	00c40474 	movhi	r3,4113
-1010bf60:	18c70804 	addi	r3,r3,7200
+1010bf60:	18c70a04 	addi	r3,r3,7208
 1010bf64:	1885883a 	add	r2,r3,r2
 1010bf68:	10c00003 	ldbu	r3,0(r2)
 1010bf6c:	00800804 	movi	r2,32
@@ -14139,7 +14136,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010c040:	01000404 	movi	r4,16
 1010c044:	3904d83a 	srl	r2,r7,r4
 1010c048:	00c40474 	movhi	r3,4113
-1010c04c:	18c70804 	addi	r3,r3,7200
+1010c04c:	18c70a04 	addi	r3,r3,7208
 1010c050:	1885883a 	add	r2,r3,r2
 1010c054:	14c00003 	ldbu	r19,0(r2)
 1010c058:	00c00804 	movi	r3,32
@@ -14167,7 +14164,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010c0b0:	00800404 	movi	r2,16
 1010c0b4:	9886d83a 	srl	r3,r19,r2
 1010c0b8:	01040474 	movhi	r4,4113
-1010c0bc:	21070804 	addi	r4,r4,7200
+1010c0bc:	21070a04 	addi	r4,r4,7208
 1010c0c0:	20c7883a 	add	r3,r4,r3
 1010c0c4:	18c00003 	ldbu	r3,0(r3)
 1010c0c8:	1887883a 	add	r3,r3,r2
@@ -16858,7 +16855,7 @@ int i2c_read_array(i2c_dev *dev, uint8_t device, uint8_t index, uint8_t *value, 
 1010ea64:	00c00604 	movi	r3,24
 1010ea68:	20c8d83a 	srl	r4,r4,r3
 1010ea6c:	00c40474 	movhi	r3,4113
-1010ea70:	18c70804 	addi	r3,r3,7200
+1010ea70:	18c70a04 	addi	r3,r3,7208
 1010ea74:	1909883a 	add	r4,r3,r4
 1010ea78:	20c00003 	ldbu	r3,0(r4)
 1010ea7c:	10c5c83a 	sub	r2,r2,r3
@@ -16883,16 +16880,16 @@ static ALT_INLINE int* alt_get_errno(void)
 1010eaa8:	d839883a 	mov	fp,sp
   return ((alt_errno) ? alt_errno() : &errno);
 1010eaac:	00840474 	movhi	r2,4113
-1010eab0:	108e1804 	addi	r2,r2,14432
+1010eab0:	108e1a04 	addi	r2,r2,14440
 1010eab4:	10800017 	ldw	r2,0(r2)
 1010eab8:	10000526 	beq	r2,zero,1010ead0 <alt_get_errno+0x34>
 1010eabc:	00840474 	movhi	r2,4113
-1010eac0:	108e1804 	addi	r2,r2,14432
+1010eac0:	108e1a04 	addi	r2,r2,14440
 1010eac4:	10800017 	ldw	r2,0(r2)
 1010eac8:	103ee83a 	callr	r2
 1010eacc:	00000206 	br	1010ead8 <alt_get_errno+0x3c>
 1010ead0:	00840474 	movhi	r2,4113
-1010ead4:	10950604 	addi	r2,r2,21528
+1010ead4:	10950804 	addi	r2,r2,21536
 }
 1010ead8:	e037883a 	mov	sp,fp
 1010eadc:	dfc00117 	ldw	ra,4(sp)
@@ -16923,7 +16920,7 @@ int ALT_CLOSE (int fildes)
 1010eb08:	e0bfff17 	ldw	r2,-4(fp)
 1010eb0c:	10c00324 	muli	r3,r2,12
 1010eb10:	00840474 	movhi	r2,4113
-1010eb14:	10898b04 	addi	r2,r2,9772
+1010eb14:	10898d04 	addi	r2,r2,9780
 1010eb18:	1885883a 	add	r2,r3,r2
 1010eb1c:	00000106 	br	1010eb24 <close+0x38>
 1010eb20:	0005883a 	mov	r2,zero
@@ -17025,16 +17022,16 @@ static ALT_INLINE int* alt_get_errno(void)
 1010ebf4:	d839883a 	mov	fp,sp
   return ((alt_errno) ? alt_errno() : &errno);
 1010ebf8:	00840474 	movhi	r2,4113
-1010ebfc:	108e1804 	addi	r2,r2,14432
+1010ebfc:	108e1a04 	addi	r2,r2,14440
 1010ec00:	10800017 	ldw	r2,0(r2)
 1010ec04:	10000526 	beq	r2,zero,1010ec1c <alt_get_errno+0x34>
 1010ec08:	00840474 	movhi	r2,4113
-1010ec0c:	108e1804 	addi	r2,r2,14432
+1010ec0c:	108e1a04 	addi	r2,r2,14440
 1010ec10:	10800017 	ldw	r2,0(r2)
 1010ec14:	103ee83a 	callr	r2
 1010ec18:	00000206 	br	1010ec24 <alt_get_errno+0x3c>
 1010ec1c:	00840474 	movhi	r2,4113
-1010ec20:	10950604 	addi	r2,r2,21528
+1010ec20:	10950804 	addi	r2,r2,21536
 }
 1010ec24:	e037883a 	mov	sp,fp
 1010ec28:	dfc00117 	ldw	ra,4(sp)
@@ -17066,7 +17063,7 @@ int ALT_FSTAT (int file, struct stat *st)
 1010ec58:	e0bffe17 	ldw	r2,-8(fp)
 1010ec5c:	10c00324 	muli	r3,r2,12
 1010ec60:	00840474 	movhi	r2,4113
-1010ec64:	10898b04 	addi	r2,r2,9772
+1010ec64:	10898d04 	addi	r2,r2,9780
 1010ec68:	1885883a 	add	r2,r3,r2
 1010ec6c:	00000106 	br	1010ec74 <fstat+0x3c>
 1010ec70:	0005883a 	mov	r2,zero
@@ -17136,16 +17133,16 @@ static ALT_INLINE int* alt_get_errno(void)
 1010ecf4:	d839883a 	mov	fp,sp
   return ((alt_errno) ? alt_errno() : &errno);
 1010ecf8:	00840474 	movhi	r2,4113
-1010ecfc:	108e1804 	addi	r2,r2,14432
+1010ecfc:	108e1a04 	addi	r2,r2,14440
 1010ed00:	10800017 	ldw	r2,0(r2)
 1010ed04:	10000526 	beq	r2,zero,1010ed1c <alt_get_errno+0x34>
 1010ed08:	00840474 	movhi	r2,4113
-1010ed0c:	108e1804 	addi	r2,r2,14432
+1010ed0c:	108e1a04 	addi	r2,r2,14440
 1010ed10:	10800017 	ldw	r2,0(r2)
 1010ed14:	103ee83a 	callr	r2
 1010ed18:	00000206 	br	1010ed24 <alt_get_errno+0x3c>
 1010ed1c:	00840474 	movhi	r2,4113
-1010ed20:	10950604 	addi	r2,r2,21528
+1010ed20:	10950804 	addi	r2,r2,21536
 }
 1010ed24:	e037883a 	mov	sp,fp
 1010ed28:	dfc00117 	ldw	ra,4(sp)
@@ -17176,7 +17173,7 @@ int ALT_ISATTY (int file)
 1010ed54:	e0bfff17 	ldw	r2,-4(fp)
 1010ed58:	10c00324 	muli	r3,r2,12
 1010ed5c:	00840474 	movhi	r2,4113
-1010ed60:	10898b04 	addi	r2,r2,9772
+1010ed60:	10898d04 	addi	r2,r2,9780
 1010ed64:	1885883a 	add	r2,r3,r2
 1010ed68:	00000106 	br	1010ed70 <isatty+0x38>
 1010ed6c:	0005883a 	mov	r2,zero
@@ -17300,11 +17297,11 @@ void alt_load (void)
 
   alt_load_section (&__flash_rwdata_start, 
 1010ee54:	01840474 	movhi	r6,4113
-1010ee58:	318e2f04 	addi	r6,r6,14524
+1010ee58:	318e3104 	addi	r6,r6,14532
 1010ee5c:	01440474 	movhi	r5,4113
-1010ee60:	29475804 	addi	r5,r5,7520
+1010ee60:	29475a04 	addi	r5,r5,7528
 1010ee64:	01040474 	movhi	r4,4113
-1010ee68:	210e2f04 	addi	r4,r4,14524
+1010ee68:	210e3104 	addi	r4,r4,14532
 1010ee6c:	010eddc0 	call	1010eddc <alt_load_section>
 
   /*
@@ -17326,7 +17323,7 @@ void alt_load (void)
 
   alt_load_section (&__flash_rodata_start, 
 1010ee8c:	01840474 	movhi	r6,4113
-1010ee90:	31875804 	addi	r6,r6,7520
+1010ee90:	31875a04 	addi	r6,r6,7528
 1010ee94:	01440474 	movhi	r5,4113
 1010ee98:	29463e04 	addi	r5,r5,6392
 1010ee9c:	01040474 	movhi	r4,4113
@@ -17362,16 +17359,16 @@ static ALT_INLINE int* alt_get_errno(void)
 1010eed4:	d839883a 	mov	fp,sp
   return ((alt_errno) ? alt_errno() : &errno);
 1010eed8:	00840474 	movhi	r2,4113
-1010eedc:	108e1804 	addi	r2,r2,14432
+1010eedc:	108e1a04 	addi	r2,r2,14440
 1010eee0:	10800017 	ldw	r2,0(r2)
 1010eee4:	10000526 	beq	r2,zero,1010eefc <alt_get_errno+0x34>
 1010eee8:	00840474 	movhi	r2,4113
-1010eeec:	108e1804 	addi	r2,r2,14432
+1010eeec:	108e1a04 	addi	r2,r2,14440
 1010eef0:	10800017 	ldw	r2,0(r2)
 1010eef4:	103ee83a 	callr	r2
 1010eef8:	00000206 	br	1010ef04 <alt_get_errno+0x3c>
 1010eefc:	00840474 	movhi	r2,4113
-1010ef00:	10950604 	addi	r2,r2,21528
+1010ef00:	10950804 	addi	r2,r2,21536
 }
 1010ef04:	e037883a 	mov	sp,fp
 1010ef08:	dfc00117 	ldw	ra,4(sp)
@@ -17407,7 +17404,7 @@ off_t ALT_LSEEK (int file, off_t ptr, int dir)
 1010ef40:	e0bffd17 	ldw	r2,-12(fp)
 1010ef44:	10c00324 	muli	r3,r2,12
 1010ef48:	00840474 	movhi	r2,4113
-1010ef4c:	10898b04 	addi	r2,r2,9772
+1010ef4c:	10898d04 	addi	r2,r2,9780
 1010ef50:	1885883a 	add	r2,r3,r2
 1010ef54:	00000106 	br	1010ef5c <lseek+0x44>
 1010ef58:	0005883a 	mov	r2,zero
@@ -17517,11 +17514,11 @@ void alt_main (void)
     ALT_LOG_PRINT_BOOT("[alt_main.c] Redirecting IO.\r\n");
     alt_io_redirect(ALT_STDOUT, ALT_STDIN, ALT_STDERR);
 1010f00c:	01840474 	movhi	r6,4113
-1010f010:	31874b04 	addi	r6,r6,7468
+1010f010:	31874d04 	addi	r6,r6,7476
 1010f014:	01440474 	movhi	r5,4113
-1010f018:	29474b04 	addi	r5,r5,7468
+1010f018:	29474d04 	addi	r5,r5,7476
 1010f01c:	01040474 	movhi	r4,4113
-1010f020:	21074b04 	addi	r4,r4,7468
+1010f020:	21074d04 	addi	r4,r4,7476
 1010f024:	01111f40 	call	101111f4 <alt_io_redirect>
   /* 
    * Call the C++ constructors 
@@ -17609,16 +17606,16 @@ static ALT_INLINE int* alt_get_errno(void)
 1010f0bc:	d839883a 	mov	fp,sp
   return ((alt_errno) ? alt_errno() : &errno);
 1010f0c0:	00840474 	movhi	r2,4113
-1010f0c4:	108e1804 	addi	r2,r2,14432
+1010f0c4:	108e1a04 	addi	r2,r2,14440
 1010f0c8:	10800017 	ldw	r2,0(r2)
 1010f0cc:	10000526 	beq	r2,zero,1010f0e4 <alt_get_errno+0x34>
 1010f0d0:	00840474 	movhi	r2,4113
-1010f0d4:	108e1804 	addi	r2,r2,14432
+1010f0d4:	108e1a04 	addi	r2,r2,14440
 1010f0d8:	10800017 	ldw	r2,0(r2)
 1010f0dc:	103ee83a 	callr	r2
 1010f0e0:	00000206 	br	1010f0ec <alt_get_errno+0x3c>
 1010f0e4:	00840474 	movhi	r2,4113
-1010f0e8:	10950604 	addi	r2,r2,21528
+1010f0e8:	10950804 	addi	r2,r2,21536
 }
 1010f0ec:	e037883a 	mov	sp,fp
 1010f0f0:	dfc00117 	ldw	ra,4(sp)
@@ -17659,7 +17656,7 @@ static int alt_file_locked (alt_fd* fd)
   {
     if ((alt_fd_list[i].dev == fd->dev) &&
 1010f12c:	00840474 	movhi	r2,4113
-1010f130:	10898b04 	addi	r2,r2,9772
+1010f130:	10898d04 	addi	r2,r2,9780
 1010f134:	e0fffe17 	ldw	r3,-8(fp)
 1010f138:	18c00324 	muli	r3,r3,12
 1010f13c:	10c5883a 	add	r2,r2,r3
@@ -17669,7 +17666,7 @@ static int alt_file_locked (alt_fd* fd)
 1010f14c:	1880111e 	bne	r3,r2,1010f194 <alt_file_locked+0x94>
         (alt_fd_list[i].fd_flags & ALT_FD_EXCL) &&
 1010f150:	00840474 	movhi	r2,4113
-1010f154:	10898b04 	addi	r2,r2,9772
+1010f154:	10898d04 	addi	r2,r2,9780
 1010f158:	e0fffe17 	ldw	r3,-8(fp)
 1010f15c:	18c00324 	muli	r3,r3,12
 1010f160:	10c5883a 	add	r2,r2,r3
@@ -17687,7 +17684,7 @@ static int alt_file_locked (alt_fd* fd)
 1010f170:	e0bffe17 	ldw	r2,-8(fp)
 1010f174:	10c00324 	muli	r3,r2,12
 1010f178:	00840474 	movhi	r2,4113
-1010f17c:	10898b04 	addi	r2,r2,9772
+1010f17c:	10898d04 	addi	r2,r2,9780
 1010f180:	1887883a 	add	r3,r3,r2
    */
 
@@ -17712,7 +17709,7 @@ static int alt_file_locked (alt_fd* fd)
 1010f198:	10800044 	addi	r2,r2,1
 1010f19c:	e0bffe15 	stw	r2,-8(fp)
 1010f1a0:	00840474 	movhi	r2,4113
-1010f1a4:	108e1704 	addi	r2,r2,14428
+1010f1a4:	108e1904 	addi	r2,r2,14436
 1010f1a8:	10800017 	ldw	r2,0(r2)
 1010f1ac:	1007883a 	mov	r3,r2
 1010f1b0:	e0bffe17 	ldw	r2,-8(fp)
@@ -17761,7 +17758,7 @@ int ALT_OPEN (const char* file, int flags, int mode)
   
   if (!(dev = alt_find_dev (file, &alt_dev_list)))
 1010f1fc:	01440474 	movhi	r5,4113
-1010f200:	294e1504 	addi	r5,r5,14420
+1010f200:	294e1704 	addi	r5,r5,14428
 1010f204:	e13ffd17 	ldw	r4,-12(fp)
 1010f208:	0110b500 	call	10110b50 <alt_find_dev>
 1010f20c:	e0bff815 	stw	r2,-32(fp)
@@ -17804,7 +17801,7 @@ int ALT_OPEN (const char* file, int flags, int mode)
 1010f254:	e0bff917 	ldw	r2,-28(fp)
 1010f258:	10c00324 	muli	r3,r2,12
 1010f25c:	00840474 	movhi	r2,4113
-1010f260:	10898b04 	addi	r2,r2,9772
+1010f260:	10898d04 	addi	r2,r2,9780
 1010f264:	1885883a 	add	r2,r3,r2
 1010f268:	e0bffc15 	stw	r2,-16(fp)
       fd->fd_flags = (flags & ~ALT_FD_FLAGS_MASK);
@@ -17899,16 +17896,16 @@ static ALT_INLINE int* alt_get_errno(void)
 1010f330:	d839883a 	mov	fp,sp
   return ((alt_errno) ? alt_errno() : &errno);
 1010f334:	00840474 	movhi	r2,4113
-1010f338:	108e1804 	addi	r2,r2,14432
+1010f338:	108e1a04 	addi	r2,r2,14440
 1010f33c:	10800017 	ldw	r2,0(r2)
 1010f340:	10000526 	beq	r2,zero,1010f358 <alt_get_errno+0x34>
 1010f344:	00840474 	movhi	r2,4113
-1010f348:	108e1804 	addi	r2,r2,14432
+1010f348:	108e1a04 	addi	r2,r2,14440
 1010f34c:	10800017 	ldw	r2,0(r2)
 1010f350:	103ee83a 	callr	r2
 1010f354:	00000206 	br	1010f360 <alt_get_errno+0x3c>
 1010f358:	00840474 	movhi	r2,4113
-1010f35c:	10950604 	addi	r2,r2,21528
+1010f35c:	10950804 	addi	r2,r2,21536
 }
 1010f360:	e037883a 	mov	sp,fp
 1010f364:	dfc00117 	ldw	ra,4(sp)
@@ -17941,7 +17938,7 @@ int ALT_READ (int file, void *ptr, size_t len)
 1010f398:	e0bffd17 	ldw	r2,-12(fp)
 1010f39c:	10c00324 	muli	r3,r2,12
 1010f3a0:	00840474 	movhi	r2,4113
-1010f3a4:	10898b04 	addi	r2,r2,9772
+1010f3a4:	10898d04 	addi	r2,r2,9780
 1010f3a8:	1885883a 	add	r2,r3,r2
 1010f3ac:	00000106 	br	1010f3b4 <read+0x40>
 1010f3b0:	0005883a 	mov	r2,zero
@@ -18046,7 +18043,7 @@ void alt_release_fd (int fd)
   {
     alt_fd_list[fd].fd_flags = 0;
 1010f48c:	00840474 	movhi	r2,4113
-1010f490:	10898b04 	addi	r2,r2,9772
+1010f490:	10898d04 	addi	r2,r2,9780
 1010f494:	e0ffff17 	ldw	r3,-4(fp)
 1010f498:	18c00324 	muli	r3,r3,12
 1010f49c:	10c5883a 	add	r2,r2,r3
@@ -18054,7 +18051,7 @@ void alt_release_fd (int fd)
 1010f4a4:	10000015 	stw	zero,0(r2)
     alt_fd_list[fd].dev      = 0;
 1010f4a8:	00840474 	movhi	r2,4113
-1010f4ac:	10898b04 	addi	r2,r2,9772
+1010f4ac:	10898d04 	addi	r2,r2,9780
 1010f4b0:	e0ffff17 	ldw	r3,-4(fp)
 1010f4b4:	18c00324 	muli	r3,r3,12
 1010f4b8:	10c5883a 	add	r2,r2,r3
@@ -18197,16 +18194,16 @@ static ALT_INLINE int* alt_get_errno(void)
 1010f5c0:	d839883a 	mov	fp,sp
   return ((alt_errno) ? alt_errno() : &errno);
 1010f5c4:	00840474 	movhi	r2,4113
-1010f5c8:	108e1804 	addi	r2,r2,14432
+1010f5c8:	108e1a04 	addi	r2,r2,14440
 1010f5cc:	10800017 	ldw	r2,0(r2)
 1010f5d0:	10000526 	beq	r2,zero,1010f5e8 <alt_get_errno+0x34>
 1010f5d4:	00840474 	movhi	r2,4113
-1010f5d8:	108e1804 	addi	r2,r2,14432
+1010f5d8:	108e1a04 	addi	r2,r2,14440
 1010f5dc:	10800017 	ldw	r2,0(r2)
 1010f5e0:	103ee83a 	callr	r2
 1010f5e4:	00000206 	br	1010f5f0 <alt_get_errno+0x3c>
 1010f5e8:	00840474 	movhi	r2,4113
-1010f5ec:	10950604 	addi	r2,r2,21528
+1010f5ec:	10950804 	addi	r2,r2,21536
 }
 1010f5f0:	e037883a 	mov	sp,fp
 1010f5f4:	dfc00117 	ldw	ra,4(sp)
@@ -18239,7 +18236,7 @@ int ALT_WRITE (int file, const void *ptr, size_t len)
 1010f628:	e0bffd17 	ldw	r2,-12(fp)
 1010f62c:	10c00324 	muli	r3,r2,12
 1010f630:	00840474 	movhi	r2,4113
-1010f634:	10898b04 	addi	r2,r2,9772
+1010f634:	10898d04 	addi	r2,r2,9780
 1010f638:	1885883a 	add	r2,r3,r2
 1010f63c:	00000106 	br	1010f644 <write+0x40>
 1010f640:	0005883a 	mov	r2,zero
@@ -18337,7 +18334,7 @@ static ALT_INLINE int alt_dev_reg (alt_dev* dev)
 
   return alt_dev_llist_insert ((alt_dev_llist*) dev, &alt_dev_list);
 1010f710:	01440474 	movhi	r5,4113
-1010f714:	294e1504 	addi	r5,r5,14420
+1010f714:	294e1704 	addi	r5,r5,14428
 1010f718:	e13fff17 	ldw	r4,-4(fp)
 1010f71c:	01109ec0 	call	101109ec <alt_dev_llist_insert>
 }
@@ -18393,14 +18390,14 @@ void alt_sys_init( void )
 1010f77c:	000d883a 	mov	r6,zero
 1010f780:	000b883a 	mov	r5,zero
 1010f784:	01040474 	movhi	r4,4113
-1010f788:	2109f504 	addi	r4,r4,10196
+1010f788:	2109f704 	addi	r4,r4,10204
 1010f78c:	010f9240 	call	1010f924 <altera_avalon_jtag_uart_init>
 1010f790:	01040474 	movhi	r4,4113
-1010f794:	2109eb04 	addi	r4,r4,10156
+1010f794:	2109ed04 	addi	r4,r4,10164
 1010f798:	010f6fc0 	call	1010f6fc <alt_dev_reg>
     ALTERA_HOSTFS_INIT ( ALTERA_HOSTFS, altera_hostfs);
 1010f79c:	01040474 	movhi	r4,4113
-1010f7a0:	210e0304 	addi	r4,r4,14348
+1010f7a0:	210e0504 	addi	r4,r4,14356
 1010f7a4:	0110cf40 	call	10110cf4 <alt_fs_reg>
 }
 1010f7a8:	0001883a 	nop
@@ -18609,7 +18606,7 @@ static ALT_INLINE alt_u32 ALT_ALWAYS_INLINE alt_ticks_per_second (void)
 {
   return _alt_tick_rate;
 1010f99c:	00840474 	movhi	r2,4113
-1010f9a0:	10951104 	addi	r2,r2,21572
+1010f9a0:	10951304 	addi	r2,r2,21580
 1010f9a4:	10800017 	ldw	r2,0(r2)
 1010f9a8:	e1fffd17 	ldw	r7,-12(fp)
 1010f9ac:	01840474 	movhi	r6,4113
@@ -18954,7 +18951,7 @@ altera_avalon_jtag_uart_timeout(void* context)
 1010fc7c:	e0bff917 	ldw	r2,-28(fp)
 1010fc80:	10c00915 	stw	r3,36(r2)
 1010fc84:	00840474 	movhi	r2,4113
-1010fc88:	10951104 	addi	r2,r2,21572
+1010fc88:	10951304 	addi	r2,r2,21580
 1010fc8c:	10800017 	ldw	r2,0(r2)
       ALT_FLAG_POST (sp->events, ALT_JTAG_UART_TIMEOUT, OS_FLAG_SET);
     }
@@ -20244,7 +20241,7 @@ int alt_alarm_start (alt_alarm* alarm, alt_u32 nticks,
   alt_u32 current_nticks = 0;
 101106d8:	e03ff615 	stw	zero,-40(fp)
 101106dc:	00840474 	movhi	r2,4113
-101106e0:	10951104 	addi	r2,r2,21572
+101106e0:	10951304 	addi	r2,r2,21580
 101106e4:	10800017 	ldw	r2,0(r2)
   
   if (alt_ticks_per_second ())
@@ -20289,7 +20286,7 @@ static ALT_INLINE alt_u32 ALT_ALWAYS_INLINE alt_nticks (void)
 {
   return _alt_nticks;
 1011072c:	00840474 	movhi	r2,4113
-10110730:	10951204 	addi	r2,r2,21576
+10110730:	10951404 	addi	r2,r2,21584
 10110734:	10800017 	ldw	r2,0(r2)
       
       current_nticks = alt_nticks();
@@ -20329,7 +20326,7 @@ static ALT_INLINE alt_u32 ALT_ALWAYS_INLINE alt_nticks (void)
       alt_llist_insert (&alt_alarm_list, &alarm->llist);
 1011077c:	e0fffc17 	ldw	r3,-16(fp)
 10110780:	00840474 	movhi	r2,4113
-10110784:	108e2d04 	addi	r2,r2,14516
+10110784:	108e2f04 	addi	r2,r2,14524
 10110788:	e0bffa15 	stw	r2,-24(fp)
 1011078c:	e0fffb15 	stw	r3,-20(fp)
  */
@@ -20617,16 +20614,16 @@ static ALT_INLINE int* alt_get_errno(void)
 101109a8:	d839883a 	mov	fp,sp
   return ((alt_errno) ? alt_errno() : &errno);
 101109ac:	00840474 	movhi	r2,4113
-101109b0:	108e1804 	addi	r2,r2,14432
+101109b0:	108e1a04 	addi	r2,r2,14440
 101109b4:	10800017 	ldw	r2,0(r2)
 101109b8:	10000526 	beq	r2,zero,101109d0 <alt_get_errno+0x34>
 101109bc:	00840474 	movhi	r2,4113
-101109c0:	108e1804 	addi	r2,r2,14432
+101109c0:	108e1a04 	addi	r2,r2,14440
 101109c4:	10800017 	ldw	r2,0(r2)
 101109c8:	103ee83a 	callr	r2
 101109cc:	00000206 	br	101109d8 <alt_get_errno+0x3c>
 101109d0:	00840474 	movhi	r2,4113
-101109d4:	10950604 	addi	r2,r2,21528
+101109d4:	10950804 	addi	r2,r2,21536
 }
 101109d8:	e037883a 	mov	sp,fp
 101109dc:	dfc00117 	ldw	ra,4(sp)
@@ -20891,7 +20888,7 @@ alt_dev* alt_find_file (const char* name)
 10110bf0:	e13fff15 	stw	r4,-4(fp)
   alt_dev* next = (alt_dev*) alt_fs_list.next;   
 10110bf4:	00840474 	movhi	r2,4113
-10110bf8:	108e1304 	addi	r2,r2,14412
+10110bf8:	108e1504 	addi	r2,r2,14420
 10110bfc:	10800017 	ldw	r2,0(r2)
 10110c00:	e0bffd15 	stw	r2,-12(fp)
   /*
@@ -20981,7 +20978,7 @@ alt_dev* alt_find_file (const char* name)
   while (next != (alt_dev*) &alt_fs_list)
 10110ccc:	e0fffd17 	ldw	r3,-12(fp)
 10110cd0:	00840474 	movhi	r2,4113
-10110cd4:	108e1304 	addi	r2,r2,14412
+10110cd4:	108e1504 	addi	r2,r2,14420
 10110cd8:	18bfcb1e 	bne	r3,r2,10110c08 <__alt_data_end+0xffff0c08>
     next = (alt_dev*) next->llist.next;
   }
@@ -21028,7 +21025,7 @@ int alt_fs_reg (alt_dev* dev)
   alt_llist_insert(&alt_fs_list, &dev->llist);
 10110d18:	e0ffff17 	ldw	r3,-4(fp)
 10110d1c:	00840474 	movhi	r2,4113
-10110d20:	108e1304 	addi	r2,r2,14412
+10110d20:	108e1504 	addi	r2,r2,14420
 10110d24:	e0bffd15 	stw	r2,-12(fp)
 10110d28:	e0fffe15 	stw	r3,-8(fp)
  */
@@ -21090,7 +21087,7 @@ int alt_get_fd (alt_dev* dev)
   {
     if (!alt_fd_list[i].dev)
 10110d98:	00840474 	movhi	r2,4113
-10110d9c:	10898b04 	addi	r2,r2,9772
+10110d9c:	10898d04 	addi	r2,r2,9780
 10110da0:	e0fffd17 	ldw	r3,-12(fp)
 10110da4:	18c00324 	muli	r3,r3,12
 10110da8:	10c5883a 	add	r2,r2,r3
@@ -21099,7 +21096,7 @@ int alt_get_fd (alt_dev* dev)
     {
       alt_fd_list[i].dev = dev;
 10110db4:	00840474 	movhi	r2,4113
-10110db8:	10898b04 	addi	r2,r2,9772
+10110db8:	10898d04 	addi	r2,r2,9780
 10110dbc:	e0fffd17 	ldw	r3,-12(fp)
 10110dc0:	18c00324 	muli	r3,r3,12
 10110dc4:	10c5883a 	add	r2,r2,r3
@@ -21107,14 +21104,14 @@ int alt_get_fd (alt_dev* dev)
 10110dcc:	10c00015 	stw	r3,0(r2)
       if (i > alt_max_fd)
 10110dd0:	00840474 	movhi	r2,4113
-10110dd4:	108e1704 	addi	r2,r2,14428
+10110dd4:	108e1904 	addi	r2,r2,14436
 10110dd8:	10c00017 	ldw	r3,0(r2)
 10110ddc:	e0bffd17 	ldw	r2,-12(fp)
 10110de0:	1880040e 	bge	r3,r2,10110df4 <alt_get_fd+0x7c>
       {
         alt_max_fd = i;
 10110de4:	00840474 	movhi	r2,4113
-10110de8:	108e1704 	addi	r2,r2,14428
+10110de8:	108e1904 	addi	r2,r2,14436
 10110dec:	e0fffd17 	ldw	r3,-12(fp)
 10110df0:	10c00015 	stw	r3,0(r2)
       }
@@ -21248,15 +21245,15 @@ static ALT_INLINE int ALT_ALWAYS_INLINE alt_irq_enable (alt_u32 id)
 10110ef4:	1884983a 	sll	r2,r3,r2
 10110ef8:	1007883a 	mov	r3,r2
 10110efc:	00840474 	movhi	r2,4113
-10110f00:	10951004 	addi	r2,r2,21568
+10110f00:	10951204 	addi	r2,r2,21576
 10110f04:	10800017 	ldw	r2,0(r2)
 10110f08:	1886b03a 	or	r3,r3,r2
 10110f0c:	00840474 	movhi	r2,4113
-10110f10:	10951004 	addi	r2,r2,21568
+10110f10:	10951204 	addi	r2,r2,21576
 10110f14:	10c00015 	stw	r3,0(r2)
   NIOS2_WRITE_IENABLE (alt_irq_active);
 10110f18:	00840474 	movhi	r2,4113
-10110f1c:	10951004 	addi	r2,r2,21568
+10110f1c:	10951204 	addi	r2,r2,21576
 10110f20:	10800017 	ldw	r2,0(r2)
 10110f24:	100170fa 	wrctl	ienable,r2
 10110f28:	e0bffc17 	ldw	r2,-16(fp)
@@ -21328,15 +21325,15 @@ static ALT_INLINE int ALT_ALWAYS_INLINE alt_irq_disable (alt_u32 id)
 10110f98:	0084303a 	nor	r2,zero,r2
 10110f9c:	1007883a 	mov	r3,r2
 10110fa0:	00840474 	movhi	r2,4113
-10110fa4:	10951004 	addi	r2,r2,21568
+10110fa4:	10951204 	addi	r2,r2,21576
 10110fa8:	10800017 	ldw	r2,0(r2)
 10110fac:	1886703a 	and	r3,r3,r2
 10110fb0:	00840474 	movhi	r2,4113
-10110fb4:	10951004 	addi	r2,r2,21568
+10110fb4:	10951204 	addi	r2,r2,21576
 10110fb8:	10c00015 	stw	r3,0(r2)
   NIOS2_WRITE_IENABLE (alt_irq_active);
 10110fbc:	00840474 	movhi	r2,4113
-10110fc0:	10951004 	addi	r2,r2,21568
+10110fc0:	10951204 	addi	r2,r2,21576
 10110fc4:	10800017 	ldw	r2,0(r2)
 10110fc8:	100170fa 	wrctl	ienable,r2
 10110fcc:	e0bffc17 	ldw	r2,-16(fp)
@@ -21449,7 +21446,7 @@ static ALT_INLINE alt_irq_context ALT_ALWAYS_INLINE
 
     alt_irq[id].handler = isr;
 1011109c:	00840474 	movhi	r2,4113
-101110a0:	10951e04 	addi	r2,r2,21624
+101110a0:	10952004 	addi	r2,r2,21632
 101110a4:	e0fff817 	ldw	r3,-32(fp)
 101110a8:	180690fa 	slli	r3,r3,3
 101110ac:	10c5883a 	add	r2,r2,r3
@@ -21457,7 +21454,7 @@ static ALT_INLINE alt_irq_context ALT_ALWAYS_INLINE
 101110b4:	10c00015 	stw	r3,0(r2)
     alt_irq[id].context = isr_context;
 101110b8:	00840474 	movhi	r2,4113
-101110bc:	10951e04 	addi	r2,r2,21624
+101110bc:	10952004 	addi	r2,r2,21632
 101110c0:	e0fff817 	ldw	r3,-32(fp)
 101110c4:	180690fa 	slli	r3,r3,3
 101110c8:	10c5883a 	add	r2,r2,r3
@@ -21531,7 +21528,7 @@ static void alt_open_fd(alt_fd* fd, const char* name, int flags, int mode)
   {
     fd->dev      = alt_fd_list[old].dev;
 1011116c:	00840474 	movhi	r2,4113
-10111170:	10898b04 	addi	r2,r2,9772
+10111170:	10898d04 	addi	r2,r2,9780
 10111174:	e0fffb17 	ldw	r3,-20(fp)
 10111178:	18c00324 	muli	r3,r3,12
 1011117c:	10c5883a 	add	r2,r2,r3
@@ -21540,7 +21537,7 @@ static void alt_open_fd(alt_fd* fd, const char* name, int flags, int mode)
 10111188:	10c00015 	stw	r3,0(r2)
     fd->priv     = alt_fd_list[old].priv;
 1011118c:	00840474 	movhi	r2,4113
-10111190:	10898b04 	addi	r2,r2,9772
+10111190:	10898d04 	addi	r2,r2,9780
 10111194:	e0fffb17 	ldw	r3,-20(fp)
 10111198:	18c00324 	muli	r3,r3,12
 1011119c:	10c5883a 	add	r2,r2,r3
@@ -21550,7 +21547,7 @@ static void alt_open_fd(alt_fd* fd, const char* name, int flags, int mode)
 101111ac:	10c00115 	stw	r3,4(r2)
     fd->fd_flags = alt_fd_list[old].fd_flags;
 101111b0:	00840474 	movhi	r2,4113
-101111b4:	10898b04 	addi	r2,r2,9772
+101111b4:	10898d04 	addi	r2,r2,9780
 101111b8:	e0fffb17 	ldw	r3,-20(fp)
 101111bc:	18c00324 	muli	r3,r3,12
 101111c0:	10c5883a 	add	r2,r2,r3
@@ -21592,21 +21589,21 @@ void alt_io_redirect(const char* stdout_dev,
 10111214:	01800044 	movi	r6,1
 10111218:	e17ffd17 	ldw	r5,-12(fp)
 1011121c:	01040474 	movhi	r4,4113
-10111220:	21098e04 	addi	r4,r4,9784
+10111220:	21099004 	addi	r4,r4,9792
 10111224:	01111300 	call	10111130 <alt_open_fd>
   alt_open_fd (&alt_fd_list[STDIN_FILENO], stdin_dev, O_RDONLY, 0777);
 10111228:	01c07fc4 	movi	r7,511
 1011122c:	000d883a 	mov	r6,zero
 10111230:	e17ffe17 	ldw	r5,-8(fp)
 10111234:	01040474 	movhi	r4,4113
-10111238:	21098b04 	addi	r4,r4,9772
+10111238:	21098d04 	addi	r4,r4,9780
 1011123c:	01111300 	call	10111130 <alt_open_fd>
   alt_open_fd (&alt_fd_list[STDERR_FILENO], stderr_dev, O_WRONLY, 0777);
 10111240:	01c07fc4 	movi	r7,511
 10111244:	01800044 	movi	r6,1
 10111248:	e17fff17 	ldw	r5,-4(fp)
 1011124c:	01040474 	movhi	r4,4113
-10111250:	21099104 	addi	r4,r4,9796
+10111250:	21099304 	addi	r4,r4,9804
 10111254:	01111300 	call	10111130 <alt_open_fd>
 }  
 10111258:	0001883a 	nop
@@ -22015,7 +22012,7 @@ alt_exception_cause_generated_bad_addr(alt_exception_cause cause)
 10111588:	2021883a 	mov	r16,r4
 1011158c:	01117440 	call	10111744 <__call_exitprocs>
 10111590:	00840474 	movhi	r2,4113
-10111594:	108e0d04 	addi	r2,r2,14388
+10111594:	108e0f04 	addi	r2,r2,14396
 10111598:	11000017 	ldw	r4,0(r2)
 1011159c:	20800f17 	ldw	r2,60(r4)
 101115a0:	10000126 	beq	r2,zero,101115a8 <exit+0x30>
@@ -22060,7 +22057,7 @@ alt_exception_cause_generated_bad_addr(alt_exception_cause cause)
 1011162c:	defffa04 	addi	sp,sp,-24
 10111630:	dc000315 	stw	r16,12(sp)
 10111634:	04040474 	movhi	r16,4113
-10111638:	840e0d04 	addi	r16,r16,14388
+10111638:	840e0f04 	addi	r16,r16,14396
 1011163c:	80c00017 	ldw	r3,0(r16)
 10111640:	dc400415 	stw	r17,16(sp)
 10111644:	dfc00515 	stw	ra,20(sp)
@@ -22145,7 +22142,7 @@ alt_exception_cause_generated_bad_addr(alt_exception_cause cause)
 10111778:	04800044 	movi	r18,1
 1011177c:	057fffc4 	movi	r21,-1
 10111780:	00840474 	movhi	r2,4113
-10111784:	108e0d04 	addi	r2,r2,14388
+10111784:	108e0f04 	addi	r2,r2,14396
 10111788:	12000017 	ldw	r8,0(r2)
 1011178c:	45005217 	ldw	r20,328(r8)
 10111790:	44c05204 	addi	r19,r8,328

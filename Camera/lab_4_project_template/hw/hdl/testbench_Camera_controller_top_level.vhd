@@ -269,6 +269,7 @@ Begin
 	write_register(X"0", X"01");
 	
 	-- Reading the registers
+	read_register(X"0");
 	read_register(X"1");
 	read_register(X"2");
 	read_register(X"3");
@@ -277,6 +278,7 @@ Begin
 	read_register(X"6");
 	read_register(X"7");
 	read_register(X"8");
+	read_register(X"9");
 	
 	wait for 620000*HalfPeriod_cam;
 	wait until rising_edge(TL_PixClk_test);
@@ -288,7 +290,7 @@ Begin
 	
 	wait for 620000*HalfPeriod_cam;
 	wait until rising_edge(TL_PixClk_test);
-	read_register(X"1");
+	read_register(X"9");
 	
 	wait for 100*HalfPeriod;
 	TL_AM_AB_WaitRequest_test <= '1';
@@ -297,7 +299,7 @@ Begin
 	
 	wait for 620000*HalfPeriod_cam;
 	wait until rising_edge(TL_PixClk_test);
-	read_register(X"1");
+	read_register(X"9");
 	
 	wait;
 end process test;
