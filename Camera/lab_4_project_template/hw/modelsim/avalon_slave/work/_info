@@ -9,7 +9,7 @@ z2
 cModel Technology
 dD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/modelsim/avalon_master
 Eavalon_slave
-Z0 w1483701472
+Z0 w1484086615
 Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
 Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
@@ -18,13 +18,13 @@ Z5 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_sla
 Z6 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_slave.vhd
 l0
 L35
-Vl54dWS?9TmS32<oFEhc=T2
-!s100 GBcJARAX`972JM;jzgQG@3
+Vd:R9XA_MMk4__94lZH<go1
+!s100 8ZbRLD8Uo]7JV2Ae:5SUJ1
 Z7 OV;C;10.4d;61
 32
-Z8 !s110 1483701524
+Z8 !s110 1484086916
 !i10b 1
-Z9 !s108 1483701524.000000
+Z9 !s108 1484086916.000000
 Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_slave.vhd|
 Z11 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/Avalon_slave.vhd|
 !i113 1
@@ -34,11 +34,11 @@ Abhv
 R1
 R2
 R3
-Z14 DEx4 work 12 avalon_slave 0 22 l54dWS?9TmS32<oFEhc=T2
-l68
+Z14 DEx4 work 12 avalon_slave 0 22 d:R9XA_MMk4__94lZH<go1
+l67
 L56
-Vc`HBMI;F@c1N4gC2G17lQ3
-!s100 cUG5H?kGZIKDj[gkZon5P2
+Z15 VFi2jWhT6:moTK;[@iB1>N1
+Z16 !s100 `Y`^OF?U:z7^M>0EK5LD42
 R7
 32
 R8
@@ -50,13 +50,13 @@ R11
 R12
 R13
 Etestbench
-Z15 w1483699014
+Z17 w1484086914
 R1
 R2
 R3
 R4
-Z16 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_slave.vhd
-Z17 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_slave.vhd
+Z18 8D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_slave.vhd
+Z19 FD:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_slave.vhd
 l0
 L30
 VQ1cgT7M>oj>C`oi8XlEW]1
@@ -66,8 +66,8 @@ R7
 R8
 !i10b 1
 R9
-Z18 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_slave.vhd|
-Z19 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_slave.vhd|
+Z20 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_slave.vhd|
+Z21 !s107 D:/Temp/EmbeddedProject_EPFL/Camera/lab_4_project_template/hw/hdl/testbench_Avalon_slave.vhd|
 !i113 1
 R12
 R13
@@ -78,15 +78,15 @@ R3
 DEx4 work 9 testbench 0 22 Q1cgT7M>oj>C`oi8XlEW]1
 l78
 L34
-V8^dXUAT?z^4ffKGVQ9z3Q3
-!s100 Ob[HDd^MBBCh^B=KQ<1eo3
+VZ=`[WW>6OikB5m3D=126?1
+!s100 LDI_@6JGV[GDU_WTF5XOU3
 R7
 32
 R8
 !i10b 1
 R9
-R18
-R19
+R20
+R21
 !i113 1
 R12
 R13

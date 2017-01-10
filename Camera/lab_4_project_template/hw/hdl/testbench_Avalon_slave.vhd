@@ -41,8 +41,8 @@ component Avalon_slave is
 		AS_AB_Address		: IN std_logic_vector (3 DOWNTO 0);		-- address bus
 		AS_AB_ReadEnable	: IN std_logic;							-- read enabler
 		AS_AB_WriteEnable	: IN std_logic;							-- write enabler
-		AS_AB_ReadData		: OUT std_logic_vector (31 DOWNTO 0);	-- data bus (read)
-		AS_AB_WriteData		: IN std_logic_vector (31 DOWNTO 0);		-- data bus (write)
+		AS_AB_ReadData		: OUT std_logic_vector (7 DOWNTO 0);	-- data bus (read)
+		AS_AB_WriteData		: IN std_logic_vector (7 DOWNTO 0);		-- data bus (write)
 		
 		AS_ALL_Start		: OUT std_logic;						-- Start information
 		
@@ -61,8 +61,8 @@ signal AS_Clk_test				: std_logic := '0';
 signal AS_AB_Address_test		: std_logic_vector (3 DOWNTO 0) := X"0";
 signal AS_AB_ReadEnable_test	: std_logic := '0';
 signal AS_AB_WriteEnable_test	: std_logic := '0';
-signal AS_AB_ReadData_test		: std_logic_vector (31 DOWNTO 0);
-signal AS_AB_WriteData_test		: std_logic_vector (31 DOWNTO 0) := X"00000000";
+signal AS_AB_ReadData_test		: std_logic_vector (7 DOWNTO 0);
+signal AS_AB_WriteData_test		: std_logic_vector (7 DOWNTO 0) := X"00";
 
 signal AS_ALL_Start_test		: std_logic;
 
@@ -135,7 +135,7 @@ Process
 		wait until rising_edge(AS_Clk_test);	-- then reset everything
 		AS_AB_WriteEnable_test <= '0';
 		AS_AB_Address_test <= X"0";
-		AS_AB_WriteData_test <= X"00000000";
+		AS_AB_WriteData_test <= X"00";
 	end procedure write_register;
 
 	-- Procedure to read a register, input is (address)
@@ -156,25 +156,55 @@ Begin
 	toggle_reset;
 	
 	-- Writing AS_ALL_Start information = 0
-	write_register(X"0", X"00000000");
+	write_register(X"0", X"00");
 	
-	-- Writing start_adress = 0x10000000
-	write_register(X"2", X"10000000");
+	-- Writing start_adress = 0x01000000
+	write_register(X"1", X"00");
+	write_register(X"2", X"00");
+	write_register(X"3", X"00");
+	write_register(X"4", X"01");
 	
 	-- Writing AS_AM_Length = 320*240*2 = 0x00025800
-	write_register(X"3", X"00025800");
+	write_register(X"5", X"00");
+	write_register(X"6", X"58");
+	write_register(X"7", X"02");
+	write_register(X"8", X"00");
+	
+	-- Reset Status
+	write_register(X"9", X"00");
 	
 	-- Writing AS_ALL_Start information = 1
-	write_register(X"0", X"00000001");
+	write_register(X"0", X"01");
 	
 	-- Reading AS_ALL_Start information
 	read_register(X"0");
 	
 	-- Reading the AS_AM_StartAddress
+	read_register(X"1");
 	read_register(X"2");
+	read_register(X"3");
+	read_register(X"4");
 	
 	-- Reading the AS_AM_Length
-	read_register(X"3");
+	read_register(X"5");
+	read_register(X"6");
+	read_register(X"7");
+	read_register(X"8");
+	
+	wait until rising_edge(AS_Clk_test);
+	AS_AM_Status_test <= '1';
+	wait until rising_edge(AS_Clk_test);
+	AS_AM_Status_test <= '0';
+	
+	read_register(X"9");
+	
+	wait until rising_edge(AS_Clk_test);
+	AS_AM_Status_test <= '1';
+	wait until rising_edge(AS_Clk_test);
+	AS_AM_Status_test <= '0';
+	
+	-- Writing AS_AM_Status of buffers
+	write_register(X"9", X"02");
 	
 	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '1';
@@ -187,20 +217,7 @@ Begin
 	AS_AM_Status_test <= '0';
 	
 	-- Writing AS_AM_Status of buffers
-	write_register(X"1", X"00000002");
-	
-	wait until rising_edge(AS_Clk_test);
-	AS_AM_Status_test <= '1';
-	wait until rising_edge(AS_Clk_test);
-	AS_AM_Status_test <= '0';
-	
-	wait until rising_edge(AS_Clk_test);
-	AS_AM_Status_test <= '1';
-	wait until rising_edge(AS_Clk_test);
-	AS_AM_Status_test <= '0';
-	
-	-- Writing AS_AM_Status of buffers
-	write_register(X"1", X"00000005");
+	write_register(X"9", X"05");
 	
 	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '1';
@@ -208,7 +225,7 @@ Begin
 	AS_AM_Status_test <= '0';
 	
 	-- Writing AS_AM_Status of buffers
-	write_register(X"1", X"00000003");
+	write_register(X"9", X"03");
 	
 	wait until rising_edge(AS_Clk_test);
 	AS_AM_Status_test <= '1';
@@ -216,7 +233,7 @@ Begin
 	AS_AM_Status_test <= '0';
 	
 	-- Reading AS_AM_Status of buffers
-	read_register(X"1");
+	read_register(X"9");
 	
 	-- Receiving the pending information
 	wait until rising_edge(AS_Clk_test);

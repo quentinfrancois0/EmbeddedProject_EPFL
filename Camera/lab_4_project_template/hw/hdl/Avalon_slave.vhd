@@ -63,7 +63,6 @@ ARCHITECTURE bhv OF Avalon_slave IS
 	signal		iRegStatus			: std_logic_vector (7 DOWNTO 0);	-- internal register for the status of each buffer
 	signal		prevStatus			: std_logic;						-- previous state of AS_AM_Status
 	signal		nextBuffer			: std_logic_vector (1 DOWNTO 0);	-- next buffer to write
-	signal		iRegRead			: std_logic;						-- 1 wait for read
 
 BEGIN
 
